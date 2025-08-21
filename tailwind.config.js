@@ -39,8 +39,10 @@ const colors = {
 // Typography scale
 const typography = {
   fontFamily: {
-    sans: ['"Baloo 2"', 'Inter', 'system-ui', 'sans-serif'],
-    heading: ['"Fredoka One"', 'Poppins', 'system-ui', 'sans-serif'],
+    sen: ['Sen', 'sans-serif'],
+    baloo: ['"Baloo 2"', 'cursive'],
+    fredoka: ['"Fredoka One"', 'cursive'],
+    poppins: ['Poppins', 'sans-serif'],
   },
   fontSize: {
     // Semantic heading sizes
