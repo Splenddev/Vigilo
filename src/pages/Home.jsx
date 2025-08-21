@@ -1,5 +1,7 @@
 import React from 'react';
 import Header from '../components/molecules/Header';
+import Button from '../components/atoms/Button';
+import { FaSignInAlt } from 'react-icons/fa';
 
 const Home = () => {
   return (
@@ -12,7 +14,9 @@ const Home = () => {
           <>
             <Button
               variant="primary"
-              size="lg">
+              size="lg"
+              icon={FaSignInAlt}
+              iconPosition="left">
               Get Started
             </Button>
             <Button
@@ -23,14 +27,6 @@ const Home = () => {
           </>
         }
       />
-
-      <h1 className="text-3xl font-bold underline text-center mt-10">
-        Welcome to the V-Client
-      </h1>
-      <p className="text-center mt-4 text-lg">
-        This is the home page of the V-Client application. Explore the features
-        and functionalities we offer.
-      </p>
     </div>
   );
 };
