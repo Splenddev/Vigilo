@@ -7,11 +7,11 @@ const Title = ({
   align = 'center', // "left" | "center" | "right"
   className = '',
 }) => {
-  // Map level to Tailwind config class
+  // Map level to Tailwind text tokens (defined in @theme)
   const sizeClasses = {
-    xl: 'text-heading-xl font-heading',
-    lg: 'text-heading-lg font-heading',
-    md: 'text-heading-md font-heading',
+    xl: 'text-heading-xl',
+    lg: 'text-heading-lg',
+    md: 'text-heading-md',
   };
 
   const alignClasses = {
@@ -22,7 +22,11 @@ const Title = ({
 
   return (
     <h1
-      className={`${sizeClasses[level]} ${alignClasses[align]} mt-10 ${className}`}>
+      className={`
+        ${sizeClasses[level]} 
+        ${alignClasses[align]} 
+        ${className}
+      `}>
       {contents}
       {children && <div className="mt-5">{children}</div>}
     </h1>

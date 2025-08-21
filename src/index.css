@@ -1,12 +1,49 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Sen', sans-serif;
   --font-serif: 'Merriweather', serif;
-  --font-heading: 'Montserrat', sans-serif;
-  --font-poppins: 'Poppins', sans-serif;
-  --font-fredoka: 'Fredoka One', cursive;
+  --font-sans: 'Baloo 2', cursive;
   --font-baloo: 'Baloo 2', cursive;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --text-heading-xl: 2.25rem/2.75rem 700;
+  --text-heading-lg: 1.75rem/2.25rem 700;
+  --text-heading-md: 1.25rem/1.75rem 600;
+
+  --text-body: 1rem/1.5rem;
+  --text-body-sm: 0.875rem/1.25rem;
+  --text-body-xs: 0.75rem/1rem;
+}
+
+@theme {
+  /* Brand Colors */
+  --color-brand-green: #58cc02;
+  --color-brand-green-light: #7ee000;
+  --color-brand-green-dark: #4ba802;
+  --color-brand-green-soft: #e9f9e5;
+
+  --color-brand-blue: #1cb0f6;
+  --color-brand-blue-light: #4cd6fd;
+  --color-brand-blue-dark: #1895cc;
+
+  --color-brand-yellow: #ffd43b;
+  --color-brand-yellow-light: #ffe873;
+  --color-brand-yellow-dark: #e6b800;
+
+  /* Semantic Colors */
+  --color-danger: #ff4b4b;
+  --color-danger-light: #ff7373;
+  --color-danger-dark: #cc3b3b;
+
+  --color-neutral: #636363;
+  --color-neutral-light: #e5e5e5;
+  --color-neutral-dark: #333333;
+
+  /* Aliases */
+  --color-primary: var(--color-brand-green);
+  --color-secondary: var(--color-brand-blue);
+  --color-accent: var(--color-brand-yellow);
+  --color-success: var(--color-brand-green);
+  --color-warning: var(--color-brand-yellow);
 }
 
 @layer base {

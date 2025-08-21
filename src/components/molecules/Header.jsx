@@ -23,9 +23,7 @@ const Header = ({
           className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight"
         />
         {subtitle && (
-          <p className="text-lg md:text-xl opacity-80 mb-6 font-baloo">
-            {subtitle}
-          </p>
+          <p className="text-lg md:text-xl opacity-80 mb-6 ">{subtitle}</p>
         )}
         {actions && <div className="flex justify-center gap-4">{actions}</div>}
       </div>

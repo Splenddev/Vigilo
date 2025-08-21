@@ -8,6 +8,7 @@ import RegisterPage from '../features/auth/RegisterPage';
 import StudentLayout from '../components/layout/StudentLayout';
 import LecturerLayout from '../components/layout/LecturerLayout';
 import LecturerDashboard from '../features/attendance/LecturerDashboard';
+import SessionList from '../features/attendance/SessionList';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
       {
         path: '/lecturer',
         element: <LecturerLayout />,
-        children: [{ index: true, element: <LecturerDashboard /> }],
+        children: [
+          { index: true, element: <LecturerDashboard /> },
+          { path: 'dashboard', element: <LecturerDashboard /> },
+          { path: 'sessions', element: <SessionList /> },
+        ],
       },
       { path: '/student', element: <StudentLayout /> },
     ],
