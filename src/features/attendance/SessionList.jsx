@@ -18,6 +18,7 @@ import {
 } from 'react-icons/lu';
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
+import Grid from '../../components/molecules/Grid';
 // Mock data
 const mockSessions = [
   {
@@ -584,22 +585,18 @@ const SessionList = () => {
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <div className="flex items-center text-sm text-gray-900">
-                      <LuCalendar className="w-4 h-4 text-gray-400 mr-2" />
-                      <div>
-                        <div>{formatDate(session.date)}</div>
-                        <div className="flex items-center text-xs text-gray-500 mt-1 gap-2">
-                          <IconText
-                            icon={LuClock}
-                            text={session.time}
-                          />
-                          <IconText
-                            icon={LuTimer}
-                            text={formatDuration(session.duration)}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <Grid
+                      baseIcon={LuCalendar}
+                      baseText={formatDate(session.date)}>
+                      <IconText
+                        icon={LuClock}
+                        text={session.time}
+                      />
+                      <IconText
+                        icon={LuTimer}
+                        text={formatDuration(session.duration)}
+                      />
+                    </Grid>
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
