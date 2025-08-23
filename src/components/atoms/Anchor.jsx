@@ -1,19 +1,19 @@
-import React from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Anchor = ({
+  active = 'default',
   children,
-  href = '#',
-  variant = 'default',
-  // | 'primary' | 'secondary' | 'danger',
-  size = 'md', // "sm" | "md" | "lg"
   className = '',
   func = () => {},
+  href = '#',
+  size = 'md', // "sm" | "md" | "lg"
+  variant = 'default',
+  // | 'primary' | 'secondary' | 'danger',
   ...props
 }) => {
   const baseClasses =
-    'items-center rounded-md transition-colors de duration-200 ';
+    'items-center rounded-md transition-colors transition-borders duration-200 ';
 
   const sizeClasses = {
     sm: 'px-2 py-1 text-sm',
@@ -22,7 +22,7 @@ const Anchor = ({
   };
 
   const variantClasses = {
-    default: 'text-neutral-dark hover:bg-neutral-light focus:ring-neutral',
+    default: 'text-gray-700 hover:bg-gray-300',
 
     primary: 'text-primary hover:bg-brand-green-soft focus:ring-primary',
 
@@ -33,19 +33,26 @@ const Anchor = ({
     danger: 'text-danger hover:bg-danger-light/20 focus:ring-danger',
   };
 
+  const activeClasses = {
+    default: ' font-semibold border border-primary bg-brand-green-soft',
+  };
+
   return (
-    <Link
+    <NavLink
       to={href}
-      className={clsx(
-        baseClasses,
-        sizeClasses[size],
-        variantClasses[variant],
-        className
-      )}
+      className={({ isActive }) =>
+        clsx(
+          baseClasses,
+          sizeClasses[size],
+          variantClasses[variant],
+          isActive ? activeClasses[active] : '',
+          className
+        )
+      }
       onClick={func}
       {...props}>
       {children}
-    </Link>
+    </NavLink>
   );
 };
 

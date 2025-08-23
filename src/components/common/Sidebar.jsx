@@ -24,6 +24,7 @@ const groups = [{ name: 'CSC101' }, { name: 'MAT101' }];
 
 const Sidebar = ({ isOpen, onClose }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <>
       {/* Backdrop */}
@@ -57,7 +58,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </div>
 
         {/* Links */}
-        <nav className="flex flex-col mt p-1.5 min-h-[calc(100dvh-100px)] overflow-y-auto">
+        <nav className="flex flex-col mt p-1.5 min-h-[calc(100dvh-100px)] overflow-y-auto gap-1.5">
           <Anchor
             size="lg"
             variant="primary"
@@ -77,7 +78,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <Anchor
               variant="primary"
               size="lg"
-              href={null}
+              href={'groups'}
               className="flex gap-3 text-[1rem]"
               func={() => setIsExpanded((p) => !p)}>
               <LuGraduationCap className="text-[19px]" />

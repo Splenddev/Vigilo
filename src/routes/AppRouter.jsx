@@ -38,6 +38,7 @@ const router = createBrowserRouter([
           { index: true, element: <LecturerDashboard /> },
           { path: 'dashboard', element: <LecturerDashboard /> },
           { path: 'sessions', element: <SessionList /> },
+          { path: 'groups', element: <div>My group</div> },
         ],
       },
       { path: '/student', element: <StudentLayout /> },
