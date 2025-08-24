@@ -15,7 +15,47 @@
 }
 
 @theme {
-  /* Brand Colors */
+  /* Primary Theme Colors - Vigilo Style */
+  --color-primary-purple: #7c3aed;
+  --color-primary-purple-light: #a855f7;
+  --color-primary-purple-dark: #5b21b6;
+  --color-primary-purple-soft: #f3e8ff;
+
+  --color-primary-pink: #ec4899;
+  --color-primary-pink-light: #f472b6;
+  --color-primary-pink-dark: #be185d;
+  --color-primary-pink-soft: #fce7f3;
+
+  --color-primary-cyan: #06b6d4;
+  --color-primary-cyan-light: #67e8f9;
+  --color-primary-cyan-dark: #0891b2;
+  --color-primary-cyan-soft: #e0f7fa;
+
+  /* Background Colors */
+  --color-bg-primary: #0f172a; /* slate-900 */
+  --color-bg-secondary: #1e293b; /* slate-800 */
+  --color-bg-tertiary: #334155; /* slate-700 */
+  --color-bg-glass: rgba(255, 255, 255, 0.05);
+  --color-bg-glass-strong: rgba(255, 255, 255, 0.1);
+
+  /* Text Colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cbd5e1; /* gray-300 */
+  --color-text-tertiary: #94a3b8; /* gray-400 */
+  --color-text-muted: #64748b; /* gray-500 */
+
+  /* Border Colors */
+  --color-border-primary: rgba(255, 255, 255, 0.1);
+  --color-border-secondary: rgba(255, 255, 255, 0.2);
+  --color-border-accent: rgba(124, 58, 237, 0.5); /* purple-500 with opacity */
+
+  /* Gradient Colors */
+  --gradient-primary: linear-gradient(to right, #7c3aed, #ec4899);
+  --gradient-secondary: linear-gradient(to right, #7c3aed, #06b6d4);
+  --gradient-accent: linear-gradient(to right, #ec4899, #06b6d4);
+  --gradient-bg-primary: linear-gradient(to bottom right, #0f172a, #581c87, #0f172a);
+
+  /* Legacy Brand Colors (kept for compatibility) */
   --color-brand-green: #58cc02;
   --color-brand-green-light: #7ee000;
   --color-brand-green-dark: #4ba802;
@@ -29,27 +69,35 @@
   --color-brand-yellow-light: #ffe873;
   --color-brand-yellow-dark: #e6b800;
 
-  /* Semantic Colors */
-  --color-danger: #ff4b4b;
-  --color-danger-light: #ff7373;
-  --color-danger-dark: #cc3b3b;
+  /* Semantic Colors - Updated for Dark Theme */
+  --color-danger: #ef4444;
+  --color-danger-light: #f87171;
+  --color-danger-dark: #dc2626;
 
-  --color-neutral: #636363;
-  --color-neutral-light: #e5e5e5;
-  --color-neutral-dark: #333333;
+  --color-success: #10b981;
+  --color-success-light: #34d399;
+  --color-success-dark: #059669;
 
-  /* Aliases */
-  --color-primary: var(--color-brand-green);
-  --color-secondary: var(--color-brand-blue);
-  --color-accent: var(--color-brand-yellow);
-  --color-success: var(--color-brand-green);
-  --color-warning: var(--color-brand-yellow);
+  --color-warning: #f59e0b;
+  --color-warning-light: #fbbf24;
+  --color-warning-dark: #d97706;
+
+  --color-neutral: #6b7280;
+  --color-neutral-light: #9ca3af;
+  --color-neutral-dark: #374151;
+
+  /* New Primary Aliases - Updated for Vigilo Theme */
+  --color-primary: var(--color-primary-purple);
+  --color-secondary: var(--color-primary-pink);
+  --color-accent: var(--color-primary-cyan);
 }
 
 @layer base {
   body {
-    @apply bg-white text-gray-900;
+    @apply text-white;
+    background: var(--gradient-bg-primary);
     font-family: var(--font-sans);
+    min-height: 100vh;
   }
 
   h1,
@@ -58,10 +106,107 @@
   h4,
   h5,
   h6 {
-    @apply font-bold;
+    @apply font-bold text-white;
   }
 
+  /* Link styles updated for dark theme */
   a {
-    @apply text-blue-600 hover:text-blue-800;
+    @apply text-purple-400 hover:text-purple-300 transition-colors;
+  }
+
+  /* Glassmorphism utility classes */
+  .glass {
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border-primary);
+  }
+
+  .glass-strong {
+    background: var(--color-bg-glass-strong);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border-secondary);
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-secondary {
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-accent {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    background: var(--gradient-primary);
+    @apply text-white font-semibold py-3 px-6 rounded-xl hover:scale-105 transform transition-all duration-200 shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply text-white border-2 border-purple-500/50 font-semibold py-3 px-6 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200;
+  }
+
+  .btn-ghost {
+    @apply text-white bg-white/5 backdrop-blur-sm border border-white/10 font-semibold py-3 px-6 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-200;
+  }
+
+  /* Card styles */
+  .card {
+    @apply glass rounded-2xl p-6;
+  }
+
+  .card-hover {
+    @apply card hover:border-purple-500/50 hover:scale-105 transform transition-all duration-300;
+  }
+
+  /* Input styles for dark theme */
+  input, textarea, select {
+    @apply bg-white/5 border border-white/20 text-white placeholder-gray-400 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:bg-white/10 transition-all;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
   }
 }
+
+/* Animation keyframes */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.6);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+  }
