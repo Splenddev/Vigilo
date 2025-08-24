@@ -9,6 +9,9 @@ import StudentLayout from '../components/layout/StudentLayout';
 import LecturerLayout from '../components/layout/LecturerLayout';
 import LecturerDashboard from '../features/attendance/LecturerDashboard';
 import SessionList from '../features/attendance/SessionList';
+import Groups from '../features/group/Group';
+import GroupLayout from '../components/layout/GroupLayout';
+import GroupInfo from '../features/group/GroupInfo';
 
 const router = createBrowserRouter([
   {
@@ -38,7 +41,15 @@ const router = createBrowserRouter([
           { index: true, element: <LecturerDashboard /> },
           { path: 'dashboard', element: <LecturerDashboard /> },
           { path: 'sessions', element: <SessionList /> },
-          { path: 'groups', element: <div>My group</div> },
+          {
+            path: 'groups',
+            element: <GroupLayout />,
+            children: [
+              { index: true, element: <Groups /> },
+              { path: '', element: <Groups /> },
+              { path: 'info/:groupId', element: <GroupInfo /> },
+            ],
+          },
         ],
       },
       { path: '/student', element: <StudentLayout /> },

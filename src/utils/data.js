@@ -1,0 +1,163 @@
+const groups = [
+  {
+    groupName: 'Class of Biochemistry – 300 Level',
+    groupId: 'bch-24__25-300l',
+    courseId: 'BCH301',
+    targets: '300 Level Biochemistry',
+    academicYear: { start: '2024-09-01', end: '2025-07-15' },
+    createdBy: 'rep123',
+    department: 'Biochemistry',
+    faculty: 'Sciences',
+    description: 'Core academic group for 300 level Biochemistry students.',
+    sessions: [
+      {
+        id: 's1',
+        date: '2025-02-15',
+        topic: 'Introduction to Metabolism',
+        duration: '2h',
+        status: 'completed',
+        attendance: { present: 42, absent: 8 },
+      },
+      {
+        id: 's2',
+        date: '2025-02-22',
+        topic: 'Carbohydrate Metabolism',
+        duration: '2h',
+        status: 'completed',
+        attendance: { present: 39, absent: 11 },
+      },
+    ],
+    students: [
+      {
+        id: 'stu1',
+        name: 'Alice Johnson',
+        matricNo: 'BCH/300/001',
+        email: 'alice.johnson@univ.edu',
+        level: '300',
+        attendanceRecord: [
+          { sessionId: 's1', status: 'present' },
+          { sessionId: 's2', status: 'present' },
+        ],
+      },
+      {
+        id: 'stu2',
+        name: 'David Smith',
+        matricNo: 'BCH/300/002',
+        email: 'david.smith@univ.edu',
+        level: '300',
+        attendanceRecord: [
+          { sessionId: 's1', status: 'absent' },
+          { sessionId: 's2', status: 'present' },
+        ],
+      },
+    ],
+  },
+  {
+    groupName: 'Mechanical Engineering – Final Year',
+    groupId: 'MEE-24__25-500l',
+    courseId: 'MEE501',
+    targets: 'Final Year Mechanical Engineering',
+    academicYear: { start: '2024-09-01', end: '2025-07-15' },
+    createdBy: 'rep456',
+    department: 'Mechanical Engineering',
+    faculty: 'Engineering',
+    description: 'Final year group for Mechanical Engineering students.',
+    sessions: [
+      {
+        id: 's1',
+        date: '2025-02-18',
+        topic: 'Advanced Thermodynamics',
+        duration: '3h',
+        status: 'completed',
+        attendance: { present: 55, absent: 5 },
+      },
+      {
+        id: 's2',
+        date: '2025-02-25',
+        topic: 'Fluid Mechanics Review',
+        duration: '2h',
+        status: 'completed',
+        attendance: { present: 53, absent: 7 },
+      },
+    ],
+    students: [
+      {
+        id: 'stu3',
+        name: 'Michael Lee',
+        matricNo: 'MEE/500/010',
+        email: 'michael.lee@univ.edu',
+        level: '500',
+        attendanceRecord: [
+          { sessionId: 's1', status: 'present' },
+          { sessionId: 's2', status: 'present' },
+        ],
+      },
+      {
+        id: 'stu4',
+        name: 'Sarah Connor',
+        matricNo: 'MEE/500/011',
+        email: 'sarah.connor@univ.edu',
+        level: '500',
+        attendanceRecord: [
+          { sessionId: 's1', status: 'present' },
+          { sessionId: 's2', status: 'absent' },
+        ],
+      },
+    ],
+  },
+  {
+    groupName: 'Computer Science – 200 Level',
+    groupId: 'csc-24__25-200l',
+
+    courseId: 'CSC201',
+    targets: '200 Level Computer Science',
+    academicYear: { start: '2024-09-01', end: '2025-07-15' },
+    createdBy: 'rep789',
+    department: 'Computer Science',
+    faculty: 'Sciences',
+    description: '200 level group for Computer Science undergraduates.',
+    sessions: [
+      {
+        id: 's1',
+        date: '2025-02-20',
+        topic: 'Data Structures and Algorithms',
+        duration: '2h',
+        status: 'completed',
+        attendance: { present: 70, absent: 10 },
+      },
+      {
+        id: 's2',
+        date: '2025-02-27',
+        topic: 'Database Systems',
+        duration: '2h',
+        status: 'scheduled',
+        attendance: { present: 0, absent: 0 },
+      },
+    ],
+    students: [
+      {
+        id: 'stu5',
+        name: 'James Brown',
+        matricNo: 'CSC/200/023',
+        email: 'james.brown@univ.edu',
+        level: '200',
+        attendanceRecord: [
+          { sessionId: 's1', status: 'present' },
+          { sessionId: 's2', status: 'pending' },
+        ],
+      },
+      {
+        id: 'stu6',
+        name: 'Emily Davis',
+        matricNo: 'CSC/200/024',
+        email: 'emily.davis@univ.edu',
+        level: '200',
+        attendanceRecord: [
+          { sessionId: 's1', status: 'absent' },
+          { sessionId: 's2', status: 'pending' },
+        ],
+      },
+    ],
+  },
+];
+export { groups };

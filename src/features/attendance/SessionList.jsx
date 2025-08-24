@@ -537,7 +537,7 @@ const SessionList = () => {
                 <tr
                   key={session.id}
                   className="hover:bg-gray-50">
-                  <td className="px-4 py-4 whitespace-nowrap">
+                  <td className="px-4 py-4 ">
                     <input
                       type="checkbox"
                       checked={selectedSessions.includes(session.id)}
@@ -547,8 +547,26 @@ const SessionList = () => {
                   </td>
 
                   <td className="px-4 py-4">
-                    <div className="flex items-start">
-                      <LuBookOpen className="w-4 h-4 text-secondary mr-2 mt-0.5" />
+                    <Grid
+                      baseIcon={LuBookOpen}
+                      containerStyle="items-start text-sm font-medium"
+                      iconStyle="text-secondary w-6 h-6"
+                      baseText={session.course?.name || 'Unnamed Session'}>
+                      {session.course && (
+                        <IconText
+                          text={session.course.id}
+                          containerClass="text-xs text-gray-500"
+                        />
+                      )}
+                      <IconText
+                        text={session.sessionType}
+                        containerClass={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${getSessionTypeColor(
+                          session.sessionType
+                        )}`}
+                      />
+                    </Grid>
+                    {/* <div className="flex ">
+                      <LuBookOpen className=" text-secondary mr-2 mt-0.5" />
                       <div className="min-w-0 flex-1">
                         <div className="text-sm font-medium text-gray-900 truncate">
                           {session.course?.name || 'Unnamed Session'}
@@ -567,7 +585,7 @@ const SessionList = () => {
                           </span>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </td>
 
                   <td className="px-4 py-4">
@@ -600,21 +618,18 @@ const SessionList = () => {
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <LuUsers className="w-4 h-4 text-green-500 mr-2" />
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {session.attendance.present}/
-                          {session.attendance.total}
-                        </div>
-                        <div
-                          className={`text-xs font-semibold ${getAttendanceColor(
-                            attendanceRate
-                          )}`}>
-                          {attendanceRate}% present
-                        </div>
-                      </div>
-                    </div>
+                    <Grid
+                      baseIcon={LuUsers}
+                      baseText={`${session.attendance.present}/
+                          ${session.attendance.total}`}
+                      iconStyle="text-primary">
+                      <IconText
+                        containerClass={`font-semibold ${getAttendanceColor(
+                          attendanceRate
+                        )}`}
+                        text={`${attendanceRate}% present`}
+                      />
+                    </Grid>
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
