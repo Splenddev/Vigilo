@@ -39,4 +39,35 @@ function shortenDept(name) {
   return normalized.slice(0, 3).toUpperCase();
 }
 
-export { shortenDept };
+const checkPasswordStrength = (password) => {
+  let strength = 0;
+  if (password.length >= 8) strength++;
+  if (/[a-z]/.test(password)) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/\d/.test(password)) strength++;
+  if (/[^A-Za-z0-9]/.test(password)) strength++;
+  return strength;
+};
+
+const getPasswordStrengthColor = (passwordStrength) => {
+  if (passwordStrength <= 1) return 'bg-red-500';
+  if (passwordStrength <= 2) return 'bg-orange-500';
+  if (passwordStrength <= 3) return 'bg-yellow-500';
+  if (passwordStrength <= 4) return 'bg-blue-500';
+  return 'bg-green-500';
+};
+
+const getPasswordStrengthText = (passwordStrength) => {
+  if (passwordStrength <= 1) return 'Very Weak';
+  if (passwordStrength <= 2) return 'Weak';
+  if (passwordStrength <= 3) return 'Fair';
+  if (passwordStrength <= 4) return 'Good';
+  return 'Strong';
+};
+
+export {
+  shortenDept,
+  checkPasswordStrength,
+  getPasswordStrengthColor,
+  getPasswordStrengthText,
+};

@@ -9,36 +9,48 @@ const Anchor = ({
   href = '#',
   size = 'md', // "sm" | "md" | "lg"
   variant = 'default',
-  // | 'primary' | 'secondary' | 'danger',
+  // | 'primary' | 'secondary' | 'danger' | 'ghost' | 'glass'
   ...props
 }) => {
   const baseClasses =
-    'items-center rounded-md transition-colors transition-borders duration-200 ';
+    'inline-flex items-center rounded-xl transition-all duration-200 font-semibold no-underline group relative flex items-center w-full text-left transition-all duration-200 rounded-xl';
 
   const sizeClasses = {
-    sm: 'px-2 py-1 text-sm',
-    md: 'px-3 py-1.5 text-base',
-    lg: 'px-4 py-2 text-lg',
+    sm: 'px-3 py-2 text-sm',
+    md: 'px-4 py-3 text-base',
+    lg: 'px-6 py-4 text-lg',
   };
 
-const variantClasses = {
-  default: 'text-gray-700 hover:bg-gray-300',
-  primary: 'text-primary hover:bg-brand-green-soft focus:ring-primary',
-  light: 'bg-white text-brand-blue hover:bg-gray-50',
-  secondary: 'text-secondary hover:bg-brand-blue-light/20 focus:ring-secondary',
-  danger: 'text-danger hover:bg-danger-light/20 focus:ring-danger',
-};
+  const variantClasses = {
+    default:
+      'text-black/70 hover:text-white hover:bg-black/10 border border-transparent hover:border-white/10',
+    primary: '',
+    secondary: 'btn-secondary',
+    ghost: 'btn-ghost',
+    glass:
+      'card hover:scale-105 transform text-white hover:border-purple-500/50',
+    danger:
+      'text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/30 hover:border-red-400/50',
+    success:
+      'text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-emerald-500/30 hover:border-emerald-400/50',
+    warning:
+      'text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 border border-amber-500/30 hover:border-amber-400/50',
+  };
 
-const activeClasses = {
-  default: 'font-semibold border border-gray-400 bg-gray-200 text-gray-900',
-  primary:
-    'font-semibold border border-primary bg-brand-green-soft text-primary',
-  light: 'font-semibold border border-brand-blue bg-white text-brand-blue',
-  secondary:
-    'font-semibold border border-secondary bg-brand-blue-light/30 text-secondary',
-  danger: 'font-semibold border border-danger bg-danger-light/30 text-danger',
-};
-
+  const activeClasses = {
+    default:
+      'text-primary bg-gradient-to-r from-purple-500/20 to-pink-500/10 border-l-4 border-purple-500 bg-white/5 shadow-lg shadow-purple-500/10',
+    primary: 'animate-pulse-glow shadow-lg shadow-purple-500/25',
+    secondary: 'border-purple-400 bg-purple-500/20 animate-pulse-glow',
+    ghost: 'bg-white/15 border-white/30 animate-pulse-glow',
+    glass:
+      'glass-strong border-purple-500/70 animate-pulse-glow shadow-lg shadow-purple-500/20',
+    danger: 'bg-red-500/20 border-red-400 text-red-300 animate-pulse-glow',
+    success:
+      'bg-emerald-500/20 border-emerald-400 text-emerald-300 animate-pulse-glow',
+    warning:
+      'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse-glow',
+  };
 
   return (
     <NavLink

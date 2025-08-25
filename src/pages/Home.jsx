@@ -9,11 +9,19 @@ import {
   FaCheckCircle,
   FaArrowRight,
   FaPlay,
+  FaUserCheck,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaShieldAlt,
+  FaFileDownload,
 } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,18 +53,32 @@ const Home = () => {
     {
       icon: FaQrcode,
       title: 'QR Code Check-ins',
-      description:
-        'Students scan unique QR codes for instant attendance marking',
+      description: 'Students scan unique QR codes for instant marking',
     },
     {
       icon: FaChartBar,
       title: 'Real-time Analytics',
-      description: 'Track attendance patterns and generate insightful reports',
+      description: 'Track attendance trends and export reports',
     },
     {
-      icon: FaBell,
-      title: 'Smart Notifications',
-      description: 'Automated alerts for absences and attendance milestones',
+      icon: FaMapMarkerAlt,
+      title: 'Location Verification',
+      description: 'Confirm check-ins with live geo-location',
+    },
+    {
+      icon: FaCalendarAlt,
+      title: 'Class Scheduling',
+      description: 'Manage recurring sessions with automated reminders',
+    },
+    {
+      icon: FaFileDownload,
+      title: 'Export Records',
+      description: 'Download attendance data as PDF or CSV',
+    },
+    {
+      icon: FaShieldAlt,
+      title: 'Policy Support',
+      description: 'Customize rules to match your institution’s policy',
     },
   ];
 
@@ -89,16 +111,16 @@ const Home = () => {
   ];
 
   const benefits = [
-    'Eliminate manual roll calls',
-    'Reduce administrative overhead',
-    'Improve attendance accuracy',
-    'Generate compliance reports',
-    'Support hybrid learning models',
-    'Integrate with existing systems',
+    'Save time on roll calls',
+    'Reduce paperwork',
+    'Mark attendance instantly',
+    'Improve record accuracy',
+    'Export attendance reports',
+    'Simple for students to use',
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Animated Background */}
@@ -128,7 +150,9 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 mt-10 sm:flex-row">
-              <button className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-200 shadow-2xl hover:shadow-purple-500/25">
+              <button
+                className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-200 shadow-2xl hover:shadow-purple-500/25"
+                onClick={() => navigate('/auth/register')}>
                 <FaSignInAlt className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
                 Get Started Free
                 <div className="absolute inset-0 bg-white/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -142,11 +166,11 @@ const Home = () => {
             </div>
 
             <div className="flex items-center justify-center gap-8 mt-12 text-gray-400">
-              <div className="text-sm">No credit card required</div>
+              <div className="text-sm">No setup stress</div>
               <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-              <div className="text-sm">30-day free trial</div>
+              <div className="text-sm">Runs on any device</div>
               <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
-              <div className="text-sm">Cancel anytime</div>
+              <div className="text-sm">Pay only when you use it</div>
             </div>
           </div>
         </div>
@@ -348,23 +372,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 0.6s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 };

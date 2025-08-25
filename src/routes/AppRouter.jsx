@@ -12,6 +12,7 @@ import SessionList from '../features/attendance/SessionList';
 import Groups from '../features/group/Group';
 import GroupLayout from '../components/layout/GroupLayout';
 import GroupInfo from '../features/group/GroupInfo';
+import Auth from '../pages/Auth';
 
 const router = createBrowserRouter([
   {
@@ -26,12 +27,7 @@ const router = createBrowserRouter([
       // Nested routes for authentication
       {
         path: '/auth',
-        element: <AuthLayout />,
-        children: [
-          { index: true, element: <LoginPage /> }, // /auth
-          { path: 'login', element: <LoginPage /> }, // /auth/login
-          { path: 'register', element: <RegisterPage /> }, // /auth/register
-        ],
+        element: <Auth />,
       },
 
       {

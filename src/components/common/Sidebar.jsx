@@ -60,24 +60,21 @@ const Sidebar = ({ isOpen, onClose }) => {
         {/* Links */}
         <nav className="flex flex-col mt p-1.5 min-h-[calc(100dvh-100px)] overflow-y-auto gap-1.5">
           <Anchor
-            size="lg"
-            variant="secondary"
+            size="md"
             className="flex gap-3 text-[1rem]"
             href="dashboard">
             <LuLayoutDashboard className="text-[19px]" />
             Dashboard
           </Anchor>
           <Anchor
-            variant="secondary"
-            size="lg"
+            size="md"
             href="sessions"
             className="flex gap-3 text-[1rem]">
             <LuFileText className="text-[19px]" /> Sessions
           </Anchor>
           <section>
             <Anchor
-              variant="secondary"
-              size="lg"
+              size="md"
               href={'groups'}
               className="flex gap-3 text-[1rem]"
               func={() => setIsExpanded((p) => !p)}>
@@ -104,8 +101,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                       variants={itemVariants}
                       className="mt-1">
                       <Anchor
-                        variant="secondary"
-                        size="lg"
+                        size="md"
                         href={`groups/${g.name}`}
                         className="flex text-[1rem]">
                         <span className="flex-1">{g.name}</span>

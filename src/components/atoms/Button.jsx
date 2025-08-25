@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 const Button = ({
   children,
-  variant = 'primary',
-  size = 'md',
+  variant = 'primary', // 'primary' | 'secondary' | 'ghost' | 'custom'
+  size = 'md', // 'sm' | 'md' | 'lg' |'none'
   className = '',
   icon: Icon,
   iconPosition = 'left',
@@ -11,23 +11,20 @@ const Button = ({
   ...props
 }) => {
   const baseClasses =
-    'inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors duration-200';
+    'flex items-center gap-2 font-semibold rounded-xl transition-all duration-200';
 
   const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-5 py-2.5 text-base',
-    lg: 'px-7 py-3 text-lg',
+    sm: 'text-body-xs px-3 py-1.5',
+    md: 'text-body px-5 py-2.5',
+    lg: 'text-heading-md px-7 py-3',
+    none: 'p-0 m-0', // for icon-only buttons
   };
 
   const variantClasses = {
-    primary:
-      'bg-primary text-white hover:bg-brand-green-dark focus:ring-primary',
-    secondary:
-      'bg-secondary text-white hover:bg-brand-blue-dark focus:ring-secondary',
-    transparent: 'bg-white text-gray-400 hover:bg-gray-50',
-    outline: 'border border-neutral-light text-neutral focus:ring-neutral',
-    ghost: 'text-neutral-dark hover:bg-neutral-light focus:ring-neutral',
-    custom: '',
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    ghost: 'btn-ghost',
+    custom: '', // let consumers pass their own styling
   };
 
   return (
