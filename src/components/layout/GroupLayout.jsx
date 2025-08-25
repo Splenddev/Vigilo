@@ -9,7 +9,7 @@ import Button from '../atoms/Button';
 import clsx from 'clsx';
 
 const navItems = [
-  { to: '/groups', icon: LuUsersRound, label: 'All Groups' },
+  { to: 'groups', icon: LuUsersRound, label: 'All Groups' },
   { to: 'sessions', icon: FaCalendarAlt, label: 'Sessions' },
   { to: 'students', icon: FaBook, label: 'Students' },
 ];
