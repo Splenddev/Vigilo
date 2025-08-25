@@ -22,16 +22,16 @@ const GroupInfo = () => {
 
   if (!group) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="text-6xl mb-4">🔍</div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50 px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center w-full max-w-md">
+          <div className="text-4xl sm:text-6xl mb-4">🔍</div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
             Group Not Found
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-sm sm:text-base text-gray-600 mb-4">
             The group "{groupId}" could not be found.
           </p>
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+          <button className="bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base w-full sm:w-auto">
             Back to Groups
           </button>
         </div>
@@ -56,11 +56,11 @@ const GroupInfo = () => {
   const getAttendanceIcon = (status) => {
     switch (status) {
       case 'present':
-        return <FaCheckCircle className="text-emerald-600 w-4 h-4" />;
+        return <FaCheckCircle className="text-emerald-600 w-3 h-3 sm:w-4 sm:h-4" />;
       case 'absent':
-        return <LuX className="text-red-600 w-4 h-4" />;
+        return <LuX className="text-red-600 w-3 h-3 sm:w-4 sm:h-4" />;
       default:
-        return <FaMinusCircle className="text-gray-400 w-4 h-4" />;
+        return <FaMinusCircle className="text-gray-400 w-3 h-3 sm:w-4 sm:h-4" />;
     }
   };
 
@@ -81,36 +81,36 @@ const GroupInfo = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Back Button */}
         <button
           onClick={navigate}
-          className="group flex items-center gap-3 mb-8 text-slate-600 hover:text-blue-600 transition-all duration-200 bg-white px-4 py-2 rounded-xl shadow-sm hover:shadow-md border border-slate-200 hover:border-blue-200">
-          <FaArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200 w-4 h-4" />
+          className="group flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8 text-slate-600 hover:text-blue-600 transition-all duration-200 bg-white px-3 sm:px-4 py-2 rounded-xl shadow-sm hover:shadow-md border border-slate-200 hover:border-blue-200 text-sm sm:text-base">
+          <FaArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200 w-3 h-3 sm:w-4 sm:h-4" />
           <span className="font-medium">Back to Groups</span>
         </button>
 
         {/* Header */}
-        <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-600 to-indigo-600 opacity-10 rounded-full -mr-16 -mt-16"></div>
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-600 to-indigo-600 opacity-10 rounded-full -mr-10 sm:-mr-16 -mt-10 sm:-mt-16"></div>
           <div className="relative">
-            <div className="flex items-start justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6 gap-4">
               <div className="flex-1">
-                <h1 className="text-4xl font-bold text-slate-800 mb-3">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-2 sm:mb-3 leading-tight">
                   {group.groupName}
                 </h1>
-                <p className="text-lg text-slate-600 max-w-3xl">
+                <p className="text-sm sm:text-base lg:text-lg text-slate-600">
                   {group.description}
                 </p>
               </div>
-              <div className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-2xl shadow-lg">
-                <FaBook className="w-5 h-5" />
-                <span className="font-bold text-lg">{group.courseId}</span>
+              <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg shrink-0">
+                <FaBook className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="font-bold text-sm sm:text-base lg:text-lg">{group.courseId}</span>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <StatCard
                 icon={FaUsers}
                 label="Students"
@@ -147,16 +147,16 @@ const GroupInfo = () => {
         </div>
 
         {/* Main Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Left - Details & Sessions */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-8">
             {/* Course Details */}
-            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
-              <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-                <FaChalkboardTeacher className="text-blue-600 w-6 h-6" /> Course
-                Details
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                <FaChalkboardTeacher className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" /> 
+                <span>Course Details</span>
               </h2>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <DetailCard
                   icon={<FaGraduationCap />}
                   label="Department"
@@ -181,44 +181,46 @@ const GroupInfo = () => {
             </div>
 
             {/* Sessions */}
-            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8">
-              <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-                <FaCalendar className="text-blue-600" /> Sessions
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                <FaCalendar className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" /> 
+                <span>Sessions</span>
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {group.sessions.map((session) => (
                   <div
                     key={session.id}
-                    className="p-6 border border-slate-200 rounded-2xl hover:border-blue-300 hover:shadow-lg transition-all bg-gradient-to-r from-white to-slate-50">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-lg font-bold text-slate-800 mb-2 hover:text-blue-600">
+                    className="p-4 sm:p-6 border border-slate-200 rounded-xl sm:rounded-2xl hover:border-blue-300 hover:shadow-lg transition-all bg-gradient-to-r from-white to-slate-50">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 sm:mb-4 gap-3">
+                      <div className="flex-1">
+                        <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-2 hover:text-blue-600 leading-tight">
                           {session.topic}
                         </h3>
-                        <div className="flex items-center gap-4 text-slate-600">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-sm sm:text-base text-slate-600">
                           <span>
                             {new Date(session.date).toLocaleDateString(
                               'en-US',
-                              { month: 'long', day: 'numeric', year: 'numeric' }
+                              { month: 'short', day: 'numeric', year: 'numeric' }
                             )}
                           </span>
-                          <span>• {session.duration}</span>
+                          <span className="hidden sm:inline">•</span>
+                          <span>{session.duration}</span>
                         </div>
                       </div>
                       <span
-                        className={`px-4 py-2 rounded-full text-sm font-semibold border ${getStatusColor(
+                        className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-semibold border shrink-0 ${getStatusColor(
                           session.status
                         )}`}>
                         {session.status}
                       </span>
                     </div>
                     {session.status === 'Completed' && (
-                      <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
-                        <span className="text-emerald-600 font-semibold">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 pt-3 sm:pt-4 border-t border-slate-100">
+                        <span className="text-emerald-600 font-semibold text-sm sm:text-base">
                           ✓ {session.attendance.present} Present
                         </span>
                         {session.attendance.absent > 0 && (
-                          <span className="text-red-600 font-semibold">
+                          <span className="text-red-600 font-semibold text-sm sm:text-base">
                             ✗ {session.attendance.absent} Absent
                           </span>
                         )}
@@ -232,32 +234,35 @@ const GroupInfo = () => {
 
           {/* Right - Students */}
           <div>
-            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 sticky top-8">
-              <h2 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-                <FaUsers className="text-blue-600" /> Students ({totalStudents})
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8 lg:sticky lg:top-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                <FaUsers className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" /> 
+                <span>Students ({totalStudents})</span>
               </h2>
-              <div className="space-y-4 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100">
+              <div className="space-y-3 sm:space-y-4 max-h-80 sm:max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100">
                 {group.students.map((student) => (
                   <div
                     key={student.id}
-                    className="p-4 border border-slate-200 rounded-2xl hover:border-blue-300 hover:shadow-md transition-all bg-gradient-to-r from-white to-slate-50">
+                    className="p-3 sm:p-4 border border-slate-200 rounded-xl sm:rounded-2xl hover:border-blue-300 hover:shadow-md transition-all bg-gradient-to-r from-white to-slate-50">
                     <div className="mb-3">
-                      <h4 className="font-bold text-slate-800">
+                      <h4 className="font-bold text-slate-800 text-sm sm:text-base">
                         {student.name}
                       </h4>
-                      <p className="text-sm text-slate-600">
+                      <p className="text-xs sm:text-sm text-slate-600">
                         {student.matricNo}
                       </p>
-                      <p className="text-sm text-slate-500">{student.email}</p>
+                      <p className="text-xs sm:text-sm text-slate-500 break-all">
+                        {student.email}
+                      </p>
                       <span className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded-lg text-xs font-semibold mt-2">
                         {student.level}
                       </span>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-700 mb-2">
+                      <p className="text-xs sm:text-sm font-semibold text-slate-700 mb-2">
                         Attendance:
                       </p>
-                      <div className="flex gap-1">
+                      <div className="flex gap-1 flex-wrap">
                         {group.sessions
                           .filter((s) => s.status === 'Completed')
                           .map((session) => {
@@ -267,7 +272,7 @@ const GroupInfo = () => {
                             return (
                               <div
                                 key={session.id}
-                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100"
+                                className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-slate-100"
                                 title={`${session.topic}: ${
                                   attendance?.status || 'Not recorded'
                                 }`}>
@@ -288,24 +293,12 @@ const GroupInfo = () => {
   );
 };
 
-/* Small Reusable UI Pieces */
-const StatBox = ({ icon, label, value, color }) => (
-  <div
-    className={`bg-gradient-to-br from-${color}-50 to-${color}-100 p-4 rounded-2xl border border-${color}-200`}>
-    <div className="flex items-center gap-3 mb-2">
-      {icon}
-      <span className={`font-semibold text-${color}-800`}>{label}</span>
-    </div>
-    <div className={`text-2xl font-bold text-${color}-700`}>{value}</div>
-  </div>
-);
-
 const DetailCard = ({ icon, label, value }) => (
-  <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl">
-    {React.cloneElement(icon, { className: 'text-slate-600 w-5 h-5' })}
-    <div>
-      <p className="font-semibold text-slate-800">{label}</p>
-      <p className="text-slate-600">{value}</p>
+  <div className="flex items-center gap-3 p-3 sm:p-4 bg-slate-50 rounded-xl">
+    {React.cloneElement(icon, { className: 'text-slate-600 w-4 h-4 sm:w-5 sm:h-5 shrink-0' })}
+    <div className="min-w-0 flex-1">
+      <p className="font-semibold text-slate-800 text-sm sm:text-base">{label}</p>
+      <p className="text-slate-600 text-sm sm:text-base break-words">{value}</p>
     </div>
   </div>
 );

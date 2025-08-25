@@ -1,20 +1,9 @@
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import {
-  FaUsers,
-  FaBook,
-  FaCalendarAlt,
-} from 'react-icons/fa';
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuUsersRound,
-} from 'react-icons/lu';
+import { FaUsers, FaBook, FaCalendarAlt } from 'react-icons/fa';
+import { LuChevronLeft, LuChevronRight, LuUsersRound } from 'react-icons/lu';
 import Anchor from '../atoms/Anchor';
-import {
-  itemVariants,
-  navItemVariants,
-} from '../../utils/animationVariants';
+import { itemVariants, navItemVariants } from '../../utils/animationVariants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../atoms/Button';
 import clsx from 'clsx';
@@ -33,7 +22,7 @@ const GroupLayout = () => {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 mt-13 left-0 h-screen p-4 flex flex-col bg-white shadow-md transition-all duration-300 
-          ${collapsed ? 'w-20' : 'w-64'} `}>
+          ${collapsed ? 'w-15' : 'w-64'} `}>
         {/* Header */}
         <div
           className={`flex items-center ${
@@ -103,7 +92,7 @@ const GroupLayout = () => {
       <main
         className={
           'flex-1' +
-          (collapsed ? ' ml-20' : ' ml-64') +
+          (collapsed ? ' ml-15' : ' ml-64') +
           ' transition-all duration-300'
         }>
         <Outlet />
