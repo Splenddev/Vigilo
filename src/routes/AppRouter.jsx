@@ -11,6 +11,7 @@ import GroupLayout from '../components/layout/GroupLayout';
 import GroupInfo from '../features/group/GroupInfo';
 import Auth from '../pages/Auth';
 import GroupStudents from '../features/group/GroupStudents';
+import CreateSession from '../features/attendance/CreateSession';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
           { index: true, element: <LecturerDashboard /> },
           { path: 'dashboard', element: <LecturerDashboard /> },
           { path: 'sessions', element: <SessionList /> },
+          { path: 'sessions/new', element: <CreateSession /> },
           {
             path: 'groups',
             element: <Groups />,

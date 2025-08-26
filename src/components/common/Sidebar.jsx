@@ -11,20 +11,34 @@ import {
   LuChevronRight,
   LuChevronUp,
   LuFileText,
-  LuFolder,
   LuGraduationCap,
   LuLayoutDashboard,
   LuLogOut,
+  LuPlus,
   LuSettings,
 } from 'react-icons/lu';
-import { FaHome } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '../atoms/Button';
+import { useLocation } from 'react-router-dom';
 
 const groups = [{ name: 'CSC101' }, { name: 'MAT101' }];
+const sessions = [{ value: 'New session', icon: LuPlus }];
 
 const Sidebar = ({ isOpen, onClose }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState({
+    group: false,
+    session: false,
+  });
+
+  const { pathname } = useLocation();
+  const prevPath = useRef(pathname);
+
+  useEffect(() => {
+    if (prevPath.current !== pathname) {
+      if (isOpen) onClose?.();
+      prevPath.current = pathname;
+    }
+  }, [pathname, isOpen, onClose]);
 
   return (
     <>
@@ -47,7 +61,13 @@ const Sidebar = ({ isOpen, onClose }) => {
         exit="exit"
         className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 flex flex-col">
         {/* Header */}
-        <div className="flex items-center gap-4 px-2 py-3 border-b-2 border-b-gray-200">
+        <div className="flex items-center gap-4 p-2  border-b-2 border-b-gray-200">
+          <div className="flex-1 h-14">
+            <img
+              className="h-full"
+              src="/android-chrome-192x192.png"
+            />
+          </div>
           <Button
             variant="transparent"
             onClick={onClose}
@@ -55,7 +75,6 @@ const Sidebar = ({ isOpen, onClose }) => {
             className="rounded-full p-0">
             <FiX className=" text-gray-700" />
           </Button>
-          <h2 className="text-lg font-semibold font">Vigilo</h2>
         </div>
 
         {/* Links */}
@@ -67,28 +86,68 @@ const Sidebar = ({ isOpen, onClose }) => {
             <LuLayoutDashboard className="text-[19px]" />
             Dashboard
           </Anchor>
-          <Anchor
-            size="md"
-            href="sessions"
-            className="flex gap-3 text-[1rem]">
-            <LuFileText className="text-[19px]" /> Sessions
-          </Anchor>
+          <section>
+            <Anchor
+              size="md"
+              href={'sessions'}
+              className="flex gap-3 text-[1rem]"
+              func={() =>
+                setIsExpanded((p) => ({ group: false, session: !p.session }))
+              }>
+              <LuFileText className="text-[19px]" />
+              <span className="flex-1">Sessions</span>
+              <span className="text-danger-dark h-6 w-6 flex items-center justify-center text-[14px] rounded-full bg-red-100">
+                {sessions.length}
+              </span>
+              {isExpanded.session ? <LuChevronUp /> : <LuChevronDown />}
+            </Anchor>
+
+            <AnimatePresence initial={false}>
+              {isExpanded.session && (
+                <motion.div
+                  className="pl-7.5 overflow-hidden"
+                  key="sessions-container"
+                  initial="collapsed"
+                  animate="expanded"
+                  exit="collapsed"
+                  variants={containerVariants}>
+                  {sessions.map((s) => (
+                    <motion.div
+                      key={s.value}
+                      variants={itemVariants}
+                      className="mt-1">
+                      <Anchor
+                        size="md"
+                        href="sessions/new"
+                        className="flex items-center gap-2 text-[1rem]">
+                        <s.icon />
+                        <span className="flex-1">{s.value}</span>
+                        <LuChevronRight />
+                      </Anchor>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </section>
           <section>
             <Anchor
               size="md"
               href={'groups'}
               className="flex gap-3 text-[1rem]"
-              func={() => setIsExpanded((p) => !p)}>
+              func={() =>
+                setIsExpanded((p) => ({ session: false, group: !p.group }))
+              }>
               <LuGraduationCap className="text-[19px]" />
               <span className="flex-1">Groups</span>
               <span className="text-danger-dark h-6 w-6 flex items-center justify-center text-[14px] rounded-full bg-red-100">
                 {groups.length}
               </span>
-              {isExpanded ? <LuChevronUp /> : <LuChevronDown />}
+              {isExpanded.group ? <LuChevronUp /> : <LuChevronDown />}
             </Anchor>
 
             <AnimatePresence initial={false}>
-              {isExpanded && (
+              {isExpanded.group && (
                 <motion.div
                   className="pl-7.5 overflow-hidden"
                   key="groups-container"
@@ -117,14 +176,13 @@ const Sidebar = ({ isOpen, onClose }) => {
         </nav>
         <section className="mt-auto border-t border-gray-300">
           <Button
-            size="none"
-            className="flex gap-3 text-[1rem] w-full">
+            variant="dangerLight"
+            className="p-4 w-full ">
             <LuLogOut className="text-[19px]" />
             Log out
           </Button>
           <Anchor
-            // variant="light"
-            size="lg"
+            variant="light"
             href="/settings"
             className="flex  gap-3 text-[1rem]">
             <LuSettings className="text-[19px]" />

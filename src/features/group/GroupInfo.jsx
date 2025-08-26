@@ -56,11 +56,15 @@ const GroupInfo = () => {
   const getAttendanceIcon = (status) => {
     switch (status) {
       case 'present':
-        return <FaCheckCircle className="text-emerald-600 w-3 h-3 sm:w-4 sm:h-4" />;
+        return (
+          <FaCheckCircle className="text-emerald-600 w-3 h-3 sm:w-4 sm:h-4" />
+        );
       case 'absent':
         return <LuX className="text-red-600 w-3 h-3 sm:w-4 sm:h-4" />;
       default:
-        return <FaMinusCircle className="text-gray-400 w-3 h-3 sm:w-4 sm:h-4" />;
+        return (
+          <FaMinusCircle className="text-gray-400 w-3 h-3 sm:w-4 sm:h-4" />
+        );
     }
   };
 
@@ -80,8 +84,8 @@ const GroupInfo = () => {
       : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <div className="min-h-screen bg-transparent">
+      <div className="px-4 sm:px-6 py-6 sm:py-8">
         {/* Back Button */}
         <button
           onClick={navigate}
@@ -105,7 +109,9 @@ const GroupInfo = () => {
               </div>
               <div className="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg shrink-0">
                 <FaBook className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="font-bold text-sm sm:text-base lg:text-lg">{group.courseId}</span>
+                <span className="font-bold text-sm sm:text-base lg:text-lg">
+                  {group.courseId}
+                </span>
               </div>
             </div>
 
@@ -153,7 +159,7 @@ const GroupInfo = () => {
             {/* Course Details */}
             <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8">
               <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                <FaChalkboardTeacher className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" /> 
+                <FaChalkboardTeacher className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" />
                 <span>Course Details</span>
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -183,7 +189,7 @@ const GroupInfo = () => {
             {/* Sessions */}
             <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8">
               <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                <FaCalendar className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" /> 
+                <FaCalendar className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" />
                 <span>Sessions</span>
               </h2>
               <div className="space-y-3 sm:space-y-4">
@@ -200,7 +206,11 @@ const GroupInfo = () => {
                           <span>
                             {new Date(session.date).toLocaleDateString(
                               'en-US',
-                              { month: 'short', day: 'numeric', year: 'numeric' }
+                              {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              }
                             )}
                           </span>
                           <span className="hidden sm:inline">•</span>
@@ -236,7 +246,7 @@ const GroupInfo = () => {
           <div>
             <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-4 sm:p-6 lg:p-8 lg:sticky lg:top-8">
               <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                <FaUsers className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" /> 
+                <FaUsers className="text-blue-600 w-5 h-5 sm:w-6 sm:h-6" />
                 <span>Students ({totalStudents})</span>
               </h2>
               <div className="space-y-3 sm:space-y-4 max-h-80 sm:max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100">
@@ -295,9 +305,13 @@ const GroupInfo = () => {
 
 const DetailCard = ({ icon, label, value }) => (
   <div className="flex items-center gap-3 p-3 sm:p-4 bg-slate-50 rounded-xl">
-    {React.cloneElement(icon, { className: 'text-slate-600 w-4 h-4 sm:w-5 sm:h-5 shrink-0' })}
+    {React.cloneElement(icon, {
+      className: 'text-slate-600 w-4 h-4 sm:w-5 sm:h-5 shrink-0',
+    })}
     <div className="min-w-0 flex-1">
-      <p className="font-semibold text-slate-800 text-sm sm:text-base">{label}</p>
+      <p className="font-semibold text-slate-800 text-sm sm:text-base">
+        {label}
+      </p>
       <p className="text-slate-600 text-sm sm:text-base break-words">{value}</p>
     </div>
   </div>

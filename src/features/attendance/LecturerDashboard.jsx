@@ -58,6 +58,8 @@ const LecturerDashboard = () => {
     return 'Completed';
   };
 
+  const navigate = useNavigate();
+
   // Group sessions
   const groupedSessions = {
     Ongoing: [],
@@ -71,10 +73,8 @@ const LecturerDashboard = () => {
   });
 
   const handleStartSession = () => {
-    console.log('Starting new session...');
+    navigate('/lecturer/sessions/new');
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -173,7 +173,8 @@ const LecturerDashboard = () => {
             text="View All Sessions"
             icon={FiArrowRight}
             iconPosition="right"
-            size="none" onClick={()=>navigate('sessions')}></Button>
+            size="none"
+            onClick={() => navigate('sessions')}></Button>
         </div>
 
         <RecentSession groupedSessions={groupedSessions} />

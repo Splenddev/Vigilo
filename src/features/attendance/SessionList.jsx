@@ -15,6 +15,7 @@ import {
   LuUser,
   LuMapPin,
   LuTimer,
+  LuX,
 } from 'react-icons/lu';
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
@@ -345,7 +346,7 @@ const SessionList = () => {
   return (
     <div className="bg-white p-4">
       {/* Header */}
-      <div className="px-4 py-4">
+      <div className="py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold text-gray-900">Sessions</h2>
@@ -367,20 +368,28 @@ const SessionList = () => {
               />
             </div>
 
-            <Button
-              onClick={() => setShowFilters(!showFilters)}
-              className="border border-gray-300 rounded-lg hover:bg-gray-50 text-sm"
-              variant="primary"
-              size="sm">
-              <LuFilter className="w-4 h-4" />
-              Filter
-            </Button>
+            {!showFilters && (
+              <Button
+                onClick={() => setShowFilters(!showFilters)}
+                className="border border-gray-300 rounded-lg hover:bg-gray-50 text-sm"
+                variant="primary"
+                size="sm">
+                <LuFilter className="w-4 h-4" />
+                Filter
+              </Button>
+            )}
           </div>
         </div>
 
         {/* Filters */}
         {showFilters && (
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <div
+              className="place-self-end cursor-pointer text-xl"
+              onClick={() => setShowFilters(!showFilters)}>
+              <LuX />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {/* Course Filter */}
               <Select

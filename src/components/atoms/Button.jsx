@@ -12,13 +12,13 @@ const Button = ({
   ...props
 }) => {
   const baseClasses =
-    'flex items-center gap-2 font-semibold rounded-xl transition-all duration-200';
+    'flex items-center gap-2 font-semibold transition-all duration-200';
 
   const sizeClasses = {
-    sm: 'text-body-xs px-3 py-1.5',
-    md: 'text-body px-5 py-2.5',
-    lg: 'text-heading-md px-7 py-3',
-    none: 'p-0 m-0',
+    sm: 'text-body-xs px-2.5 py-1.5 rounded-xl',
+    md: 'text-body px-4 py-2.5 rounded-xl',
+    lg: 'text-heading-md px-6 py-3 rounded-xl',
+    normal: '',
   };
 
   const variantClasses = {
@@ -29,6 +29,8 @@ const Button = ({
     custom: '',
     danger:
       'btn-danger bg-red-500 text-white hover:bg-red-600 active:bg-red-700 border border-red-600',
+    dangerLight:
+      'btn-danger-light text-red-600 hover:text-red-700 active:text-red-800',
   };
 
   return (

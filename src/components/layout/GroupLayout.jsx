@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { FaUsers, FaBook, FaCalendarAlt } from 'react-icons/fa';
-import { LuChevronLeft, LuChevronRight, LuUsersRound } from 'react-icons/lu';
+import {
+  FaUsers,
+  FaBook,
+  FaCalendarAlt,
+  FaGraduationCap,
+} from 'react-icons/fa';
+import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import Anchor from '../atoms/Anchor';
 import { itemVariants, navItemVariants } from '../../utils/animationVariants';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -10,9 +15,8 @@ import clsx from 'clsx';
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 
 const navItems = [
-  { to: '', icon: LuUsersRound, label: 'All Groups' },
-  { to: 'sessions', icon: FaCalendarAlt, label: 'Sessions' },
-  { to: 'students', icon: FaBook, label: 'Students' },
+  { to: 'course', icon: FaBook, label: 'Courses' },
+  { to: 'students', icon: FaGraduationCap, label: 'Students' },
 ];
 
 const GroupLayout = () => {
@@ -20,7 +24,7 @@ const GroupLayout = () => {
   const [collapsed, setCollapsed] = useState(isMobile ? true : false);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex bg-gray-50">
       {/* Sidebar */}
       <aside
         className={`fixed top-0 mt-13 left-0 h-screen p-4 flex flex-col bg-white shadow-md transition-all duration-300 

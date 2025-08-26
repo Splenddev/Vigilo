@@ -55,7 +55,7 @@
   /* Button styles */
   .btn-primary {
     background: var(--gradient-primary);
-    @apply text-white rounded-xl hover:scale-105 transform transition-all duration-200 shadow-lg;
+    @apply text-white hover:scale-105 transform transition-all duration-200 shadow-lg;
   }
 
   .btn-secondary {
@@ -71,6 +71,10 @@
          hover:bg-red-600 hover:scale-105 
          active:bg-red-700 
          transition-all duration-200;
+  }
+
+  .btn-danger-light {
+    @apply text-red-600 hover:text-red-700 active:text-red-800 transition-colors duration-200;
   }
 
   /* Card styles */
@@ -182,7 +186,7 @@
   }
 
   body {
-    @apply text-white;
+    @apply text-black;
     background: var(--gradient-bg-primary);
     font-family: var(--font-sans);
     @apply min-h-screen bg-fixed bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900;
