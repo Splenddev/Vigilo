@@ -1,182 +1,201 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
-  LuDownload,
-  LuCalendar,
-  LuUsers,
-  LuClock,
   LuBookOpen,
   LuPin,
+  LuTrendingUp,
+  LuUsers,
+  LuPlay,
 } from 'react-icons/lu';
 import Title from '../../components/atoms/Title';
+import Button from '../../components/atoms/Button';
+import RecentSession from './components/RecentSession';
+import { useNavigate } from 'react-router-dom';
+import { FiArrowRight } from 'react-icons/fi';
+
+// Mock data for demonstration
+const recentSessions = [
+  {
+    id: 1,
+    course: { name: 'Advanced React Development' },
+    date: '2025-08-26',
+    time: '05:00 AM - 07:30 AM',
+    attendance: { present: 28, total: 32 },
+  },
+  {
+    id: 3,
+    course: { name: 'UI/UX Design Fundamentals' },
+    date: '2024-01-12',
+    time: '9:00 AM - 10:30 AM',
+    attendance: { present: 30, total: 35 },
+  },
+  {
+    id: 2,
+    course: { name: 'Database Design Principles' },
+    date: '2024-01-14',
+    time: '2:00 PM - 3:30 PM',
+    attendance: { present: 24, total: 26 },
+  },
+  {
+    id: 4,
+    course: { name: 'Machine Learning Basics' },
+    date: '2024-01-10',
+    time: '3:00 PM - 4:30 PM',
+    attendance: { present: 22, total: 28 },
+  },
+];
 
 const LecturerDashboard = () => {
-  const [recentSessions, setRecentSessions] = useState([]);
+  const now = new Date();
 
-  // Simulate API fetch
-  useEffect(() => {
-    const fetchRecentSessions = async () => {
-      // TODO: Replace with real API call
-      const mock = [
-        {
-          id: 1,
-          course: { id: 'c1', name: 'Computer Science 101' },
-          date: '2025-08-20',
-          time: '10:30 AM',
-          attendance: { present: 42, total: 50 },
-        },
-        {
-          id: 2,
-          course: { id: 'c2', name: 'Data Structures' },
-          date: '2025-08-19',
-          time: '2:15 PM',
-          attendance: { present: 38, total: 45 },
-        },
-        {
-          id: 3,
-          course: null, // ad-hoc session
-          date: '2025-08-18',
-          time: '9:00 AM',
-          attendance: { present: 25, total: 30 },
-        },
-      ];
-      setRecentSessions(mock);
-    };
-    fetchRecentSessions();
-  }, []);
+  // Helper to determine status
+  const getStatus = (session) => {
+    const [startTimeStr, endTimeStr] = session.time.split(' - ');
+    const startDateTime = new Date(`${session.date} ${startTimeStr}`);
+    const endDateTime = new Date(`${session.date} ${endTimeStr}`);
+
+    if (now < startDateTime) return 'Scheduled';
+    if (now >= startDateTime && now <= endDateTime) return 'Ongoing';
+    return 'Completed';
+  };
+
+  // Group sessions
+  const groupedSessions = {
+    Ongoing: [],
+    Scheduled: [],
+    Completed: [],
+  };
+
+  recentSessions.forEach((session) => {
+    const status = getStatus(session);
+    groupedSessions[status].push({ ...session, status });
+  });
 
   const handleStartSession = () => {
-    // Navigate to session setup page
-    console.log('Navigating to /session/new');
-    // In a real app, this would be: navigate('/session/new');
+    console.log('Starting new session...');
   };
 
-  const handleExport = (sessionId) => {
-    console.log(`Exporting session ${sessionId}`);
-    // TODO: hook API Ludownload
-  };
-
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+    <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      {/* Hero Section */}
+      <div className="mb-8 sm:mb-12">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[var(--gradient-primary)] shadow-2xl">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-black/10">
+            <div className="absolute top-0 right-0 w-32 h-32 sm:w-64 sm:h-64 bg-white/5 rounded-full -mr-16 sm:-mr-32 -mt-16 sm:-mt-32"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 sm:w-48 sm:h-48 bg-white/5 rounded-full -ml-12 sm:-ml-24 -mb-12 sm:-mb-24"></div>
+          </div>
 
-      {/* Hidden Sidebar Scaffold */}
-      <div className="hidden">
-        <nav className="bg-white w-64 h-full fixed left-0 top-16 border-r shadow-sm"></nav>
+          <div className="relative px-6 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16 shadow-2xs bg-white/10">
+            <div className="max-w-4xl mx-auto text-center">
+              <Title
+                contents="Start Attendance Session"
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-3 sm:mb-4"
+              />
+              <p className="text-base sm:text-lg lg:text-xl text-[var(--color-text-secondary)] mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+                Take attendance in seconds with Vigilo's intelligent session
+                management system
+              </p>
+
+              <Button
+                onClick={handleStartSession}
+                className="group inline-flex"
+                size="lg">
+                <LuPlay className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-rotate-20 transition-transform" />
+                Start New Session
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* CTA Card */}
-        <div className="mb-10">
-          <div className="bg-gradient-to-r from-brand-green-light to-brand-green-dark rounded-2xl shadow-lg overflow-hidden">
-            <div className="px-8 py-12 text-center">
-              <Title
-                contents={'Start Attendance Session'}
-                className="font-bold text-white mb-2"
-              />
-              <p className="text-blue-100 mb-8 text-lg">
-                Take attendance in seconds with Vigilo's smart session setup
-              </p>
-              <button
-                onClick={handleStartSession}
-                className="bg-white  font-semibold px-8 py-3 rounded-xl text-brand-green-dark hover:bg-brand-green-soft transition shadow-md">
-                Go to Session Setup
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Sessions */}
-        <section className="mb-10">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">
-            Recent Sessions
-          </h3>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {recentSessions.map((session) => (
-              <div
-                key={session.id}
-                className="bg-white rounded-xl shadow-sm border hover:shadow-lg transition group">
-                <div className="p-6">
-                  {/* Course Name */}
-                  <div className="flex items-center mb-3">
-                    <LuBookOpen className="w-5 h-5 text-blue-500 mr-2" />
-                    <h4 className="font-semibold text-gray-900 truncate group-hover:text-blue-600">
-                      {session.course?.name || 'Unnamed Session'}
-                    </h4>
-                  </div>
-
-                  {/* Date & Time */}
-                  <div className="flex items-center mb-2 text-sm text-gray-600">
-                    <LuCalendar className="w-4 h-4 mr-2" />
-                    <span>{formatDate(session.date)}</span>
-                  </div>
-                  <div className="flex items-center mb-4 text-sm text-gray-600">
-                    <LuClock className="w-4 h-4 mr-2" />
-                    <span>{session.time}</span>
-                  </div>
-
-                  {/* Attendance */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center text-sm">
-                      <LuUsers className="w-4 h-4 text-green-500 mr-2" />
-                      <span className="font-medium text-gray-900">
-                        {session.attendance.present}/{session.attendance.total}
-                      </span>
-                      <span className="text-gray-500 ml-1">present</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xs text-gray-500">
-                        Attendance Rate
-                      </div>
-                      <div className="text-sm font-semibold text-green-600">
-                        {Math.round(
-                          (session.attendance.present /
-                            session.attendance.total) *
-                            100
-                        )}
-                        %
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Export Button */}
-                  <button
-                    onClick={() => handleExport(session.id)}
-                    className="w-full flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 transition">
-                    <LuDownload className="w-4 h-4 mr-2" />
-                    Export
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Footer Teaser */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 shadow-sm">
-          <div className="flex items-start space-x-3">
-            <LuPin className="w-5 h-5 text-amber-600 mt-0.5" />
+      {/* Quick Stats Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <div className="card hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-semibold text-amber-900 mb-1">
-                Coming in v1.5
-              </h4>
-              <p className="text-amber-800">
-                Weekly schedules & class history to manage your courses more
-                efficiently.
+              <p className="text-xs sm:text-sm font-medium text-[var(--color-text-tertiary)] uppercase tracking-wide">
+                Total Sessions
               </p>
+              <p className="text-xl sm:text-2xl font-bold text-white mt-1">
+                24
+              </p>
+            </div>
+            <div className="bg-[var(--color-primary-purple-soft)] p-2 sm:p-3 rounded-lg">
+              <LuBookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--color-primary)]" />
             </div>
           </div>
         </div>
-      </main>
+
+        <div className="card hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs sm:text-sm font-medium text-[var(--color-text-tertiary)] uppercase tracking-wide">
+                Avg. Attendance
+              </p>
+              <p className="text-xl sm:text-2xl font-bold text-white mt-1">
+                87%
+              </p>
+            </div>
+            <div className="bg-[var(--color-success-light)]/20 p-2 sm:p-3 rounded-lg">
+              <LuTrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--color-success)]" />
+            </div>
+          </div>
+        </div>
+
+        <div className="card hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs sm:text-sm font-medium text-[var(--color-text-tertiary)] uppercase tracking-wide">
+                Students
+              </p>
+              <p className="text-xl sm:text-2xl font-bold text-white mt-1">
+                156
+              </p>
+            </div>
+            <div className="bg-[var(--color-primary-cyan-soft)] p-2 sm:p-3 rounded-lg">
+              <LuUsers className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--color-accent)]" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Sessions */}
+      <section className="mb-8 sm:mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-3">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text">
+            Recent Sessions
+          </h2>
+          <Button
+            variant="custom"
+            className="text-sm sm:text-base text-[var(--color-primary)] hover:text-[var(--color-primary-purple-light)] font-semibold transition-colors self-start sm:self-auto"
+            text="View All Sessions"
+            icon={FiArrowRight}
+            iconPosition="right"
+            size="none" onClick={()=>navigate('sessions')}></Button>
+        </div>
+
+        <RecentSession groupedSessions={groupedSessions} />
+      </section>
+
+      {/* Feature Teaser */}
+      <div className="bg-[var(--color-bg-tertiary)] border border-[var(--color-border-accent)] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+          <div className="bg-[var(--color-warning-light)]/20 p-2 sm:p-3 rounded-lg shrink-0">
+            <LuPin className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-warning)]" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-[var(--color-warning-light)] mb-1 sm:mb-2 text-sm sm:text-base">
+              🚀 Coming in v1.5
+            </h3>
+            <p className="text-xs sm:text-sm text-[var(--color-text-secondary)] leading-relaxed">
+              Weekly schedules, automated reminders, and comprehensive class
+              history to streamline your course management workflow.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -12,9 +12,9 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-40">
-      <div className="px-2 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className="bg-white shadow-sm sticky top-0 z-40 w-full">
+      <div className="px-2 sm:px-6 lg:px-8 w-full">
+        <div className="flex justify-between items-center h-16 w-full">
           {/* Logo + Menu */}
           <div className="flex items-center">
             <button

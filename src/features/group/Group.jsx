@@ -110,7 +110,7 @@ const GroupCard = ({ group, index }) => {
         </div>
 
         <button
-          onClick={() => navigate(`/lecturer/groups/info/${group.groupId}`)}
+          onClick={() => navigate(`/lecturer/groups/${group.groupId}/info`)}
           className="w-full bg-white/70 hover:bg-white/90 backdrop-blur-sm text-slate-700 font-semibold py-3 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 group">
           <span>View Details</span>
           <LuChevronRight className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-300" />

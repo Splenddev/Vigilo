@@ -2,9 +2,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from '../App';
 import NotFound from '../pages/NotFound';
 import Home from '../pages/Home';
-import AuthLayout from '../components/layout/AuthLayout';
-import LoginPage from '../features/auth/LoginPage';
-import RegisterPage from '../features/auth/RegisterPage';
 import StudentLayout from '../components/layout/StudentLayout';
 import LecturerLayout from '../components/layout/LecturerLayout';
 import LecturerDashboard from '../features/attendance/LecturerDashboard';
@@ -13,6 +10,7 @@ import Groups from '../features/group/Group';
 import GroupLayout from '../components/layout/GroupLayout';
 import GroupInfo from '../features/group/GroupInfo';
 import Auth from '../pages/Auth';
+import GroupStudents from '../features/group/GroupStudents';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +22,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      // Nested routes for authentication
       {
         path: '/auth',
         element: <Auth />,
@@ -39,11 +36,15 @@ const router = createBrowserRouter([
           { path: 'sessions', element: <SessionList /> },
           {
             path: 'groups',
+            element: <Groups />,
+          },
+          {
+            path: 'groups/:groupId',
             element: <GroupLayout />,
             children: [
-              { index: true, element: <Groups /> },
-              { path: '', element: <Groups /> },
-              { path: 'info/:groupId', element: <GroupInfo /> },
+              { index: true, element: <GroupInfo /> },
+              { path: 'info', element: <GroupInfo /> },
+              { path: 'students', element: <GroupStudents /> },
             ],
           },
         ],

@@ -1,12 +1,7 @@
-const IconText = ({
-  icon: Icon,
-  text,
-  iconClasses = '',
-  containerClass = '',
-}) => {
+const IconText = ({ icon: Icon, text, iconClassName = '', className = '' }) => {
   return (
-    <span className={`flex items-center gap-1.5 ${containerClass}`}>
-      {Icon && <Icon className={`w-3 h-3 ${iconClasses} `} />}
+    <span className={`flex items-center gap-1.5 text-gray-400 ${className}`}>
+      {Icon && <Icon className={`w-3 h-3 ${iconClassName} `} />}
       {text && text}
     </span>
   );

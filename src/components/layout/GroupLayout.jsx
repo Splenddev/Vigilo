@@ -7,22 +7,24 @@ import { itemVariants, navItemVariants } from '../../utils/animationVariants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '../atoms/Button';
 import clsx from 'clsx';
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 
 const navItems = [
-  { to: '/groups', icon: LuUsersRound, label: 'All Groups' },
+  { to: '', icon: LuUsersRound, label: 'All Groups' },
   { to: 'sessions', icon: FaCalendarAlt, label: 'Sessions' },
   { to: 'students', icon: FaBook, label: 'Students' },
 ];
 
 const GroupLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { isMobile } = useBreakpoint();
+  const [collapsed, setCollapsed] = useState(isMobile ? true : false);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <aside
         className={`fixed top-0 mt-13 left-0 h-screen p-4 flex flex-col bg-white shadow-md transition-all duration-300 
-          ${collapsed ? 'w-15' : 'w-64'} `}>
+          ${collapsed ? 'w-15' : 'w-45'} `}>
         {/* Header */}
         <div
           className={`flex items-center ${
@@ -92,7 +94,7 @@ const GroupLayout = () => {
       <main
         className={
           'flex-1' +
-          (collapsed ? ' ml-15' : ' ml-64') +
+          (collapsed ? ' ml-15' : ' ml-45') +
           ' transition-all duration-300'
         }>
         <Outlet />

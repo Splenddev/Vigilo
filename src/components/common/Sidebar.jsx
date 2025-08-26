@@ -14,6 +14,7 @@ import {
   LuFolder,
   LuGraduationCap,
   LuLayoutDashboard,
+  LuLogOut,
   LuSettings,
 } from 'react-icons/lu';
 import { FaHome } from 'react-icons/fa';
@@ -58,7 +59,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </div>
 
         {/* Links */}
-        <nav className="flex flex-col mt p-1.5 min-h-[calc(100dvh-100px)] overflow-y-auto gap-1.5">
+        <nav className="flex flex-col mt p-1.5 min-h-[calc(100dvh-180px)] overflow-y-auto gap-1.5">
           <Anchor
             size="md"
             className="flex gap-3 text-[1rem]"
@@ -115,6 +116,12 @@ const Sidebar = ({ isOpen, onClose }) => {
           </section>
         </nav>
         <section className="mt-auto border-t border-gray-300">
+          <Button
+            size="none"
+            className="flex gap-3 text-[1rem] w-full">
+            <LuLogOut className="text-[19px]" />
+            Log out
+          </Button>
           <Anchor
             // variant="light"
             size="lg"

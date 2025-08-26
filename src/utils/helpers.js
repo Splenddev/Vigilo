@@ -65,9 +65,18 @@ const getPasswordStrengthText = (passwordStrength) => {
   return 'Strong';
 };
 
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+
 export {
   shortenDept,
   checkPasswordStrength,
   getPasswordStrengthColor,
   getPasswordStrengthText,
+  formatDate,
 };

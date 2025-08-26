@@ -23,7 +23,7 @@ const Anchor = ({
 
   const variantClasses = {
     default:
-      'text-black/70 hover:text-white hover:bg-black/10 border border-transparent hover:border-white/10',
+      'text-black/70 hover:bg-primary-purple/9 border border-transparent hover:border-white/10 hover:text-primary-purple-dark',
     primary: '',
     secondary: 'btn-secondary',
     ghost: 'btn-ghost',

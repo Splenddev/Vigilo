@@ -4,7 +4,7 @@ import Navbar from '../common/Navbar';
 
 const LecturerLayout = () => {
   return (
-    <div className="m">
+    <div className="">
       <Navbar />
       <Outlet />
     </div>

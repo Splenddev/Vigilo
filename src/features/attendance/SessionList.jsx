@@ -18,7 +18,8 @@ import {
 } from 'react-icons/lu';
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
-import Grid from '../../components/molecules/Grid';
+import InfoRow from '../../components/molecules/InfoRow';
+import Select from '../../components/molecules/Select';
 // Mock data
 const mockSessions = [
   {
@@ -157,7 +158,12 @@ const SessionList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [filterBy, setFilterBy] = useState('all');
+  const [filters, setFilters] = useState({
+    status: '',
+    type: '',
+    course: '',
+  });
+
   const [showFilters, setShowFilters] = useState(false);
   const [selectedSessions, setSelectedSessions] = useState([]);
   const [showActions, setShowActions] = useState({});
@@ -193,33 +199,20 @@ const SessionList = () => {
     }
 
     // Apply course filter
-    if (filterBy !== 'all') {
-      if (filterBy === 'adhoc') {
-        filtered = filtered.filter((session) => !session.course);
-      } else if (filterBy === 'scheduled') {
-        filtered = filtered.filter((session) => session.status === 'scheduled');
-      } else if (filterBy === 'completed') {
-        filtered = filtered.filter((session) => session.status === 'completed');
-      } else if (filterBy === 'ongoing') {
-        filtered = filtered.filter((session) => session.status === 'ongoing');
-      } else if (filterBy === 'lecture') {
-        filtered = filtered.filter(
-          (session) => session.sessionType === 'lecture'
-        );
-      } else if (filterBy === 'lab') {
-        filtered = filtered.filter((session) => session.sessionType === 'lab');
-      } else if (filterBy === 'seminar') {
-        filtered = filtered.filter(
-          (session) => session.sessionType === 'seminar'
-        );
-      } else if (filterBy === 'workshop') {
-        filtered = filtered.filter(
-          (session) => session.sessionType === 'workshop'
-        );
+
+    if (filters.status) {
+      filtered = filtered.filter((s) => s.status === filters.status);
+    }
+
+    if (filters.type) {
+      filtered = filtered.filter((s) => s.sessionType === filters.type);
+    }
+
+    if (filters.course) {
+      if (filters.course === 'adhoc') {
+        filtered = filtered.filter((s) => !s.course);
       } else {
-        filtered = filtered.filter(
-          (session) => session.course?.id === filterBy
-        );
+        filtered = filtered.filter((s) => s.course?.id === filters.course);
       }
     }
 
@@ -261,7 +254,7 @@ const SessionList = () => {
     });
 
     setFilteredSessions(filtered);
-  }, [sessions, searchTerm, sortBy, sortOrder, filterBy]);
+  }, [sessions, searchTerm, sortBy, sortOrder, filters]);
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
@@ -341,7 +334,7 @@ const SessionList = () => {
       ...new Set(
         sessions
           .filter((s) => s.course)
-          .map((s) => ({ id: s.course.id, name: s.course.name }))
+          .map((s) => ({ value: s.course.id, label: s.course.name }))
           .map((c) => JSON.stringify(c))
       ),
     ].map((c) => JSON.parse(c));
@@ -377,8 +370,8 @@ const SessionList = () => {
             <Button
               onClick={() => setShowFilters(!showFilters)}
               className="border border-gray-300 rounded-lg hover:bg-gray-50 text-sm"
-              variant="outline"
-              size="md">
+              variant="primary"
+              size="sm">
               <LuFilter className="w-4 h-4" />
               Filter
             </Button>
@@ -388,68 +381,81 @@ const SessionList = () => {
         {/* Filters */}
         {showFilters && (
           <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {/* Course Filter */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Filter by
-                </label>
-                <select
-                  value={filterBy}
-                  onChange={(e) => setFilterBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                  <option value="all">All Sessions</option>
-                  <optgroup label="Status">
-                    <option value="scheduled">Scheduled</option>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="completed">Completed</option>
-                  </optgroup>
-                  <optgroup label="Type">
-                    <option value="lecture">Lectures</option>
-                    <option value="lab">Labs</option>
-                    <option value="seminar">Seminars</option>
-                    <option value="workshop">Workshops</option>
-                    <option value="adhoc">Ad-hoc Sessions</option>
-                  </optgroup>
-                  <optgroup label="Courses">
-                    {getUniqueFilter().map((course) => (
-                      <option
-                        key={course.id}
-                        value={course.id}>
-                        {course.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                </select>
-              </div>
+              <Select
+                label="Status"
+                onChange={(e) =>
+                  setFilters((p) =>
+                    e.target.value
+                      ? { ...p, status: e.target.value }
+                      : { ...p, status: '' }
+                  )
+                }
+                value={filters.status}
+                options={[
+                  { value: 'scheduled', label: 'Scheduled' },
+                  { value: 'ongoing', label: 'Ongoing' },
+                  { value: 'completed', label: 'Completed' },
+                ]}
+                placeholder="All"
+              />
+              <Select
+                label="Type"
+                onChange={(e) =>
+                  setFilters((p) =>
+                    e.target.value
+                      ? { ...p, type: e.target.value }
+                      : { ...p, type: '' }
+                  )
+                }
+                value={filters.type}
+                options={[
+                  { value: 'lecture', label: 'Lecture' },
+                  { value: 'lab', label: 'Lab' },
+                  { value: 'seminar', label: 'Seminar' },
+                  { value: 'workshop', label: 'Workshop' },
+                  { value: 'adhoc', label: 'Ad-hoc Session' },
+                ]}
+                placeholder="All"
+              />
+              <Select
+                label="Courses"
+                value={filters.course}
+                onChange={(e) =>
+                  setFilters((p) =>
+                    e.target.value
+                      ? { ...p, course: e.target.value }
+                      : { ...p, course: '' }
+                  )
+                }
+                options={getUniqueFilter()}
+                placeholder="All"
+              />
 
-              {/* Sort By */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Sort by
-                </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                  <option value="date">Date & Time</option>
-                  <option value="course">Course Name</option>
-                  <option value="location">Location</option>
-                  <option value="duration">Duration</option>
-                  <option value="attendance">Attendance Rate</option>
-                </select>
-              </div>
+              <Select
+                label="Sort By"
+                onChange={(e) => setSortBy(e.target.value)}
+                value={sortBy}
+                options={[
+                  { value: 'date', label: 'Date' },
+                  { value: 'course', label: 'Course Name' },
+                  { value: 'location', label: 'Location' },
+                  { value: 'duration', label: 'Duration' },
+                  { value: 'attendance', label: 'Attendance Rate' },
+                ]}
+              />
 
               {/* Sort Order */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2 ">
                   Order
                 </label>
                 <button
                   onClick={() =>
                     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                   }
-                  className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-white text-sm font-medium w-full justify-center">
+                  className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:text-gray-800 hover:bg-white text-sm font-medium w-full justify-center">
                   {sortOrder === 'asc' ? (
                     <>
                       <FaSortUp className="w-4 h-4" />
@@ -547,24 +553,24 @@ const SessionList = () => {
                   </td>
 
                   <td className="px-4 py-4">
-                    <Grid
-                      baseIcon={LuBookOpen}
-                      containerStyle="items-start text-sm font-medium"
-                      iconStyle="text-secondary w-6 h-6"
-                      baseText={session.course?.name || 'Unnamed Session'}>
+                    <InfoRow
+                      icon={LuBookOpen}
+                      className="items-start text-sm font-medium truncate"
+                      iconClassName="text-secondary"
+                      label={session.course?.name || 'Unnamed Session'}>
                       {session.course && (
                         <IconText
                           text={session.course.id}
-                          containerClass="text-xs text-gray-500"
+                          className="text-xs text-gray-500"
                         />
                       )}
                       <IconText
                         text={session.sessionType}
-                        containerClass={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${getSessionTypeColor(
+                        className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${getSessionTypeColor(
                           session.sessionType
                         )}`}
                       />
-                    </Grid>
+                    </InfoRow>
                     {/* <div className="flex ">
                       <LuBookOpen className=" text-secondary mr-2 mt-0.5" />
                       <div className="min-w-0 flex-1">
@@ -589,23 +595,20 @@ const SessionList = () => {
                   </td>
 
                   <td className="px-4 py-4">
-                    <div className="flex items-center">
-                      <LuMapPin className="w-4 h-4 mr-1 text-gray-400" />
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center text-xs text-gray-500 mt-1">
-                          <span className="truncate">
-                            {session.location?.room},{' '}
-                            {session.location?.building}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <InfoRow
+                      label={session.location?.room}
+                      icon={LuMapPin}>
+                      <IconText
+                        className="truncate"
+                        text={session.location?.building}
+                      />
+                    </InfoRow>
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <Grid
-                      baseIcon={LuCalendar}
-                      baseText={formatDate(session.date)}>
+                    <InfoRow
+                      icon={LuCalendar}
+                      label={formatDate(session.date)}>
                       <IconText
                         icon={LuClock}
                         text={session.time}
@@ -614,22 +617,22 @@ const SessionList = () => {
                         icon={LuTimer}
                         text={formatDuration(session.duration)}
                       />
-                    </Grid>
+                    </InfoRow>
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <Grid
-                      baseIcon={LuUsers}
-                      baseText={`${session.attendance.present}/
+                    <InfoRow
+                      icon={LuUsers}
+                      label={`${session.attendance.present}/
                           ${session.attendance.total}`}
                       iconStyle="text-primary">
                       <IconText
-                        containerClass={`font-semibold ${getAttendanceColor(
+                        className={`font-semibold ${getAttendanceColor(
                           attendanceRate
                         )}`}
                         text={`${attendanceRate}% present`}
                       />
-                    </Grid>
+                    </InfoRow>
                   </td>
 
                   <td className="px-4 py-4 whitespace-nowrap">
@@ -701,7 +704,7 @@ const SessionList = () => {
             No sessions found
           </h3>
           <p className="text-gray-500">
-            {searchTerm || filterBy !== 'all'
+            {searchTerm || filters !== 'all'
               ? 'Try adjusting your search or filters'
               : "You haven't created any sessions yet"}
           </p>
