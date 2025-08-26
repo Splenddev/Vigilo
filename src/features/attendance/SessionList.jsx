@@ -21,6 +21,8 @@ import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
 import InfoRow from '../../components/molecules/InfoRow';
 import Select from '../../components/molecules/Select';
+import { formatDate } from '../../utils/helpers';
+import { getSessionTypeColor } from '../../hooks/useAttendance';
 // Mock data
 const mockSessions = [
   {
@@ -257,15 +259,6 @@ const SessionList = () => {
     setFilteredSessions(filtered);
   }, [sessions, searchTerm, sortBy, sortOrder, filters]);
 
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
   const formatDuration = (minutes) => {
     if (!minutes) return 'N/A';
     const hours = Math.floor(minutes / 60);
@@ -285,21 +278,6 @@ const SessionList = () => {
     if (rate >= 90) return 'text-green-600';
     if (rate >= 75) return 'text-yellow-600';
     return 'text-red-600';
-  };
-
-  const getSessionTypeColor = (type) => {
-    switch (type) {
-      case 'lecture':
-        return 'bg-blue-100 text-blue-800';
-      case 'lab':
-        return 'bg-purple-100 text-purple-800';
-      case 'seminar':
-        return 'bg-indigo-100 text-indigo-800';
-      case 'workshop':
-        return 'bg-orange-100 text-orange-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
   };
 
   const handleSelectSession = (sessionId) => {
@@ -344,13 +322,13 @@ const SessionList = () => {
   };
 
   return (
-    <div className="bg-white p-4">
+    <div className="card text-white">
       {/* Header */}
       <div className="py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Sessions</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <h2 className="text-xl font-semibold text-white">Sessions</h2>
+            <p className="text-sm text-gray-300 mt-1">
               {filteredSessions.length} of {sessions.length} sessions
             </p>
           </div>
@@ -358,20 +336,20 @@ const SessionList = () => {
           {/* Search and Actions */}
           <div className="flex items-center gap-3 flex-wrap">
             <div className="relative group">
-              <LuSearch className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 group-focus-within:text-secondary transition duration-300" />
+              <LuSearch className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 group-focus-within:text-purple-400 transition duration-300" />
               <input
                 type="text"
                 placeholder="Search sessions, locations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent text-sm outline-0 transition duration-300"
+                className="flex-1 pl-9 pr-4 py-2 bg-white/5 border border-white/20 text-white placeholder-gray-400 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:bg-white/10 text-sm outline-0 transition-all duration-300"
               />
             </div>
 
             {!showFilters && (
               <Button
                 onClick={() => setShowFilters(!showFilters)}
-                className="border border-gray-300 rounded-lg hover:bg-gray-50 text-sm"
+                className="btn-secondary text-sm"
                 variant="primary"
                 size="sm">
                 <LuFilter className="w-4 h-4" />
@@ -383,9 +361,9 @@ const SessionList = () => {
 
         {/* Filters */}
         {showFilters && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+          <div className="mt-4 p-4 glass rounded-2xl">
             <div
-              className="place-self-end cursor-pointer text-xl"
+              className="place-self-end cursor-pointer text-xl text-gray-300 hover:text-white transition-colors"
               onClick={() => setShowFilters(!showFilters)}>
               <LuX />
             </div>
@@ -457,14 +435,14 @@ const SessionList = () => {
 
               {/* Sort Order */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2 ">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Order
                 </label>
                 <button
                   onClick={() =>
                     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                   }
-                  className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:text-gray-800 hover:bg-white text-sm font-medium w-full justify-center">
+                  className="flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/20 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 hover:border-purple-500/50 text-sm font-medium w-full justify-center transition-all duration-200">
                   {sortOrder === 'asc' ? (
                     <>
                       <FaSortUp className="w-4 h-4" />
@@ -485,23 +463,23 @@ const SessionList = () => {
 
       {/* Bulk Actions */}
       {selectedSessions.length > 0 && (
-        <div className="px-4 py-3 bg-blue-50 border-b border-gray-300">
+        <div className="px-4 py-3 bg-purple-900/30 border border-purple-500/30 rounded-xl mb-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-blue-700 font-medium">
+            <span className="text-sm text-purple-300 font-medium">
               {selectedSessions.length} session(s) selected
             </span>
             <div className="flex items-center gap-2">
               <Button
                 variant="secondary"
                 size="sm"
-                className="px-3 py-1 text-sm font-medium text-blue-700 hover:bg-blue-100 rounded-lg">
+                className="px-3 py-1 text-sm font-medium text-cyan-300 hover:text-cyan-200 hover:bg-cyan-900/20 rounded-xl border border-cyan-500/30">
                 <FaFileExport />
                 Export
               </Button>
               <Button
                 variant="custom"
                 size="sm"
-                className="px-3 py-1 text-sm font-medium text-white bg-danger-dark hover:bg-danger rounded-lg">
+                className="btn-danger px-3 py-1 text-sm font-medium">
                 <LuTrash /> Delete
               </Button>
             </div>
@@ -512,7 +490,7 @@ const SessionList = () => {
       {/* Session List */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-b-gray-200">
+          <thead className="glass-strong border-b border-white/10">
             <tr>
               <th className="px-4 py-3 text-left">
                 <input
@@ -522,42 +500,42 @@ const SessionList = () => {
                     filteredSessions.length > 0
                   }
                   onChange={handleSelectAll}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500 focus:ring-offset-0"
                 />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Course & Type
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Location
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Date & Time
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Attendance
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-            {filteredSessions.map((session) => {
+          <tbody className="divide-y divide-white/10">
+            {filteredSessions.map((session, index) => {
               const attendanceRate = getAttendanceRate(session.attendance);
               return (
                 <tr
-                  key={session.id}
-                  className="hover:bg-gray-50">
-                  <td className="px-4 py-4 ">
+                  key={`session-${session.id}-${index}`}
+                  className="hover:bg-white/5 transition-colors duration-200">
+                  <td className="px-4 py-4">
                     <input
                       type="checkbox"
                       checked={selectedSessions.includes(session.id)}
                       onChange={() => handleSelectSession(session.id)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500 focus:ring-offset-0"
                     />
                   </td>
 
@@ -565,12 +543,12 @@ const SessionList = () => {
                     <InfoRow
                       icon={LuBookOpen}
                       className="items-start text-sm font-medium truncate"
-                      iconClassName="text-secondary"
+                      iconClassName="text-purple-400"
                       label={session.course?.name || 'Unnamed Session'}>
                       {session.course && (
                         <IconText
                           text={session.course.id}
-                          className="text-xs text-gray-500"
+                          className="text-xs text-gray-400"
                         />
                       )}
                       <IconText
@@ -580,35 +558,15 @@ const SessionList = () => {
                         )}`}
                       />
                     </InfoRow>
-                    {/* <div className="flex ">
-                      <LuBookOpen className=" text-secondary mr-2 mt-0.5" />
-                      <div className="min-w-0 flex-1">
-                        <div className="text-sm font-medium text-gray-900 truncate">
-                          {session.course?.name || 'Unnamed Session'}
-                        </div>
-                        <div className="flex items-center gap-2 mt-1">
-                          {session.course && (
-                            <span className="text-xs text-gray-500">
-                              {session.course.id}
-                            </span>
-                          )}
-                          <span
-                            className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${getSessionTypeColor(
-                              session.sessionType
-                            )}`}>
-                            {session.sessionType}
-                          </span>
-                        </div>
-                      </div>
-                    </div> */}
                   </td>
 
                   <td className="px-4 py-4">
                     <InfoRow
                       label={session.location?.room}
-                      icon={LuMapPin}>
+                      icon={LuMapPin}
+                      iconClassName="text-pink-400">
                       <IconText
-                        className="truncate"
+                        className="truncate text-gray-300"
                         text={session.location?.building}
                       />
                     </InfoRow>
@@ -617,14 +575,17 @@ const SessionList = () => {
                   <td className="px-4 py-4 whitespace-nowrap">
                     <InfoRow
                       icon={LuCalendar}
+                      iconClassName="text-cyan-400"
                       label={formatDate(session.date)}>
                       <IconText
                         icon={LuClock}
                         text={session.time}
+                        className="text-gray-300"
                       />
                       <IconText
                         icon={LuTimer}
                         text={formatDuration(session.duration)}
+                        className="text-gray-300"
                       />
                     </InfoRow>
                   </td>
@@ -634,7 +595,7 @@ const SessionList = () => {
                       icon={LuUsers}
                       label={`${session.attendance.present}/
                           ${session.attendance.total}`}
-                      iconStyle="text-primary">
+                      iconClassName="text-purple-400">
                       <IconText
                         className={`font-semibold ${getAttendanceColor(
                           attendanceRate
@@ -648,10 +609,10 @@ const SessionList = () => {
                     <span
                       className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         session.status === 'completed'
-                          ? 'bg-green-100 text-green-800'
+                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
                           : session.status === 'ongoing'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-yellow-100 text-yellow-800'
+                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                          : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
                       }`}>
                       {session.status}
                     </span>
@@ -661,35 +622,35 @@ const SessionList = () => {
                     <div className="relative">
                       <button
                         onClick={() => toggleActions(session.id)}
-                        className="p-1 rounded-lg hover:bg-gray-100 text-gray-500">
+                        className="p-1 rounded-lg hover:bg-white/10 text-gray-300 hover:text-white transition-colors duration-200">
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
 
                       {showActions[session.id] && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-gray-200 z-10">
+                        <div className="absolute right-0 mt-2 w-48 glass-strong rounded-xl shadow-xl ring-1 ring-white/10 z-10">
                           <div className="py-1">
                             <button
                               onClick={() => handleAction('view', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                              className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
                               <LuEye className="w-4 h-4 mr-3" />
                               View Details
                             </button>
                             <button
                               onClick={() => handleAction('edit', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                              className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
                               <FiEdit3 className="w-4 h-4 mr-3" />
                               Edit Session
                             </button>
                             <button
                               onClick={() => handleAction('export', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                              className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
                               <LuDownload className="w-4 h-4 mr-3" />
                               Export Data
                             </button>
-                            <hr className="my-1" />
+                            <hr className="my-1 border-white/10" />
                             <button
                               onClick={() => handleAction('delete', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                              className="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors duration-200">
                               <LuTrash2 className="w-4 h-4 mr-3" />
                               Delete
                             </button>
@@ -709,10 +670,10 @@ const SessionList = () => {
       {filteredSessions.length === 0 && (
         <div className="text-center py-12">
           <LuBookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <h3 className="text-lg font-medium text-white mb-2">
             No sessions found
           </h3>
-          <p className="text-gray-500">
+          <p className="text-gray-300">
             {searchTerm || filters !== 'all'
               ? 'Try adjusting your search or filters'
               : "You haven't created any sessions yet"}
@@ -721,15 +682,15 @@ const SessionList = () => {
       )}
 
       {/* Footer */}
-      <div className="px-4 py-4 border-t bg-gray-50">
-        <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className="px-4 py-4 border-t border-white/10 glass">
+        <div className="flex items-center justify-between text-sm text-gray-300">
           <span>
             Showing {filteredSessions.length} of {sessions.length} sessions
           </span>
           {selectedSessions.length > 0 && (
             <button
               onClick={() => setSelectedSessions([])}
-              className="text-blue-600 hover:text-blue-800 font-medium">
+              className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-200">
               Clear Selection
             </button>
           )}

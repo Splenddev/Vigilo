@@ -186,7 +186,7 @@
   }
 
   body {
-    @apply text-black;
+    @apply text-white;
     background: var(--gradient-bg-primary);
     font-family: var(--font-sans);
     @apply min-h-screen bg-fixed bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900;

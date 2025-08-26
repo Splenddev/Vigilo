@@ -9,8 +9,7 @@ const InfoRow = ({
 }) => {
   const Icon = icon;
   return (
-    <div
-      className={`flex items-start gap-2.5 text-sm text-gray-900 ${className}`}>
+    <div className={`flex items-start gap-2.5 text-sm  ${className}`}>
       <Icon className={`text-xl text-gray-400 ${iconClassName}`} />
       <div>
         <span>{label}</span>

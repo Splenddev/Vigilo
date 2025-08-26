@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 
 const Anchor = ({
@@ -56,25 +56,26 @@ const Anchor = ({
   const Link = motion(NavLink);
   if (animated) {
     return (
-      <Link
-        to={href}
-        className={({ isActive }) =>
-          clsx(
-            baseClasses,
-            sizeClasses[size],
-            variantClasses[variant],
-            isActive ? activeClasses[active] : '',
-            className
-          )
-        }
-        onClick={func}
-        key={href}
-        initial={{ x: 10, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        {...props}>
-        {children}
-      </Link>
+      <AnimatePresence>
+        <Link
+          to={href}
+          className={({ isActive }) =>
+            clsx(
+              baseClasses,
+              sizeClasses[size],
+              variantClasses[variant],
+              isActive ? activeClasses[active] : '',
+              className
+            )
+          }
+          onClick={func}
+          initial={{ x: 10, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          {...props}>
+          {children}
+        </Link>
+      </AnimatePresence>
     );
   }
 
