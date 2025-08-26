@@ -1,196 +1,125 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { FiHome } from 'react-icons/fi';
 import {
-  containerVariants,
-  itemVariants,
-  sidebarVariants,
-} from '../../utils/animationVariants';
-import Anchor from '../atoms/Anchor';
-import { FiActivity, FiHome, FiX } from 'react-icons/fi';
-import {
-  LuChevronDown,
-  LuChevronRight,
-  LuChevronUp,
-  LuFileText,
-  LuGraduationCap,
-  LuLayoutDashboard,
-  LuLogOut,
-  LuPlus,
+  LuX,
+  LuUsers,
+  LuCalendar,
   LuSettings,
+  LuCircleHelp,
 } from 'react-icons/lu';
-import { useEffect, useRef, useState } from 'react';
-import Button from '../atoms/Button';
+import { useSidebar } from '../../hooks/useSidebar';
+import Anchor from '../atoms/Anchor';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 
-const groups = [{ name: 'CSC101' }, { name: 'MAT101' }];
-const sessions = [{ value: 'New session', icon: LuPlus }];
-
-const Sidebar = ({ isOpen, onClose }) => {
-  const [isExpanded, setIsExpanded] = useState({
-    group: false,
-    session: false,
-  });
+const Sidebar = () => {
+  const { isOpen, close } = useSidebar({ rootId: 'vigilo-sidebar' });
 
   const { pathname } = useLocation();
   const prevPath = useRef(pathname);
 
   useEffect(() => {
     if (prevPath.current !== pathname) {
-      if (isOpen) onClose?.();
+      if (!isOpen) close();
       prevPath.current = pathname;
     }
-  }, [pathname, isOpen, onClose]);
+  }, [pathname, isOpen, close]);
+
+  const sidebarVariants = {
+    hidden: { x: '-100%', opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+    exit: { x: '-100%', opacity: 0 },
+  };
+
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
+  const menuItems = [
+    { icon: FiHome, label: 'Dashboard', href: '/lecturer/dashboard' },
+    { icon: LuUsers, label: 'Students', href: '/lecturer/students' },
+    { icon: LuCalendar, label: 'Sessions', href: '/lecturer/sessions' },
+    { icon: LuSettings, label: 'Settings', href: '/settings' },
+    { icon: LuCircleHelp, label: 'Help', href: '/help' },
+  ];
 
   return (
-    <>
-      {/* Backdrop */}
+    <AnimatePresence>
       {isOpen && (
-        <motion.div
-          className="fixed inset-0 bg-black/30 z-40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { delay: 0.2 } }}
-          onClick={onClose}
-        />
+        <>
+          <motion.div
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={close}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60"
+            transition={{ duration: 0.2 }}
+          />
+
+          <motion.aside
+            variants={sidebarVariants}
+            initial="hidden"
+            animate={isOpen ? 'visible' : 'hidden'}
+            exit="exit"
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="fixed left-0 top-0 bottom-0 h-full w-80 glass-strong border-r border-white/20 z-70 overflow-y-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <h2 className="text-xl font-bold gradient-text">Vigilo</h2>
+              <button
+                onClick={close}
+                className="h-9 w-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 hover:border-red-400/50 transition-all duration-200">
+                <LuX className="w-5 h-5 text-white" />
+              </button>
+            </div>
+
+            {/* Navigation Menu */}
+            <div className="p-6 space-y-2">
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                Navigation
+              </h3>
+
+              {menuItems.map((item, index) => (
+                <Anchor
+                  key={item.label}
+                  href={item.href}
+                  variant="primary"
+                  className="flex items-center px-4 py-3 rounded-xl text-white hover:bg-white/10 border border-transparent hover:border-purple-400/50 transition-all duration-200 group"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  animated>
+                  <item.icon className="w-5 h-5 mr-3 text-gray-300 group-hover:text-purple-400 transition-colors" />
+                  <span className="font-medium group-hover:text-purple-300 transition-colors">
+                    {item.label}
+                  </span>
+                </Anchor>
+              ))}
+            </div>
+
+            {/* User Profile Section */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10 glass">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-white">DR</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">
+                    Dr. Rachel Chen
+                  </p>
+                  <p className="text-xs text-gray-400 truncate">
+                    rachel.chen@vigilo.edu
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.aside>
+        </>
       )}
-
-      {/* Sidebar */}
-      <motion.aside
-        variants={sidebarVariants}
-        initial="hidden"
-        animate={isOpen ? 'visible' : 'hidden'}
-        exit="exit"
-        className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 flex flex-col">
-        {/* Header */}
-        <div className="flex items-center gap-4 p-2  border-b-2 border-b-gray-200">
-          <div className="flex-1 h-14">
-            <img
-              className="h-full"
-              src="/android-chrome-192x192.png"
-            />
-          </div>
-          <Button
-            variant="transparent"
-            onClick={onClose}
-            size="sm"
-            className="rounded-full p-0">
-            <FiX className=" text-gray-700" />
-          </Button>
-        </div>
-
-        {/* Links */}
-        <nav className="flex flex-col mt p-1.5 min-h-[calc(100dvh-180px)] overflow-y-auto gap-1.5">
-          <Anchor
-            size="md"
-            className="flex gap-3 text-[1rem]"
-            href="dashboard">
-            <LuLayoutDashboard className="text-[19px]" />
-            Dashboard
-          </Anchor>
-          <section>
-            <Anchor
-              size="md"
-              href={'sessions'}
-              className="flex gap-3 text-[1rem]"
-              func={() =>
-                setIsExpanded((p) => ({ group: false, session: !p.session }))
-              }>
-              <LuFileText className="text-[19px]" />
-              <span className="flex-1">Sessions</span>
-              <span className="text-danger-dark h-6 w-6 flex items-center justify-center text-[14px] rounded-full bg-red-100">
-                {sessions.length}
-              </span>
-              {isExpanded.session ? <LuChevronUp /> : <LuChevronDown />}
-            </Anchor>
-
-            <AnimatePresence initial={false}>
-              {isExpanded.session && (
-                <motion.div
-                  className="pl-7.5 overflow-hidden"
-                  key="sessions-container"
-                  initial="collapsed"
-                  animate="expanded"
-                  exit="collapsed"
-                  variants={containerVariants}>
-                  {sessions.map((s) => (
-                    <motion.div
-                      key={s.value}
-                      variants={itemVariants}
-                      className="mt-1">
-                      <Anchor
-                        size="md"
-                        href="sessions/new"
-                        className="flex items-center gap-2 text-[1rem]">
-                        <s.icon />
-                        <span className="flex-1">{s.value}</span>
-                        <LuChevronRight />
-                      </Anchor>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </section>
-          <section>
-            <Anchor
-              size="md"
-              href={'groups'}
-              className="flex gap-3 text-[1rem]"
-              func={() =>
-                setIsExpanded((p) => ({ session: false, group: !p.group }))
-              }>
-              <LuGraduationCap className="text-[19px]" />
-              <span className="flex-1">Groups</span>
-              <span className="text-danger-dark h-6 w-6 flex items-center justify-center text-[14px] rounded-full bg-red-100">
-                {groups.length}
-              </span>
-              {isExpanded.group ? <LuChevronUp /> : <LuChevronDown />}
-            </Anchor>
-
-            <AnimatePresence initial={false}>
-              {isExpanded.group && (
-                <motion.div
-                  className="pl-7.5 overflow-hidden"
-                  key="groups-container"
-                  initial="collapsed"
-                  animate="expanded"
-                  exit="collapsed"
-                  variants={containerVariants}>
-                  {groups.map((g) => (
-                    <motion.div
-                      key={g.name}
-                      variants={itemVariants}
-                      className="mt-1">
-                      <Anchor
-                        size="md"
-                        href={`groups/${g.name}`}
-                        className="flex text-[1rem]">
-                        <span className="flex-1">{g.name}</span>
-                        <LuChevronRight />
-                      </Anchor>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </section>
-        </nav>
-        <section className="mt-auto border-t border-gray-300">
-          <Button
-            variant="dangerLight"
-            className="p-4 w-full ">
-            <LuLogOut className="text-[19px]" />
-            Log out
-          </Button>
-          <Anchor
-            variant="light"
-            href="/settings"
-            className="flex  gap-3 text-[1rem]">
-            <LuSettings className="text-[19px]" />
-            Settings
-          </Anchor>
-        </section>
-      </motion.aside>
-    </>
+    </AnimatePresence>
   );
 };
 

@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import {
-  FaUsers,
-  FaBook,
-  FaCalendarAlt,
-  FaGraduationCap,
-} from 'react-icons/fa';
+import { Outlet } from 'react-router-dom';
+import { FaBook, FaGraduationCap } from 'react-icons/fa';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import Anchor from '../atoms/Anchor';
 import { itemVariants, navItemVariants } from '../../utils/animationVariants';

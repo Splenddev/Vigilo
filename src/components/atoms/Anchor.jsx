@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 
 const Anchor = ({
@@ -8,8 +9,8 @@ const Anchor = ({
   func = () => {},
   href = '#',
   size = 'md', // "sm" | "md" | "lg"
-  variant = 'default',
-  // | 'primary' | 'secondary' | 'danger' | 'ghost' | 'glass'
+  variant = 'default', // "default" | "primary" | "secondary" | "ghost" | "glass" | "danger" | "success" | "warning"
+  animated = false,
   ...props
 }) => {
   const baseClasses =
@@ -39,7 +40,7 @@ const Anchor = ({
 
   const activeClasses = {
     default:
-      'text-primary bg-gradient-to-r from-purple-500/20 to-pink-500/10 border-l-4 border-purple-500 bg-white/5 shadow-lg shadow-purple-500/10',
+      'text-primary bg-gradient-to-r from-purple-500/20 to-pink-500/10 border-purple-500 bg-white/5 shadow-lg shadow-purple-500/10',
     primary: 'animate-pulse-glow shadow-lg shadow-purple-500/25',
     secondary: 'border-purple-400 bg-purple-500/20 animate-pulse-glow',
     ghost: 'bg-white/15 border-white/30 animate-pulse-glow',
@@ -51,6 +52,31 @@ const Anchor = ({
     warning:
       'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse-glow',
   };
+
+  const Link = motion(NavLink);
+  if (animated) {
+    return (
+      <Link
+        to={href}
+        className={({ isActive }) =>
+          clsx(
+            baseClasses,
+            sizeClasses[size],
+            variantClasses[variant],
+            isActive ? activeClasses[active] : '',
+            className
+          )
+        }
+        onClick={func}
+        key={href}
+        initial={{ x: 10, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        {...props}>
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <NavLink

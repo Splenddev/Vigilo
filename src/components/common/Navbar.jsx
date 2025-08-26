@@ -5,40 +5,36 @@ import Button from '../atoms/Button';
 import Anchor from '../atoms/Anchor';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fadeIn } from '../../utils/animationVariants';
-import Sidebar from './Sidebar'; // ⬅️ new import
+import { toggleSidebar } from '../../hooks/useSidebar';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-40 w-full">
+    <nav className="glass sticky top-0 z-40 w-full border-b border-white/10">
       <div className="px-2 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-16 w-full">
           {/* Logo + Menu */}
           <div className="flex items-center">
             <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="h-9 w-9 rounded-xl flex items-center justify-center shadow-sm hover:bg-gray-100">
-              <FiMenu className="w-6 h-6 text-gray-700" />
+              onClick={toggleSidebar}
+              className="h-9 w-9 rounded-xl flex items-center justify-center shadow-sm bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200">
+              <FiMenu className="w-6 h-6 text-white" />
             </button>
-            <h1 className="ml-3 text-xl font-semibold text-gray-900">Vigilo</h1>
+            <h1 className="ml-3 text-xl font-semibold gradient-text">Vigilo</h1>
           </div>
 
           {/* Profile Dropdown */}
           <div className="relative">
             <Button
               size="sm"
-              className="hover:bg-gray-50"
+              className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/50 transition-all duration-200"
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               variant="transparent">
-              <div className="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-blue-700">DR</span>
+              <div className="w-7 h-7 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-white">DR</span>
               </div>
-              <span className="text-sm font-medium text-gray-700">
-                Dr. Rachel Chen
-              </span>
-              <LuChevronDown className="w-4 h-4 text-gray-500" />
+              <LuChevronDown className="w-4 h-4 text-gray-300" />
             </Button>
 
             <AnimatePresence>
@@ -48,27 +44,23 @@ const Navbar = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-brand-blue-light z-50 overflow-hidden">
+                  className="absolute right-0 mt-2 w-48 glass-strong rounded-lg shadow-xl border border-white/20 z-50 overflow-hidden">
                   <div className="flex flex-col decoration-0">
-                    {[
-                      { text: 'Profile Settings', to: 'profile' },
-                      { text: 'Help Center', to: 'help' },
-                      {
-                        text: 'Sign Out',
-                        func: () => alert('Logged Out'),
-                        style: 'text-red-600 hover:bg-red-50',
-                      },
-                    ].map((link) => (
-                      <Anchor
-                        key={link.text}
-                        size="sm"
-                        variant="light"
-                        href={link.to || null}
-                        func={link.func}
-                        className={`px-4 py-2 rounded-none ${link.style}`}>
-                        {link.text}
-                      </Anchor>
-                    ))}
+                    {[{ text: 'Profile Settings', to: 'profile' }].map(
+                      (link) => (
+                        <Anchor
+                          key={link.text}
+                          size="sm"
+                          variant="light"
+                          href={link.to ?? '#'}
+                          func={link.func}
+                          className={`px-4 py-2 rounded-none text-white hover:bg-white/10 transition-all duration-200 ${
+                            link.style || ''
+                          }`}>
+                          {link.text}
+                        </Anchor>
+                      )
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -76,16 +68,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
-      {/* Sidebar */}
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <Sidebar
-            isOpen={isSidebarOpen}
-            onClose={() => setIsSidebarOpen(false)}
-          />
-        )}
-      </AnimatePresence>
     </nav>
   );
 };
