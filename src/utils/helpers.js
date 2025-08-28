@@ -8,7 +8,7 @@ const deptAbbreviations = {
   'computer science': 'CSC',
   'mechanical engineering': 'MEE',
   'electrical engineering': 'EEE',
-  mathematics: 'MTH',
+  mathematics: 'MAT',
   microbiology: 'MCB',
   physics: 'PHY',
   statistics: 'STA',

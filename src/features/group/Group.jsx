@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { groups } from '../../utils/data';
 import { cardVariants } from '../../utils/animationVariants'; /* eslint-disable no-unused-vars */
 import { motion } from 'framer-motion';
+import { shortenDept } from '../../utils/helpers';
 
 const GroupCard = ({ group, index }) => {
   const totalStudents = group.students.length;
@@ -19,14 +20,6 @@ const GroupCard = ({ group, index }) => {
   ).length;
 
   const navigate = useNavigate();
-
-  const shortenDept = (department) => {
-    const words = department.split(' ');
-    if (words.length > 2) {
-      return words.map((word) => word.charAt(0).toUpperCase()).join('');
-    }
-    return department;
-  };
 
   const handleViewDetails = () => {
     navigate(`${group.groupId}/info`);
@@ -59,7 +52,7 @@ const GroupCard = ({ group, index }) => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
           <StatCard
             icon={LuUsers}
             value={totalStudents}

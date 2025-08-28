@@ -23,8 +23,7 @@ const Button = ({
 
   const variantClasses = {
     primary: 'btn-primary font-semibold ',
-    secondary:
-      'btn-secondary text-[var(--color-primary)] hover:bg-purple-500/50 hover:text-white font-semibold ',
+    secondary: 'btn-secondary font-semibold ',
     ghost: 'font-semibold btn-ghost',
     custom: '',
     danger:

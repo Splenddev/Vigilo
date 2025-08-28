@@ -55,11 +55,11 @@
   /* Button styles */
   .btn-primary {
     background: var(--gradient-primary);
-    @apply text-white hover:scale-103 transform transition-all duration-200 shadow-lg;
+    @apply text-white hover:shadow-purple-500/25 hover:scale-103 transform transition-all hover:from-purple-700 hover:to-pink-700 duration-200 shadow-lg;
   }
 
   .btn-secondary {
-    @apply border-2 border-purple-500/50 rounded-xl hover:border-purple-400  transition-all duration-200;
+    @apply text-white border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200;
   }
 
   .btn-ghost {
