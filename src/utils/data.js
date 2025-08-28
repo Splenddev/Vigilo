@@ -1,7 +1,7 @@
 const groups = [
   {
     groupName: 'Class of Biochemistry – 300 Level',
-    groupId: 'bch-24__25-300l',
+    groupId: 'c1',
     courseId: 'BCH301',
     targets: '300 Level Biochemistry',
     academicYear: { start: '2024-09-01', end: '2025-07-15' },

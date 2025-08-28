@@ -14,9 +14,27 @@ export const containerVariants = {
   },
 };
 
+export const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.15, duration: 0.5, ease: 'easeOut' },
+  }),
+};
+
+export const expandVariants = {
+  collapsed: { opacity: 0, height: 0 },
+  expanded: { opacity: 1, height: 'auto', transition: { duration: 0.4 } },
+};
+
 export const itemVariants = {
-  collapsed: { opacity: 0, x: -15 },
-  expanded: { opacity: 1, x: 0 },
+  collapsed: { opacity: 0, y: 20 },
+  expanded: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.4 },
+  }),
 };
 
 export const labelVariants = {

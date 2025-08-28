@@ -106,6 +106,7 @@ export default {
     container: containerConfig,
 
     extend: {
+      screen: { xs: '480px', hd: '1440px' },
       // Colors with semantic aliases
       colors: {
         // Primary brand colors

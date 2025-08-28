@@ -23,6 +23,7 @@ import InfoRow from '../../components/molecules/InfoRow';
 import Select from '../../components/molecules/Select';
 import { formatDate } from '../../utils/helpers';
 import { getSessionTypeColor } from '../../hooks/useAttendance';
+import { useLocation } from 'react-router-dom';
 // Mock data
 const mockSessions = [
   {
@@ -123,7 +124,7 @@ const mockSessions = [
   },
   {
     id: 5,
-    course: { id: 'c1', name: 'Computer Science in Biological Science 101' },
+    course: { id: 'c7', name: 'Computer Science in Biological Science 101' },
     instructor: {
       id: 'i5',
       name: 'Dr. Lisa Park',
@@ -161,10 +162,11 @@ const SessionList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
+  const { state } = useLocation();
   const [filters, setFilters] = useState({
     status: '',
     type: '',
-    course: '',
+    course: state?.id || '',
   });
 
   const [showFilters, setShowFilters] = useState(false);
@@ -627,7 +629,7 @@ const SessionList = () => {
                       </button>
 
                       {showActions[session.id] && (
-                        <div className="absolute right-0 mt-2 w-48 glass-strong rounded-xl shadow-xl ring-1 ring-white/10 z-10">
+                        <div className="absolute right-0 mt-2 w-48 bg-bg-secondary rounded-xl shadow-xl ring-1 ring-white/10 z-10">
                           <div className="py-1">
                             <button
                               onClick={() => handleAction('view', session.id)}

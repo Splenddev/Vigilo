@@ -6,6 +6,7 @@ import {
   LuCalendar,
   LuSettings,
   LuCircleHelp,
+  LuClipboardList,
 } from 'react-icons/lu';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
@@ -23,7 +24,7 @@ const Sidebar = () => {
       if (!isOpen) close();
       prevPath.current = pathname;
     }
-  }, [pathname, isOpen, close]);
+  }, [pathname]);
 
   const sidebarVariants = {
     hidden: { x: '-100%', opacity: 0 },
@@ -38,9 +39,10 @@ const Sidebar = () => {
   };
 
   const menuItems = [
-    { icon: FiHome, label: 'Dashboard', href: '/lecturer/dashboard' },
+    { icon: FiHome, label: 'Home', href: '/lecturer/dashboard' },
+    { icon: LuClipboardList, label: 'Sessions', href: '/lecturer/sessions' },
+    { icon: LuCalendar, href: '/lecturer/groups', label: 'Groups' },
     { icon: LuUsers, label: 'Students', href: '/lecturer/students' },
-    { icon: LuCalendar, label: 'Sessions', href: '/lecturer/sessions' },
     { icon: LuSettings, label: 'Settings', href: '/settings' },
     { icon: LuCircleHelp, label: 'Help', href: '/help' },
   ];

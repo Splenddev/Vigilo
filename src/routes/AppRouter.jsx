@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
 import App from '../App';
 import NotFound from '../pages/NotFound';
 import Home from '../pages/Home';
@@ -12,6 +16,7 @@ import GroupInfo from '../features/group/GroupInfo';
 import Auth from '../pages/Auth';
 import GroupStudents from '../features/group/GroupStudents';
 import CreateSession from '../features/attendance/CreateSession';
+import UserProfile from '../pages/UserProfile';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +37,15 @@ const router = createBrowserRouter([
         path: '/lecturer',
         element: <LecturerLayout />,
         children: [
-          { index: true, element: <LecturerDashboard /> },
+          {
+            index: true,
+            element: (
+              <Navigate
+                to="dashboard"
+                replace
+              />
+            ),
+          },
           { path: 'dashboard', element: <LecturerDashboard /> },
           { path: 'sessions', element: <SessionList /> },
           { path: 'sessions/new', element: <CreateSession /> },
@@ -52,6 +65,7 @@ const router = createBrowserRouter([
         ],
       },
       { path: '/student', element: <StudentLayout /> },
+      { path: '/profile', element: <UserProfile /> },
     ],
   },
 ]);

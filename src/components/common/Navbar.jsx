@@ -45,16 +45,16 @@ const Navbar = () => {
                   animate="visible"
                   exit="exit"
                   className="absolute right-0 mt-2 w-48 glass-strong rounded-lg shadow-xl border border-white/20 z-50 overflow-hidden">
-                  <div className="flex flex-col decoration-0">
-                    {[{ text: 'Profile Settings', to: 'profile' }].map(
+                  <div className="flex flex-col decoration-0 bg-bg-tertiary overflow-hidden">
+                    {[{ text: 'Profile Settings', to: '/profile' }].map(
                       (link) => (
                         <Anchor
                           key={link.text}
                           size="sm"
                           variant="light"
-                          href={link.to ?? '#'}
+                          href={link.to}
                           func={link.func}
-                          className={`px-4 py-2 rounded-none text-white hover:bg-white/10 transition-all duration-200 ${
+                          className={`px-4 py-2 rounded-none text-white hover:bg-white/10 transition-all   duration-200 ${
                             link.style || ''
                           }`}>
                           {link.text}

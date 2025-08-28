@@ -12,10 +12,10 @@ const VARIANTS = {
     icon: 'text-slate-300',
   },
   glass: {
-    card: 'bg-white/60 backdrop-blur-sm hover:bg-white/80',
-    value: 'text-slate-800',
-    label: 'text-slate-600',
-    icon: 'text-slate-600',
+    card: 'glass-strong',
+    value: 'text-white',
+    label: 'text-white font-semibold',
+    icon: 'text-slate-200',
   },
 };
 
