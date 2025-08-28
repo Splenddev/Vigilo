@@ -16,6 +16,7 @@ import {
   LuMapPin,
   LuTimer,
   LuX,
+  LuFileOutput,
 } from 'react-icons/lu';
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
@@ -24,6 +25,7 @@ import Select from '../../components/molecules/Select';
 import { formatDate } from '../../utils/helpers';
 import { getSessionTypeColor } from '../../hooks/useAttendance';
 import { useLocation } from 'react-router-dom';
+import LabelCheckbox from '../../components/atoms/LabelCheckbox';
 // Mock data
 const mockSessions = [
   {
@@ -324,9 +326,9 @@ const SessionList = () => {
   };
 
   return (
-    <div className="card text-white">
+    <div className="glass p-6 text-white">
       {/* Header */}
-      <div className="py-4">
+      <div className="pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold text-white">Sessions</h2>
@@ -351,9 +353,8 @@ const SessionList = () => {
             {!showFilters && (
               <Button
                 onClick={() => setShowFilters(!showFilters)}
-                className="btn-secondary text-sm"
-                variant="primary"
-                size="sm">
+                className="text-sm glass"
+                variant="custom">
                 <LuFilter className="w-4 h-4" />
                 Filter
               </Button>
@@ -471,17 +472,13 @@ const SessionList = () => {
               {selectedSessions.length} session(s) selected
             </span>
             <div className="flex items-center gap-2">
-              <Button
-                variant="secondary"
-                size="sm"
-                className="px-3 py-1 text-sm font-medium text-cyan-300 hover:text-cyan-200 hover:bg-cyan-900/20 rounded-xl border border-cyan-500/30">
-                <FaFileExport />
+              <Button>
+                <LuFileOutput />
                 Export
               </Button>
               <Button
                 variant="custom"
-                size="sm"
-                className="btn-danger px-3 py-1 text-sm font-medium">
+                className="btn-danger px-3 py-1 text-sm font-semibold">
                 <LuTrash /> Delete
               </Button>
             </div>
@@ -495,14 +492,12 @@ const SessionList = () => {
           <thead className="glass-strong border-b border-white/10">
             <tr>
               <th className="px-4 py-3 text-left">
-                <input
-                  type="checkbox"
+                <LabelCheckbox
                   checked={
                     selectedSessions.length === filteredSessions.length &&
                     filteredSessions.length > 0
                   }
                   onChange={handleSelectAll}
-                  className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500 focus:ring-offset-0"
                 />
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
@@ -533,11 +528,9 @@ const SessionList = () => {
                   key={`session-${session.id}-${index}`}
                   className="hover:bg-white/5 transition-colors duration-200">
                   <td className="px-4 py-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedSessions.includes(session.id)}
+                    <LabelCheckbox
                       onChange={() => handleSelectSession(session.id)}
-                      className="rounded border-white/20 bg-white/5 text-purple-500 focus:ring-purple-500 focus:ring-offset-0"
+                      checked={selectedSessions.includes(session.id)}
                     />
                   </td>
 
@@ -547,12 +540,6 @@ const SessionList = () => {
                       className="items-start text-sm font-medium truncate"
                       iconClassName="text-purple-400"
                       label={session.course?.name || 'Unnamed Session'}>
-                      {session.course && (
-                        <IconText
-                          text={session.course.id}
-                          className="text-xs text-gray-400"
-                        />
-                      )}
                       <IconText
                         text={session.sessionType}
                         className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${getSessionTypeColor(
@@ -682,22 +669,6 @@ const SessionList = () => {
           </p>
         </div>
       )}
-
-      {/* Footer */}
-      <div className="px-4 py-4 border-t border-white/10 glass">
-        <div className="flex items-center justify-between text-sm text-gray-300">
-          <span>
-            Showing {filteredSessions.length} of {sessions.length} sessions
-          </span>
-          {selectedSessions.length > 0 && (
-            <button
-              onClick={() => setSelectedSessions([])}
-              className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-200">
-              Clear Selection
-            </button>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

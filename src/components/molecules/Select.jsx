@@ -28,7 +28,7 @@ const Select = ({
     solid:
       'bg-[var(--color-primary-purple-soft)] border border-[var(--color-border-accent)] text-gray-900 focus:ring-2 focus:ring-[var(--color-primary)]',
     outline:
-      'border border-gray-300 bg-transparent text-gray-800 focus:ring-2 focus:ring-[var(--color-primary)]',
+      'border border-gray-300 bg-transparent text-gray-100 focus:ring-2 focus:ring-[var(--color-primary)] glass',
     ghost:
       'bg-transparent border-none text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-[var(--color-primary)]',
   };
@@ -43,7 +43,7 @@ const Select = ({
   return (
     <div className={clsx('flex flex-col gap-2', fullWidth && 'w-full')}>
       {label && (
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-medium text-gray-300">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}

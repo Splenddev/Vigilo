@@ -12,7 +12,7 @@ const Button = ({
   ...props
 }) => {
   const baseClasses =
-    'flex items-center gap-2 font-semibold transition-all duration-200';
+    'flex cursor-pointer items-center gap-2 transition-all duration-200';
 
   const sizeClasses = {
     sm: 'text-body-xs px-2.5 py-1.5 rounded-xl',
@@ -22,15 +22,15 @@ const Button = ({
   };
 
   const variantClasses = {
-    primary: 'btn-primary',
+    primary: 'btn-primary font-semibold ',
     secondary:
-      'btn-secondary text-[var(--color-primary)] hover:bg-purple-500/50 hover:text-white',
-    ghost: 'btn-ghost',
+      'btn-secondary text-[var(--color-primary)] hover:bg-purple-500/50 hover:text-white font-semibold ',
+    ghost: 'font-semibold btn-ghost',
     custom: '',
     danger:
-      'btn-danger bg-red-500 text-white hover:bg-red-600 active:bg-red-700 border border-red-600',
+      'btn-danger bg-red-500 text-white hover:bg-red-600 active:bg-red-700 font-semibold border border-red-600',
     dangerLight:
-      'btn-danger-light text-red-600 hover:text-red-700 active:text-red-800',
+      'btn-danger-light font-semibold text-red-600 hover:text-red-700 active:text-red-800',
   };
 
   return (

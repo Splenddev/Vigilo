@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LuChevronDown } from 'react-icons/lu';
 import { FiMenu } from 'react-icons/fi';
 import Button from '../atoms/Button';
-import Anchor from '../atoms/Anchor';
+import Anchor from '../atoms/Anchor'; /* eslint-disable no-unused-vars */
 import { AnimatePresence, motion } from 'framer-motion';
 import { fadeIn } from '../../utils/animationVariants';
 import { toggleSidebar } from '../../hooks/useSidebar';
@@ -18,10 +18,12 @@ const Navbar = () => {
           <div className="flex items-center">
             <button
               onClick={toggleSidebar}
-              className="h-9 w-9 rounded-xl flex items-center justify-center shadow-sm bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200">
+              className="h-10 w-10 rounded-xl flex items-center justify-center shadow-sm bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200">
               <FiMenu className="w-6 h-6 text-white" />
             </button>
-            <h1 className="ml-3 text-xl font-semibold gradient-text">Vigilo</h1>
+            <h1 className="ml-5 text-2xl sm:text-4xl font-bold gradient-text">
+              Vigilo
+            </h1>
           </div>
 
           {/* Profile Dropdown */}

@@ -12,27 +12,33 @@ import RecentSession from './components/RecentSession';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import {
+  containerVariants,
+  itemVariants,
+  scaleIn,
+  slideInUp,
+} from '../../utils/animationVariants';
 
 // Mock data for demonstration
 const recentSessions = [
   {
     id: 1,
     course: { name: 'Advanced React Development' },
-    date: '2025-08-26',
+    date: '2024-01-12',
     time: '05:00 AM - 07:30 AM',
     attendance: { present: 28, total: 32 },
   },
   {
     id: 3,
     course: { name: 'UI/UX Design Fundamentals' },
-    date: '2024-01-12',
+    date: '2025-08-26',
     time: '9:00 AM - 10:30 AM',
     attendance: { present: 30, total: 35 },
   },
   {
     id: 2,
     course: { name: 'Database Design Principles' },
-    date: '2024-01-14',
+    date: '2025-08-28',
     time: '2:00 PM - 3:30 PM',
     attendance: { present: 24, total: 26 },
   },
@@ -46,18 +52,6 @@ const recentSessions = [
 ];
 
 // Variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15, delayChildren: 0.2 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
 
 const LecturerDashboard = () => {
   const now = new Date();
@@ -92,8 +86,8 @@ const LecturerDashboard = () => {
   return (
     <motion.div
       className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8"
-      initial="hidden"
-      animate="show"
+      initial="collapsed"
+      animate="expanded"
       variants={containerVariants}>
       {/* Hero Section */}
       <motion.div
@@ -101,8 +95,9 @@ const LecturerDashboard = () => {
         className="mb-8 sm:mb-12">
         <motion.div
           className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[var(--gradient-primary)] shadow-2xl"
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          variants={scaleIn}
+          initial="hidden"
+          animate="visible"
           transition={{ duration: 0.7, ease: 'easeOut' }}>
           <motion.div
             className="absolute inset-0 bg-black/10"
@@ -120,8 +115,7 @@ const LecturerDashboard = () => {
               />
               <motion.p
                 className="text-base sm:text-lg lg:text-xl text-[var(--color-text-secondary)] mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
+                variants={slideInUp}
                 transition={{ delay: 0.2, duration: 0.6 }}>
                 Take attendance in seconds with Vigilo&apos;s intelligent
                 session management system
@@ -176,6 +170,7 @@ const LecturerDashboard = () => {
         ].map((stat, i) => (
           <motion.div
             key={i}
+            custom={i}
             variants={itemVariants}
             whileHover={{ y: -4, scale: 1.02 }}
             className="card hover:shadow-md transition-shadow">
@@ -202,7 +197,7 @@ const LecturerDashboard = () => {
       <motion.section
         variants={itemVariants}
         className="mb-8 sm:mb-12">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-3">
+        <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3">
           <motion.h2
             className="text-xl sm:text-2xl lg:text-3xl font-bold gradient-text"
             initial={{ opacity: 0, x: -20 }}
@@ -212,12 +207,12 @@ const LecturerDashboard = () => {
           <motion.div whileHover={{ x: 4 }}>
             <Button
               variant="custom"
-              className="text-sm sm:text-base text-[var(--color-primary)] hover:text-[var(--color-primary-purple-light)] font-semibold transition-colors self-start sm:self-auto"
+              className="text-sm sm:text-base text-gray-200 hover:text-white font-semibold transition-colors self-start sm:self-auto"
               text="View All Sessions"
               icon={FiArrowRight}
               iconPosition="right"
               size="none"
-              onClick={() => navigate('sessions')}
+              onClick={() => navigate('/lecturer/sessions')}
             />
           </motion.div>
         </div>

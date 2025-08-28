@@ -6,14 +6,14 @@ const InfoRow = ({
   children,
   className = '',
   iconClassName = '',
-  align = 'start',
+  align = 'start',labelClassName=''
 }) => {
   const Icon = icon;
   return (
-    <div className={`flex gap-2.5 text-sm ${className} items-${align}`}>
+    <div className={`flex gap-3 text-sm ${className} items-${align}`}>
       <Icon className={`text-xl shrink-0 text-gray-300 ${iconClassName}`} />
       <div>
-        <span>{label}</span>
+        <span className={`${labelClassName}`}>{label}</span>
         {children && (
           <div className="flex items-center text-xs text-gray-500 mt-1 gap-2">
             {children}

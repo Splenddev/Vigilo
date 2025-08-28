@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiHome } from 'react-icons/fi';
 import {
@@ -10,12 +11,14 @@ import {
 } from 'react-icons/lu';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
+import { drawerLeft, fadeIn } from '../../utils/animationVariants';
 
 const Sidebar = () => {
   const { isOpen, close } = useSidebar({ rootId: 'vigilo-sidebar' });
 
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const prevPath = useRef(pathname);
 
@@ -25,18 +28,6 @@ const Sidebar = () => {
       prevPath.current = pathname;
     }
   }, [pathname]);
-
-  const sidebarVariants = {
-    hidden: { x: '-100%', opacity: 0 },
-    visible: { x: 0, opacity: 1 },
-    exit: { x: '-100%', opacity: 0 },
-  };
-
-  const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-    exit: { opacity: 0 },
-  };
 
   const menuItems = [
     { icon: FiHome, label: 'Home', href: '/lecturer/dashboard' },
@@ -52,7 +43,7 @@ const Sidebar = () => {
       {isOpen && (
         <>
           <motion.div
-            variants={overlayVariants}
+            variants={fadeIn}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -62,7 +53,7 @@ const Sidebar = () => {
           />
 
           <motion.aside
-            variants={sidebarVariants}
+            variants={drawerLeft}
             initial="hidden"
             animate={isOpen ? 'visible' : 'hidden'}
             exit="exit"
@@ -70,7 +61,11 @@ const Sidebar = () => {
             className="fixed left-0 top-0 bottom-0 h-full w-70 glass-strong border-r border-white/20 z-70">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
-              <h2 className="text-xl font-bold gradient-text">Vigilo</h2>
+              <h2
+                className="text-xl font-bold gradient-text cursor-pointer"
+                onClick={() => navigate('/')}>
+                Vigilo
+              </h2>
               <button
                 onClick={close}
                 className="h-9 w-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 hover:border-red-400/50 transition-all duration-200">
@@ -103,7 +98,9 @@ const Sidebar = () => {
             </div>
 
             {/* User Profile Section */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10 glass">
+            <div
+              className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10 glass cursor-pointer"
+              onClick={() => navigate('/profile')}>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-white">DR</span>

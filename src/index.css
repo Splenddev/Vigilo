@@ -55,7 +55,7 @@
   /* Button styles */
   .btn-primary {
     background: var(--gradient-primary);
-    @apply text-white hover:scale-105 transform transition-all duration-200 shadow-lg;
+    @apply text-white hover:scale-103 transform transition-all duration-200 shadow-lg;
   }
 
   .btn-secondary {
@@ -92,7 +92,7 @@
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border: 1px solid var(--color-border-primary);
-    @apply rounded-2xl hover:border-purple-500/50 hover:scale-102 transform transition-all duration-300;
+    @apply rounded-2xl p-6 hover:border-purple-500/50 hover:scale-102 transform transition-all duration-300;
   }
 }
 

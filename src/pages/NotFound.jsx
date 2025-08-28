@@ -2,13 +2,16 @@ import React from 'react';
 import { useNavigate, useRouteError } from 'react-router-dom';
 import { FaHome, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 import Title from '../components/atoms/Title';
+import Button from '../components/atoms/Button';
+import { FiHome } from 'react-icons/fi';
+import { LuLayoutDashboard } from 'react-icons/lu';
 
 const NotFound = () => {
   const navigate = useNavigate();
   const error = useRouteError();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-800 px-6">
+    <div className="flex flex-col items-center justify-center min-h-screen glass text-gray-300 px-6">
       {/* Big 404 Label */}
       <div className="text-8xl font-extrabold text-blue-600 mb-2 animate-bounce">
         404
@@ -21,7 +24,7 @@ const NotFound = () => {
       <Title contents="Page Not Found" />
 
       {/* Description */}
-      <p className="text-gray-600 text-center max-w-md mb-6">
+      <p className="text-gray-300 text-center max-w-md mb-6">
         Sorry, the page you’re looking for doesn’t exist or has been moved.
         Please check the URL or return to the homepage.
       </p>
@@ -35,21 +38,25 @@ const NotFound = () => {
 
       {/* Action buttons */}
       <div className="flex gap-4">
-        <button
+        <Button
           onClick={() => navigate('/')}
-          aria-label="Go to homepage"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 transition">
-          <FaHome className="w-5 h-5" />
+          aria-label="Go to homepage">
+          <FiHome className="w-5 h-5" />
           Go Home
-        </button>
+        </Button>
+        <Button
+          onClick={() => navigate('/lecturer')}
+          aria-label="Go to dashboard" variant='secondary'>
+          <LuLayoutDashboard className="w-5 h-5" />
+          Go to Dashboard
+        </Button>
 
-        <button
+        <Button
           onClick={() => navigate(-1)}
-          aria-label="Go back to previous page"
-          className="inline-flex items-center gap-2 px-6 py-3 border border-gray-400 text-gray-700 rounded-lg hover:bg-gray-100 focus:ring-2 focus:ring-gray-300 transition">
+          aria-label="Go back" variant='outline'>
           <FaArrowLeft className="w-5 h-5" />
           Go Back
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -128,9 +128,7 @@ const UserProfile = () => {
               <LuArrowLeft className="w-4 h-4" />
               Back
             </button>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Profile
-            </h1>
+            <h1 className="text-2xl font-bold gradient-text">Profile</h1>
           </div>
 
           <div className="flex items-center gap-4">
@@ -204,7 +202,7 @@ const UserProfile = () => {
                     </h2>
                     <p className="text-purple-400 mb-2">{currentData.role}</p>
 
-                    <div className="space-y-3 text-left mb-6">
+                    <div className="items-center mb-6 flex flex-wrap md:flex-col gap-6">
                       <p className="text-sm text-gray-300 flex items-center">
                         <LuMail className="mr-2 text-purple-400" />{' '}
                         {currentData.email}

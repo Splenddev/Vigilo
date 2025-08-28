@@ -15,10 +15,11 @@ export const containerVariants = {
 };
 
 export const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: { delay: i * 0.15, duration: 0.5, ease: 'easeOut' },
   }),
 };
@@ -116,13 +117,32 @@ export const fadeInUpChild = {
   },
 };
 
-export const drawerRight = {
-  hidden: { x: '100%' },
+export const drawerLeft = {
+  hidden: { x: '-100%', opacity: 0 },
   visible: {
     x: 0,
+    opacity: 1,
     transition: { type: 'spring', stiffness: 200, damping: 25 },
   },
-  exit: { x: '100%', transition: { duration: 0.3, ease: 'easeInOut' } },
+  exit: {
+    x: '-100%',
+    opacity: 0,
+    transition: { duration: 0.3, ease: 'easeInOut' },
+  },
+};
+
+export const drawerRight = {
+  hidden: { x: '100%', opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 200, damping: 25 },
+  },
+  exit: {
+    x: '100%',
+    opacity: 0,
+    transition: { duration: 0.3, ease: 'easeInOut' },
+  },
 };
 
 export const drawerBottom = {

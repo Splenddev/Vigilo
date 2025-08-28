@@ -1,11 +1,11 @@
 const getSessionTypeColor = (type) => {
   switch (type) {
     case 'lecture':
-      return 'bg-blue-100 text-blue-800';
+      return 'bg-blue-100 text-primary-purple-dark';
     case 'lab':
       return 'bg-purple-100 text-purple-800';
     case 'seminar':
-      return 'bg-indigo-100 text-indigo-800';
+      return 'bg-primary-cyan-light text-gray-600';
     case 'workshop':
       return 'bg-orange-100 text-orange-800';
     default:

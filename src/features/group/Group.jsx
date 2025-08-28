@@ -1,5 +1,4 @@
 import {
-  LuCheck,
   LuUsers,
   LuCalendar,
   LuBookOpen,
@@ -9,7 +8,7 @@ import {
 import StatCard from '../../components/molecules/StatCard';
 import { useNavigate } from 'react-router-dom';
 import { groups } from '../../utils/data';
-import { cardVariants } from '../../utils/animationVariants';
+import { cardVariants } from '../../utils/animationVariants'; /* eslint-disable no-unused-vars */
 import { motion } from 'framer-motion';
 
 const GroupCard = ({ group, index }) => {
@@ -40,7 +39,7 @@ const GroupCard = ({ group, index }) => {
       initial="hidden"
       animate="visible"
       variants={cardVariants}>
-      <div className="p-4 sm:p-6 lg:p-8">
+      <div className="">
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex-1">
