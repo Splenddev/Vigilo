@@ -124,7 +124,7 @@ const GroupInfo = () => {
               </p>
             </motion.div>
             <motion.div
-              className="flex items-center gap-2 btn-secondary text-white px-4 py-2 rounded-xl shadow-lg shrink-0"
+              className="flex items-center gap-2 btn-secondary text-white px-4 py-2 rounded-xl place-self-end shadow-lg shrink-0"
               variants={cardVariants}
               initial="hidden"
               animate="visible">
@@ -175,7 +175,7 @@ const GroupInfo = () => {
       </motion.div>
 
       {/* Tabs */}
-      <div className="mb-6 flex gap-3 border-b border-slate-600">
+      <div className="mb-6 flex gap-3 border-b border-slate-600 overflow-x-auto">
         {[
           { key: 'overview', label: 'Overview', icon: LuBookText },
           { key: 'students', label: 'Students', icon: LuUsers },

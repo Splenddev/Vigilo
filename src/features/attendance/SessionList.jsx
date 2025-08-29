@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaFileExport, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { FiEdit3, FiMoreVertical } from 'react-icons/fi';
 import {
@@ -21,154 +21,27 @@ import {
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
 import InfoRow from '../../components/molecules/InfoRow';
-import Select from '../../components/molecules/Select';
 import { formatDate } from '../../utils/helpers';
 import { getSessionTypeColor } from '../../hooks/useAttendance';
-import { useLocation } from 'react-router-dom';
 import LabelCheckbox from '../../components/atoms/LabelCheckbox';
+import AdvancedFilters from '../../components/modal/AdvancedFilters';
+import { createMockSessions } from '../../utils/data';
+import DropdownPortal from '../../components/containers/DropdownPortal';
 // Mock data
-const mockSessions = [
-  {
-    id: 1,
-    course: { id: 'c1', name: 'Computer Science 101' },
-    instructor: {
-      id: 'i1',
-      name: 'Dr. Sarah Johnson',
-      email: 'sarah.johnson@university.edu',
-    },
-    date: '2025-08-20',
-    time: '10:30 AM',
-    duration: 90, // minutes
-    location: { room: 'Room 204', building: 'Computer Science Building' },
-    sessionType: 'lecture',
-    attendance: { present: 42, total: 50 },
-    status: 'completed',
-  },
-  {
-    id: 2,
-    course: { id: 'c2', name: 'Data Structures' },
-    instructor: {
-      id: 'i2',
-      name: 'Prof. Michael Chen',
-      email: 'michael.chen@university.edu',
-    },
-    date: '2025-08-19',
-    time: '2:15 PM',
-    duration: 75,
-    location: { room: 'Lab 101', building: 'Engineering Hall' },
-    sessionType: 'lab',
-    attendance: { present: 38, total: 45 },
-    status: 'completed',
-  },
-  {
-    id: 3,
-    course: null, // Guest lecture or special session
-    instructor: {
-      id: 'i3',
-      name: 'Dr. Emily Rodriguez',
-      email: 'emily.rodriguez@university.edu',
-    },
-    date: '2025-08-18',
-    time: '9:00 AM',
-    duration: 60,
-    location: { room: 'Auditorium A', building: 'Main Hall' },
-    sessionType: 'seminar',
-    attendance: { present: 25, total: 30 },
-    status: 'completed',
-  },
-  {
-    id: 4,
-    course: { id: 'c3', name: 'Database Management' },
-    instructor: {
-      id: 'i4',
-      name: 'Dr. James Wilson',
-      email: 'james.wilson@university.edu',
-    },
-    date: '2025-08-17',
-    time: '11:00 AM',
-    duration: 90,
-    location: { room: 'Room 305', building: 'Computer Science Building' },
-    sessionType: 'lecture',
-    attendance: { present: 35, total: 40 },
-    status: 'ongoing',
-  },
-  {
-    id: 8,
-    course: { id: 'c2', name: 'Data Structures' },
-    instructor: {
-      id: 'i2',
-      name: 'Prof. Michael Chen',
-      email: 'michael.chen@university.edu',
-    },
-    date: '2025-08-19',
-    time: '2:15 PM',
-    duration: 75,
-    location: { room: 'Lab 101', building: 'Engineering Hall' },
-    sessionType: 'lab',
-    attendance: { present: 38, total: 45 },
-    status: 'completed',
-  },
-  {
-    id: 7,
-    course: null,
-    instructor: {
-      id: 'i3',
-      name: 'Dr. Emily Rodriguez',
-      email: 'emily.rodriguez@university.edu',
-    },
-    date: '2025-08-18',
-    time: '9:00 AM',
-    duration: 60,
-    location: { room: 'Auditorium A', building: 'Main Hall' },
-    sessionType: 'seminar',
-    attendance: { present: 25, total: 30 },
-    status: 'completed',
-  },
-  {
-    id: 5,
-    course: { id: 'c7', name: 'Computer Science in Biological Science 101' },
-    instructor: {
-      id: 'i5',
-      name: 'Dr. Lisa Park',
-      email: 'lisa.park@university.edu',
-    },
-    date: '2025-08-16',
-    time: '10:30 AM',
-    duration: 90,
-    location: { room: 'Room 102', building: 'Biology Building' },
-    sessionType: 'lecture',
-    attendance: { present: 48, total: 50 },
-    status: 'completed',
-  },
-  {
-    id: 6,
-    course: { id: 'c4', name: 'Software Engineering' },
-    instructor: {
-      id: 'i6',
-      name: 'Prof. David Kim',
-      email: 'david.kim@university.edu',
-    },
-    date: '2025-08-22',
-    time: '3:00 PM',
-    duration: 120,
-    location: { room: 'Lab 205', building: 'Computer Science Building' },
-    sessionType: 'workshop',
-    attendance: { present: 0, total: 45 }, // Future session
-    status: 'scheduled',
-  },
-];
+const mockSessions = createMockSessions(50);
 
 const SessionList = () => {
+  const actionRefs = useRef({}); // store refs for all sessions
+
   const [sessions, setSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
-  const { state } = useLocation();
   const [filters, setFilters] = useState({
-    status: '',
-    type: '',
-    course: state?.id || '',
+    status: [],
+    type: [],
+    course: [],
   });
 
   const [showFilters, setShowFilters] = useState(false);
@@ -207,19 +80,21 @@ const SessionList = () => {
 
     // Apply course filter
 
-    if (filters.status) {
-      filtered = filtered.filter((s) => s.status === filters.status);
+    if (filters.status.length > 0) {
+      filtered = filtered.filter((s) => filters.status.includes(s.status));
     }
 
-    if (filters.type) {
-      filtered = filtered.filter((s) => s.sessionType === filters.type);
+    if (filters.type.length > 0) {
+      filtered = filtered.filter((s) => filters.type.includes(s.sessionType));
     }
 
-    if (filters.course) {
+    if (filters.course.length > 0) {
       if (filters.course === 'adhoc') {
         filtered = filtered.filter((s) => !s.course);
       } else {
-        filtered = filtered.filter((s) => s.course?.id === filters.course);
+        filtered = filtered.filter((s) =>
+          filters.course.includes(s.course?.id)
+        );
       }
     }
 
@@ -262,6 +137,15 @@ const SessionList = () => {
 
     setFilteredSessions(filtered);
   }, [sessions, searchTerm, sortBy, sortOrder, filters]);
+
+  const handleSort = (column) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(column);
+      setSortOrder('asc');
+    }
+  };
 
   const formatDuration = (minutes) => {
     if (!minutes) return 'N/A';
@@ -325,6 +209,8 @@ const SessionList = () => {
     return courses;
   };
 
+  const uniqueCourses = getUniqueFilter();
+
   return (
     <div className="glass p-6 text-white">
       {/* Header */}
@@ -363,105 +249,45 @@ const SessionList = () => {
         </div>
 
         {/* Filters */}
-        {showFilters && (
-          <div className="mt-4 p-4 glass rounded-2xl">
-            <div
-              className="place-self-end cursor-pointer text-xl text-gray-300 hover:text-white transition-colors"
-              onClick={() => setShowFilters(!showFilters)}>
-              <LuX />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {/* Course Filter */}
-              <Select
-                label="Status"
-                onChange={(e) =>
-                  setFilters((p) =>
-                    e.target.value
-                      ? { ...p, status: e.target.value }
-                      : { ...p, status: '' }
-                  )
-                }
-                value={filters.status}
-                options={[
-                  { value: 'scheduled', label: 'Scheduled' },
-                  { value: 'ongoing', label: 'Ongoing' },
-                  { value: 'completed', label: 'Completed' },
-                ]}
-                placeholder="All"
-              />
-              <Select
-                label="Type"
-                onChange={(e) =>
-                  setFilters((p) =>
-                    e.target.value
-                      ? { ...p, type: e.target.value }
-                      : { ...p, type: '' }
-                  )
-                }
-                value={filters.type}
-                options={[
-                  { value: 'lecture', label: 'Lecture' },
-                  { value: 'lab', label: 'Lab' },
-                  { value: 'seminar', label: 'Seminar' },
-                  { value: 'workshop', label: 'Workshop' },
-                  { value: 'adhoc', label: 'Ad-hoc Session' },
-                ]}
-                placeholder="All"
-              />
-              <Select
-                label="Courses"
-                value={filters.course}
-                onChange={(e) =>
-                  setFilters((p) =>
-                    e.target.value
-                      ? { ...p, course: e.target.value }
-                      : { ...p, course: '' }
-                  )
-                }
-                options={getUniqueFilter()}
-                placeholder="All"
-              />
-
-              <Select
-                label="Sort By"
-                onChange={(e) => setSortBy(e.target.value)}
-                value={sortBy}
-                options={[
-                  { value: 'date', label: 'Date' },
-                  { value: 'course', label: 'Course Name' },
-                  { value: 'location', label: 'Location' },
-                  { value: 'duration', label: 'Duration' },
-                  { value: 'attendance', label: 'Attendance Rate' },
-                ]}
-              />
-
-              {/* Sort Order */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Order
-                </label>
-                <button
-                  onClick={() =>
-                    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-                  }
-                  className="flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/20 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 hover:border-purple-500/50 text-sm font-medium w-full justify-center transition-all duration-200">
-                  {sortOrder === 'asc' ? (
-                    <>
-                      <FaSortUp className="w-4 h-4" />
-                      Ascending
-                    </>
-                  ) : (
-                    <>
-                      <FaSortDown className="w-4 h-4" />
-                      Descending
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <AdvancedFilters
+          isOpen={showFilters}
+          onClose={() => setShowFilters(false)}
+          title="Filter Sessions"
+          filters={[
+            {
+              key: 'status',
+              label: 'Status',
+              type: 'multi',
+              options: ['scheduled', 'ongoing', 'completed'],
+            },
+            {
+              key: 'type',
+              label: 'Type',
+              type: 'multi',
+              options: ['lecture', 'lab', 'seminar', 'workshop', 'adhoc'],
+            },
+            {
+              key: 'course',
+              label: 'Courses',
+              type: 'multi',
+              options: uniqueCourses.map((c) => c.value),
+            },
+          ]}
+          selected={filters}
+          setSelected={setFilters}
+          onApply={(selected) => {
+            console.log(selected);
+            setFilters(selected);
+            setShowFilters(false);
+          }}
+          onClear={() => {
+            setFilters({
+              status: '',
+              type: '',
+              course: '',
+            });
+          }}
+        />
       </div>
 
       {/* Bulk Actions */}
@@ -500,19 +326,29 @@ const SessionList = () => {
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('course')}>
                 Course & Type
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('location')}>
                 Location
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('date')}>
                 Date & Time
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('attendance')}>
                 Attendance
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('status')}>
                 Status
               </th>
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">
@@ -610,41 +446,41 @@ const SessionList = () => {
                   <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="relative">
                       <button
+                        ref={(el) => (actionRefs[session.id] = el)}
                         onClick={() => toggleActions(session.id)}
                         className="p-1 rounded-lg hover:bg-white/10 text-gray-300 hover:text-white transition-colors duration-200">
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
 
                       {showActions[session.id] && (
-                        <div className="absolute right-0 mt-2 w-48 bg-bg-secondary rounded-xl shadow-xl ring-1 ring-white/10 z-10">
+                        <DropdownPortal
+                          anchorRef={{ current: actionRefs[session.id] }}
+                          onClose={() => toggleActions(session.id)}>
                           <div className="py-1">
                             <button
                               onClick={() => handleAction('view', session.id)}
                               className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
-                              <LuEye className="w-4 h-4 mr-3" />
-                              View Details
+                              <LuEye className="w-4 h-4 mr-3" /> View Details
                             </button>
                             <button
                               onClick={() => handleAction('edit', session.id)}
                               className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
-                              <FiEdit3 className="w-4 h-4 mr-3" />
-                              Edit Session
+                              <FiEdit3 className="w-4 h-4 mr-3" /> Edit Session
                             </button>
                             <button
                               onClick={() => handleAction('export', session.id)}
                               className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
-                              <LuDownload className="w-4 h-4 mr-3" />
-                              Export Data
+                              <LuDownload className="w-4 h-4 mr-3" /> Export
+                              Data
                             </button>
                             <hr className="my-1 border-white/10" />
                             <button
                               onClick={() => handleAction('delete', session.id)}
                               className="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors duration-200">
-                              <LuTrash2 className="w-4 h-4 mr-3" />
-                              Delete
+                              <LuTrash2 className="w-4 h-4 mr-3" /> Delete
                             </button>
                           </div>
-                        </div>
+                        </DropdownPortal>
                       )}
                     </div>
                   </td>

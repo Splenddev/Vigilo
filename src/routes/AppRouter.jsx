@@ -17,6 +17,7 @@ import Auth from '../pages/Auth';
 import GroupStudents from '../features/group/GroupStudents';
 import CreateSession from '../features/attendance/CreateSession';
 import UserProfile from '../pages/UserProfile';
+import StudentsList from '../features/lecturer/StudentsList';
 
 const router = createBrowserRouter([
   {
@@ -50,18 +51,14 @@ const router = createBrowserRouter([
           { path: 'sessions', element: <SessionList /> },
           { path: 'sessions/new', element: <CreateSession /> },
           {
+            path: 'students',
+            element: <StudentsList />,
+          },
+          {
             path: 'groups',
             element: <Groups />,
           },
-          {
-            path: 'groups/:groupId',
-            element: <GroupLayout />,
-            children: [
-              { index: true, element: <GroupInfo /> },
-              { path: 'info', element: <GroupInfo /> },
-              { path: 'students', element: <GroupStudents /> },
-            ],
-          },
+          { path: 'groups/:groupId/info', element: <GroupInfo /> },
         ],
       },
       { path: '/student', element: <StudentLayout /> },

@@ -160,4 +160,191 @@ const groups = [
     ],
   },
 ];
-export { groups };
+
+const generateStudentData = (length = 120) => {
+  const nigerianNames = [
+    'Adebayo Ogundimu',
+    'Chioma Okafor',
+    'Emeka Nwachukwu',
+    'Fatima Ibrahim',
+    'Kemi Adebayo',
+    'Yusuf Mohammed',
+    'Ngozi Okwu',
+    'Biodun Adeyemi',
+    'Hauwa Aliyu',
+    'Chinedu Obi',
+    'Amina Hassan',
+    'Tunde Bakare',
+    'Blessing Uzoma',
+    'Ibrahim Garba',
+    'Funmi Adeyinka',
+    'Segun Ogundipe',
+    'Mariam Abubakar',
+    'Okechukwu Eze',
+    'Zainab Yusuf',
+    'Babatunde Olatunji',
+    'Aisha Bello',
+    'Chinonso Ikechukwu',
+    'Rasheed Olaleye',
+    'Nneka Okoye',
+    'Salihu Abdullahi',
+    'Olumide Johnson',
+    'Hadiza Usman',
+    'Chukwuma Okafor',
+    'Folake Adebisi',
+    'Musa Danjuma',
+  ];
+
+  const internationalNames = [
+    'James Anderson',
+    'Sarah Chen',
+    'Michael Rodriguez',
+    'Emily Johnson',
+    'David Kim',
+    'Lisa Thompson',
+    'Robert Brown',
+    'Maria Garcia',
+    'John Wilson',
+    'Anna Kowalski',
+    'Ahmed Al-Rashid',
+    'Priya Sharma',
+    'Pierre Dubois',
+    'Yuki Tanaka',
+    'Carlos Silva',
+  ];
+
+  const departments = [
+    'Computer Science',
+    'Mechanical Engineering',
+    'Biochemistry',
+    'Civil Engineering',
+    'Electrical Engineering',
+    'Medicine',
+    'Law',
+    'Business Administration',
+    'Mathematics',
+    'Physics',
+    'Chemistry',
+    'Microbiology',
+    'Economics',
+    'Political Science',
+  ];
+
+  const groups = ['A', 'B', 'C', 'D', 'E'];
+  const levels = [100, 200, 300, 400, 500];
+  const statuses = ['active', 'inactive'];
+
+  const allNames = [...nigerianNames, ...internationalNames];
+  const students = [];
+
+  for (let i = 1; i <= length; i++) {
+    const name = allNames[Math.floor(Math.random() * allNames.length)];
+    const department =
+      departments[Math.floor(Math.random() * departments.length)];
+    const level = levels[Math.floor(Math.random() * levels.length)];
+    const group = groups[Math.floor(Math.random() * groups.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const attendance = Math.floor(Math.random() * 101); // 0-100
+
+    // Generate email from name
+    const emailName = name.toLowerCase().replace(/\s+/g, '.');
+    const email = `${emailName}@university.edu`;
+
+    students.push({
+      id: i,
+      name,
+      email,
+      department,
+      level,
+      group: `${department.charAt(0)}${group}`,
+      attendance,
+      status,
+      avatar: `https://i.pravatar.cc/40?img=${i}`,
+    });
+  }
+
+  return students;
+};
+
+// utils/mockSessions.js
+const courses = [
+  { id: 'c1', name: 'Computer Science 101' },
+  { id: 'c2', name: 'Data Structures' },
+  { id: 'c3', name: 'Database Management' },
+  { id: 'c4', name: 'Software Engineering' },
+  { id: 'c5', name: 'Artificial Intelligence' },
+  { id: 'c6', name: 'Machine Learning' },
+];
+
+const instructors = [
+  {
+    id: 'i1',
+    name: 'Dr. Sarah Johnson',
+    email: 'sarah.johnson@university.edu',
+  },
+  {
+    id: 'i2',
+    name: 'Prof. Michael Chen',
+    email: 'michael.chen@university.edu',
+  },
+  {
+    id: 'i3',
+    name: 'Dr. Emily Rodriguez',
+    email: 'emily.rodriguez@university.edu',
+  },
+  { id: 'i4', name: 'Dr. James Wilson', email: 'james.wilson@university.edu' },
+  { id: 'i5', name: 'Dr. Lisa Park', email: 'lisa.park@university.edu' },
+  { id: 'i6', name: 'Prof. David Kim', email: 'david.kim@university.edu' },
+];
+
+const sessionTypes = ['lecture', 'lab', 'seminar', 'workshop'];
+const statuses = ['scheduled', 'ongoing', 'completed'];
+
+function randomItem(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// auto create a single session
+export function createSession(id) {
+  const course = Math.random() > 0.2 ? randomItem(courses) : null; // 20% chance of guest lecture
+  const instructor = randomItem(instructors);
+  const date = new Date();
+  date.setDate(date.getDate() + randomInt(-5, 5)); // within past or next 5 days
+  const duration = randomInt(60, 120);
+  const present = randomInt(20, 50);
+  const total = present + randomInt(0, 10);
+
+  return {
+    id,
+    course,
+    instructor,
+    date: date.toISOString().split('T')[0],
+    time: `${randomInt(8, 16)}:${randomItem(['00', '15', '30', '45'])} ${
+      randomInt(0, 1) ? 'AM' : 'PM'
+    }`,
+    duration,
+    location: {
+      room: `Room ${randomInt(100, 400)}`,
+      building: randomItem([
+        'Computer Science Building',
+        'Engineering Hall',
+        'Biology Building',
+        'Main Hall',
+      ]),
+    },
+    sessionType: randomItem(sessionTypes),
+    attendance: { present, total },
+    status: randomItem(statuses),
+  };
+}
+
+// auto create many sessions
+function createMockSessions(count = 10) {
+  return Array.from({ length: count }, (_, i) => createSession(i + 1));
+}
+
+export { groups, generateStudentData, createMockSessions };
