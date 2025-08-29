@@ -11,13 +11,12 @@ import LecturerLayout from '../components/layout/LecturerLayout';
 import LecturerDashboard from '../features/attendance/LecturerDashboard';
 import SessionList from '../features/attendance/SessionList';
 import Groups from '../features/group/Group';
-import GroupLayout from '../components/layout/GroupLayout';
 import GroupInfo from '../features/group/GroupInfo';
 import Auth from '../pages/Auth';
-import GroupStudents from '../features/group/GroupStudents';
 import CreateSession from '../features/attendance/CreateSession';
 import UserProfile from '../pages/UserProfile';
 import StudentsList from '../features/lecturer/StudentsList';
+import HelpPage from '../pages/Help';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +62,7 @@ const router = createBrowserRouter([
       },
       { path: '/student', element: <StudentLayout /> },
       { path: '/profile', element: <UserProfile /> },
+      { path: '/help', element: <HelpPage /> },
     ],
   },
 ]);
