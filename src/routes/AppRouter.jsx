@@ -17,6 +17,7 @@ import CreateSession from '../features/attendance/CreateSession';
 import UserProfile from '../pages/UserProfile';
 import StudentsList from '../features/lecturer/StudentsList';
 import HelpPage from '../pages/Help';
+import CourseList from '../features/courses/CourseList';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: 'groups',
             element: <Groups />,
+          },
+          {
+            path: 'courses',
+            element: <CourseList />,
           },
           { path: 'groups/:groupId/info', element: <GroupInfo /> },
         ],

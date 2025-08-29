@@ -8,11 +8,18 @@ import {
   LuSettings,
   LuCircleHelp,
   LuClipboardList,
+  LuChevronDown,
+  LuChevronRight,
+  LuPlus,
+  LuCalendarPlus2,
+  LuClipboardPlus,
+  LuCircleUserRound,
 } from 'react-icons/lu';
+import { HiOutlineUserGroup, HiUserGroup } from 'react-icons/hi';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { drawerLeft, fadeIn } from '../../utils/animationVariants';
 
 const Sidebar = () => {
@@ -29,10 +36,12 @@ const Sidebar = () => {
     }
   }, [pathname]);
 
+  const [openNew, setOpenNew] = useState(false);
+
   const menuItems = [
     { icon: FiHome, label: 'Home', href: '/lecturer/dashboard' },
     { icon: LuClipboardList, label: 'Sessions', href: '/lecturer/sessions' },
-    { icon: LuCalendar, href: '/lecturer/groups', label: 'Groups' },
+    { icon: HiOutlineUserGroup, href: '/lecturer/groups', label: 'Groups' },
     { icon: LuUsers, label: 'Students', href: '/lecturer/students' },
     { icon: LuSettings, label: 'Settings', href: '/settings' },
     { icon: LuCircleHelp, label: 'Help', href: '/help' },
@@ -114,6 +123,45 @@ const Sidebar = () => {
                   </p>
                 </div>
               </div>
+            </div>
+            {/* Floating Action Button (FAB) */}
+            <div className="absolute bottom-20 right-4 max-w-3/4">
+              <AnimatePresence>
+                {openNew && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ duration: 0.2 }}
+                    className="mb-3 space-y-2">
+                    <Anchor
+                      href="/lecturer/sessions/new"
+                      variant="primary"
+                      className=" px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-purple-500/20 border border-white/20 transition-colors flex items-center">
+                      <LuClipboardPlus className="w-5 h-5 mr-3" />
+                      New Session
+                    </Anchor>
+                    <Anchor
+                      href="/lecturer/courses/new"
+                      variant="primary"
+                      className="flex items-center px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-purple-500/10 hover:border-purple-500 border border-white/20 transition-colors">
+                      <HiOutlineUserGroup className="w-5 h-5 mr-3" />
+                      New Group
+                    </Anchor>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* FAB button */}
+              <motion.button
+                onClick={() => setOpenNew(!openNew)}
+                animate={{ rotate: openNew ? 45 : 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="w-12 h-12 rounded-full flex items-center justify-center 
+      bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg 
+      hover:scale-105 transition-transform duration-200 place-self-end">
+                <LuPlus className="w-6 h-6 " />
+              </motion.button>
             </div>
           </motion.aside>
         </>
