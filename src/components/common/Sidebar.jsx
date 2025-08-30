@@ -7,25 +7,16 @@ import {
   LuCalendar,
   LuSettings,
   LuCircleHelp,
-  LuClipboardList,
-  LuChevronDown,
-  LuChevronRight,
   LuPlus,
-  LuCalendarPlus2,
   LuClipboardPlus,
-  LuCircleUserRound,
 } from 'react-icons/lu';
-import {
-  HiClipboardList,
-  HiOutlineClipboardList,
-  HiOutlineUserGroup,
-  HiUserGroup,
-} from 'react-icons/hi';
+import { HiOutlineClipboardList, HiOutlineUserGroup } from 'react-icons/hi';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { drawerLeft, fadeIn } from '../../utils/animationVariants';
+import { useAuth } from '../../hooks/useAuth';
 
 const Sidebar = () => {
   const { isOpen, close } = useSidebar({ rootId: 'vigilo-sidebar' });
@@ -33,13 +24,20 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const prevPath = useRef(pathname);
+  const { user } = useAuth();
+
+  const { firstName = '', lastName = '' } = user;
+
+  const catenateName = firstName.split('')[0] + lastName.split('')[0];
+
+  const avatar = user.avatar || catenateName;
 
   useEffect(() => {
     if (prevPath.current !== pathname) {
-      if (!isOpen) close();
+      if (isOpen) close();
       prevPath.current = pathname;
     }
-  }, [pathname]);
+  }, [pathname, isOpen, close]);
 
   const [openNew, setOpenNew] = useState(false);
 
@@ -96,7 +94,18 @@ const Sidebar = () => {
               <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
                 Navigation
               </h3>
-              <AnimatePresence>
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { staggerChildren: 0.05 },
+                  },
+                }}
+                className="flex flex-col gap-1">
                 {menuItems.map((item, index) => (
                   <Anchor
                     key={item.label}
@@ -111,7 +120,7 @@ const Sidebar = () => {
                     </span>
                   </Anchor>
                 ))}
-              </AnimatePresence>
+              </motion.div>
             </div>
 
             {/* User Profile Section */}
@@ -120,14 +129,14 @@ const Sidebar = () => {
               onClick={() => navigate('/profile')}>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">DR</span>
+                  <span className="text-sm font-bold text-white">{avatar}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white truncate">
-                    Dr. Rachel Chen
+                    {firstName} {lastName}
                   </p>
                   <p className="text-xs text-gray-400 truncate">
-                    rachel.chen@vigilo.edu
+                    {user.email || ''}
                   </p>
                 </div>
               </div>

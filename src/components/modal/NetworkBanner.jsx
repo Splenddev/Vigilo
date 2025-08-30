@@ -1,51 +1,70 @@
 import { useAuthStore } from '../../stores/authStore';
 import { useState, useEffect } from 'react';
 
+const statusMessages = {
+  offline: {
+    title: 'No Internet Connection',
+    description: "You're offline. Check your Wi-Fi or mobile data.",
+  },
+  'server-down': {
+    title: 'Server Unreachable',
+    description: "You're online, but our servers can’t be reached.",
+  },
+};
+
 const NetworkBanner = () => {
-  const isOnline = useAuthStore((s) => s.isOnline);
-  const [showBanner, setShowBanner] = useState(!isOnline);
+  const networkStatus = useAuthStore((s) => s.networkStatus);
+  const checkConnection = useAuthStore((s) => s.checkConnection);
+
+  const [showBanner, setShowBanner] = useState(networkStatus !== 'online');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [retrying, setRetrying] = useState(false);
 
   useEffect(() => {
-    if (!isOnline && !showBanner) {
+    if (networkStatus !== 'online' && !showBanner) {
       setShowBanner(true);
       setIsAnimating(true);
-    } else if (isOnline && showBanner) {
+    } else if (networkStatus === 'online' && showBanner) {
       setIsAnimating(false);
-      // Delay hiding to show the animation
       const timeout = setTimeout(() => {
         setShowBanner(false);
       }, 300);
       return () => clearTimeout(timeout);
     }
-  }, [isOnline, showBanner]);
+  }, [networkStatus, showBanner]);
 
   if (!showBanner) return null;
+
+  const message = statusMessages[networkStatus] || statusMessages['offline'];
+
+  const handleRetry = async () => {
+    setRetrying(true);
+    await checkConnection();
+    setRetrying(false);
+  };
 
   return (
     <div
       className={`
-        relative overflow-hidden
-        bg-gradient-to-r from-red-600/90 via-red-500/90 to-red-600/90
-        glass-strong
-        text-white text-center
+        sticky top-0 overflow-hidden
+        bg-gradient-to-r from-red-600/90 via-red-500/90 to-red-600/90 z-100 text-white text-center
         border-b border-red-400/30
         transition-all duration-300 ease-out
-        ${isAnimating ? 'animate-fade-in-up' : 'opacity-100'}
+        ${isAnimating ? 'animate-fade-in-up' : 'opacity-100'} h-13 
         ${
-          isOnline
+          networkStatus === 'online'
             ? 'opacity-0 transform -translate-y-full'
             : 'opacity-100 transform translate-y-0'
         }
       `}>
-      {/* Animated background pattern */}
+      {/* Background shimmer */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 py-3 px-4 flex items-center justify-center gap-3">
-        {/* Pulsing warning icon */}
+        {/* Warning icon */}
         <div className="flex items-center justify-center">
           <div className="relative">
             <div className="w-5 h-5 bg-red-300 rounded-full animate-ping absolute"></div>
@@ -55,26 +74,31 @@ const NetworkBanner = () => {
           </div>
         </div>
 
-        {/* Message */}
+        {/* Dynamic Message */}
         <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
           <span className="font-semibold text-sm sm:text-base">
-            Connection Lost
+            {message.title}
           </span>
           <span className="text-red-100 text-xs sm:text-sm">
-            You're offline. Some features may not work properly.
+            {message.description}
           </span>
         </div>
 
+        {/* Retry Button */}
         <button
-          onClick={() => {
-            window.location.reload();
-          }}
-          className="ml-2 px-3 py-1 text-xs font-medium
-                     bg-white/20 hover:bg-white/30
-                     rounded-lg border border-white/30
-                     transition-all duration-200
-                     hover:scale-105 active:scale-95">
-          Retry
+          onClick={handleRetry}
+          disabled={retrying}
+          className={`
+            ml-2 px-3 py-1 text-xs font-medium
+            rounded-lg border border-white/30
+            transition-all duration-200
+            ${
+              retrying
+                ? 'bg-white/10 text-white/60 cursor-not-allowed'
+                : 'bg-white/20 hover:bg-white/30 hover:scale-105 active:scale-95'
+            }
+          `}>
+          {retrying ? 'Checking...' : 'Retry'}
         </button>
       </div>
 

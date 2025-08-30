@@ -67,7 +67,7 @@ const AdvancedFilters = ({
               exit="exit"
             />
             <motion.div
-              className="bg-gray-900 rounded-xl shadow-xl w-[90%] max-w-2xl p-6 space-y-4 absolute overflow-y-auto z-40"
+              className="bg-gray-900 rounded-xl shadow-xl w-[90%] max-w-2xl p-6 space-y-4 z-40"
               variants={scaleIn}
               initial="hidden"
               animate="visible"
@@ -84,7 +84,7 @@ const AdvancedFilters = ({
 
               {/* Filters */}
               <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4"
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-4 overflow-y-auto h-[calc(100vh-350px)]"
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible">

@@ -7,9 +7,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { fadeIn } from '../../utils/animationVariants';
 import { toggleSidebar } from '../../hooks/useSidebar';
 import { useAuth } from '../../hooks/useAuth';
+import { useAuthStore } from '../../stores/authStore';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const networkStatus = useAuthStore((s) => s.networkStatus);
+
   const { user, logout, loading } = useAuth();
 
   const { firstName = '', lastName = '' } = user;
@@ -19,7 +23,10 @@ const Navbar = () => {
   const avatar = user.avatar || catenateName;
 
   return (
-    <nav className="glass sticky top-0 z-40 w-full border-b border-white/10">
+    <nav
+      className={`glass sticky ${
+        networkStatus === 'online' ? 'top-0' : 'top-13'
+      } z-40 w-full border-b border-white/10`}>
       <div className="px-2 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-16 w-full">
           {/* Logo + Menu */}

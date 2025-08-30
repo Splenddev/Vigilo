@@ -27,6 +27,8 @@ import LabelCheckbox from '../../components/atoms/LabelCheckbox';
 import AdvancedFilters from '../../components/modal/AdvancedFilters';
 import { createMockSessions } from '../../utils/data';
 import DropdownPortal from '../../components/containers/DropdownPortal';
+import Dropdown from '../../components/atoms/Dropdown';
+import { sessionListDropdown } from './assets/assets';
 // Mock data
 const mockSessions = createMockSessions(50);
 
@@ -457,28 +459,17 @@ const SessionList = () => {
                           anchorRef={{ current: actionRefs[session.id] }}
                           onClose={() => toggleActions(session.id)}>
                           <div className="py-1">
-                            <button
-                              onClick={() => handleAction('view', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
-                              <LuEye className="w-4 h-4 mr-3" /> View Details
-                            </button>
-                            <button
-                              onClick={() => handleAction('edit', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
-                              <FiEdit3 className="w-4 h-4 mr-3" /> Edit Session
-                            </button>
-                            <button
-                              onClick={() => handleAction('export', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-colors duration-200">
-                              <LuDownload className="w-4 h-4 mr-3" /> Export
-                              Data
-                            </button>
-                            <hr className="my-1 border-white/10" />
-                            <button
-                              onClick={() => handleAction('delete', session.id)}
-                              className="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors duration-200">
-                              <LuTrash2 className="w-4 h-4 mr-3" /> Delete
-                            </button>
+                            {sessionListDropdown.map((action) => (
+                              <Dropdown
+                                icon={action.icon}
+                                label={action.label}
+                                key={action.key}
+                                onAction={() =>
+                                  handleAction(action.key, session.id)
+                                }
+                                className={`capitalize ${action.className}`}
+                              />
+                            ))}
                           </div>
                         </DropdownPortal>
                       )}

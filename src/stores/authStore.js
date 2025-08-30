@@ -9,15 +9,38 @@ export const useAuthStore = create(
       user: null,
       loading: false,
       error: null,
-      isOnline: navigator.onLine, // ✅ track network state
+      isOnline: navigator.onLine,
+      networkStatus: navigator.onLine ? 'online' : 'offline',
 
       // ---- Helpers ----
       setUser: (user) => set({ user }),
       setError: (error) => set({ error }),
       setLoading: (loading) => set({ loading }),
       setOnline: (status) => set({ isOnline: status }),
+      setNetworkStatus: (status) => set({ networkStatus: status }),
 
       // ---- Actions ----
+      checkConnection: async () => {
+        if (!navigator.onLine) {
+          set({ networkStatus: 'offline' });
+          return 'offline';
+        }
+        try {
+          const res = await fetch(
+            `${
+              import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
+            }/health`,
+            { method: 'GET', cache: 'no-store' }
+          );
+          const status = res.ok ? 'online' : 'server-down';
+          set({ networkStatus: status });
+          return status;
+        } catch {
+          set({ networkStatus: 'server-down' });
+          return 'server-down';
+        }
+      },
+
       register: async (credentials) => {
         try {
           set({ loading: true, error: null });
@@ -112,17 +135,44 @@ export const useAuthStore = create(
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
-        isOnline: state.isOnline, // ✅ persist network state
+        isOnline: state.isOnline,
       }),
     }
   )
 );
 
+// Browser events
 if (typeof window !== 'undefined') {
-  window.addEventListener('online', () => {
-    useAuthStore.getState().setOnline(true);
+  window.addEventListener('online', async () => {
+    const ok = await checkApiHealth();
+    useAuthStore.getState().setNetworkStatus(ok ? 'online' : 'server-down');
   });
+
   window.addEventListener('offline', () => {
-    useAuthStore.getState().setOnline(false);
+    useAuthStore.getState().setNetworkStatus('offline');
   });
 }
+
+async function checkApiHealth() {
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/health`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+      }
+    );
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+setInterval(async () => {
+  if (!navigator.onLine) {
+    useAuthStore.getState().setNetworkStatus('offline');
+    return;
+  }
+  const ok = await checkApiHealth();
+  useAuthStore.getState().setNetworkStatus(ok ? 'online' : 'server-down');
+}, 15000);
