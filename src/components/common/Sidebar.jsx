@@ -26,8 +26,16 @@ import Anchor from '../atoms/Anchor';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { drawerLeft, fadeIn } from '../../utils/animationVariants';
+import { useAuth } from '../../hooks/useAuth';
 
 const Sidebar = () => {
+
+  const { user } = useAuth();
+
+  const { firstName = '', lastName = '' , email} = user;
+
+  const catenateName = firstName.split('')[0] + lastName.split('')[0];
+  
   const { isOpen, close } = useSidebar({ rootId: 'vigilo-sidebar' });
 
   const navigate = useNavigate();
@@ -120,14 +128,14 @@ const Sidebar = () => {
               onClick={() => navigate('/profile')}>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">DR</span>
+                  <span className="text-sm font-bold text-white">{catenateName}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white truncate">
-                    Dr. Rachel Chen
+                    {firstName} {lastName}
                   </p>
                   <p className="text-xs text-gray-400 truncate">
-                    rachel.chen@vigilo.edu
+                    {email}
                   </p>
                 </div>
               </div>
