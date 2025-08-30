@@ -28,7 +28,7 @@ import {
   LuInfo,
   LuX,
 } from 'react-icons/lu';
-import {FiHome, FiEdit3 } from 'react-icons/fi';
+import { FiHome, FiEdit3 } from 'react-icons/fi';
 
 const HelpPage = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -259,7 +259,7 @@ const HelpPage = () => {
           Key Terms
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
-          {keyTerms.map((term, index) => (
+          {keyTerms.map((term) => (
             <motion.div
               key={term.term}
               className="card border-l-4 border-purple-500"
@@ -475,7 +475,7 @@ const HelpPage = () => {
       <motion.div variants={itemVariants}>
         <h3 className="text-xl font-semibold mb-4">Session Types</h3>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          {sessionTypes.map((type, index) => (
+          {sessionTypes.map((type) => (
             <motion.div
               key={type.type}
               className="card text-center"

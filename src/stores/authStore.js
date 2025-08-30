@@ -1,22 +1,18 @@
-// src/store/authStore.js
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import api from '../api/axiosInstance';
+import api from '../utils/api';
 
 export const useAuthStore = create(
   persist(
     (set, get) => ({
       user: null,
-      accessToken: null,
-      refreshToken: null,
       loading: false,
       error: null,
 
       // ---- Helpers ----
-      setTokens: (accessToken, refreshToken) =>
-        set({ accessToken, refreshToken }),
-
       setUser: (user) => set({ user }),
+      setError: (error) => set({ error }),
+      setLoading: (loading) => set({ loading }),
 
       // ---- Actions ----
       register: async (credentials) => {
@@ -25,7 +21,8 @@ export const useAuthStore = create(
           const res = await api.post('/auth/register', credentials);
           return res.data;
         } catch (err) {
-          set({ error: err.response?.data?.message || 'Registration failed' });
+          const message = err.response?.data?.message || 'Registration failed';
+          set({ error: message });
           throw err;
         } finally {
           set({ loading: false });
@@ -36,39 +33,81 @@ export const useAuthStore = create(
         try {
           set({ loading: true, error: null });
           const res = await api.post('/auth/login', credentials);
-          set({
-            user: res.data.user,
-            accessToken: res.data.accessToken,
-            refreshToken: res.data.refreshToken,
-          });
+          // Cookies store tokens automatically; only save user in store
+          set({ user: res.data.user });
           return res.data;
         } catch (err) {
-          set({ error: err.response?.data?.message || 'Login failed' });
+          const message = err.response?.data?.message || 'Login failed';
+          set({ error: message });
           throw err;
         } finally {
           set({ loading: false });
         }
       },
 
-      logout: () => {
-        set({ user: null, accessToken: null, refreshToken: null });
+      logout: async () => {
+        try {
+          set({ loading: true, error: null });
+          await api.post('/auth/logout'); // server clears cookie
+          set({ user: null });
+        } catch (err) {
+          console.error('Logout failed', err);
+        } finally {
+          set({ loading: false });
+        }
       },
 
       fetchProfile: async () => {
         try {
+          set({ loading: true });
           const res = await api.get('/auth/me');
           set({ user: res.data });
           return res.data;
         } catch (err) {
-          set({ error: err.message || 'Failed to fetch profile' });
+          set({
+            error: err.response?.data?.message || 'Failed to fetch profile',
+          });
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      // ---- OTP Actions ----
+      requestOtp: async (email, purpose = 'email_verification') => {
+        try {
+          set({ loading: true, error: null });
+          const res = await api.post('/auth/otp/request', { email, purpose });
+          return res.data;
+        } catch (err) {
+          set({ error: err.response?.data?.message || 'OTP request failed' });
+          throw err;
+        } finally {
+          set({ loading: false });
+        }
+      },
+
+      verifyOtp: async (email, otp, purpose = 'email_verification') => {
+        try {
+          set({ loading: true, error: null });
+          const res = await api.post('/auth/otp/verify', {
+            email,
+            otp,
+            purpose,
+          });
+          return res.data;
+        } catch (err) {
+          set({
+            error: err.response?.data?.message || 'OTP verification failed',
+          });
+          throw err;
+        } finally {
+          set({ loading: false });
         }
       },
     }),
     {
-      name: 'auth-storage', // key in localStorage
+      name: 'auth-storage',
       partialize: (state) => ({
-        accessToken: state.accessToken,
-        refreshToken: state.refreshToken,
         user: state.user,
       }),
     }

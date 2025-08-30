@@ -2,7 +2,7 @@ import React from 'react';
 import { FaArchive, FaExclamationCircle } from 'react-icons/fa';
 
 const FormInput = ({
-  icon: Icon = FaArchive,
+  icon: Icon,
   label,
   name,
   type = 'text',
@@ -14,6 +14,8 @@ const FormInput = ({
   rules = {},
   inputClassName = '',
   wrapperChildren,
+  disabled = false,
+  required = false,
   ...rest
 }) => {
   // Validation: don’t allow both register and value (avoids RHF conflicts)
@@ -36,7 +38,7 @@ const FormInput = ({
         <label
           htmlFor={name}
           className="block text-sm font-medium text-gray-300 mb-2 capitalize">
-          {label}
+          {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}
 
@@ -55,16 +57,18 @@ const FormInput = ({
           name={name}
           type={type}
           placeholder={placeholder || label || name}
+          disabled={disabled}
           aria-invalid={!!error}
           aria-describedby={error ? `${name}-error` : undefined}
-          className={`w-full pl-10 pr-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-400 
+          className={`w-full ${
+            Icon ? 'pl-10' : 'pl-4'
+          } pr-4 py-2 bg-white/5 border rounded-xl text-white placeholder-gray-400 
           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all 
           ${error ? 'border-red-500' : 'border-white/20'} ${inputClassName}`}
           {...inputProps}
           {...rest}
         />
 
-        {/* Optional children inside wrapper (like buttons, icons, etc.) */}
         {wrapperChildren}
       </div>
 
@@ -75,7 +79,7 @@ const FormInput = ({
           className="text-red-400 text-sm mt-1 flex items-center">
           <FaExclamationCircle
             aria-hidden="true"
-            className="w-3 h-3 mr-1"
+            className="w-4 h-4 shrink-0 mr-2"
           />
           {typeof error === 'string' ? error : error.message}
         </p>

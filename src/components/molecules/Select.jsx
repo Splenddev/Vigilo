@@ -1,9 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
+import { FaExclamationCircle } from 'react-icons/fa';
 
 const Select = ({
+  name = '',
   label,
-  options = [],
+  options = [{ value: '', label: '' }],
   value,
   onChange,
   placeholder = '',
@@ -48,6 +50,7 @@ const Select = ({
         </label>
       )}
       <select
+        name={name}
         className={clsx(
           'transition-all duration-200 outline-none',
           sizeClasses[size],
@@ -62,9 +65,16 @@ const Select = ({
         disabled={disabled}
         required={required}
         {...props}>
-        {placeholder && <option value="">{placeholder}</option>}
+        {placeholder && (
+          <option
+            value=""
+            className="text-gray-700">
+            {placeholder}
+          </option>
+        )}
         {options.map((opt, i) => (
           <option
+            className="text-gray-700"
             key={i}
             value={opt.value}>
             {opt.label}
@@ -72,7 +82,11 @@ const Select = ({
         ))}
       </select>
       {errorText ? (
-        <p className="text-xs text-red-500">{errorText}</p>
+        <p className="text-sm text-red-400 flex items-center">
+          <FaExclamationCircle aria-hidden="true"
+            className="w-4 h-4 shrink-0 mr-2"/>
+          {errorText}
+        </p>
       ) : (
         helperText && <p className="text-xs text-gray-500">{helperText}</p>
       )}

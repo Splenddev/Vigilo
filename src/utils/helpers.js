@@ -73,10 +73,72 @@ const formatDate = (dateString) => {
   });
 };
 
+const generateGroupName = ({ faculty, department, level, courseCode }) => {
+  const parts = [];
+
+  if (courseCode) parts.push(courseCode);
+  if (faculty) parts.push(faculty);
+  if (department && level) {
+    parts.push(`${department} ${level} level`);
+  } else if (department) {
+    parts.push(department);
+  }
+
+  if (courseCode && parts.length > 1) {
+    return `${courseCode}- ${parts.slice(1).join(', ')}`;
+  }
+
+  return parts.join(', ');
+};
+
+const generateGroupNameSuggestions = ({
+  faculty,
+  department,
+  level,
+  courseCode,
+}) => {
+  const suggestions = [];
+  if (!department && !courseCode) return suggestions;
+
+  const shortLevel = level ? `${level}L` : null;
+  const longLevel = level ? `${level} level` : null;
+
+  // 1. Strict main
+  if (courseCode && department && level && faculty) {
+    suggestions.push(`${courseCode}- ${faculty},  ${department} ${longLevel}`);
+    suggestions.push(`${courseCode}- ${department} ${shortLevel}, ${faculty}`);
+    suggestions.push(`${courseCode}- ${department} ${longLevel}`);
+    suggestions.push(`${courseCode}- ${faculty}, ${department} ${shortLevel}`);
+  }
+
+  // 2. Without faculty
+  if (courseCode && department && level) {
+    suggestions.push(`${courseCode}- ${department} ${shortLevel}`);
+    suggestions.push(`${courseCode}- Class of ${department} – ${longLevel}`);
+  }
+
+  // 3. Faculty heavy
+  if (courseCode && faculty && department) {
+    suggestions.push(`${courseCode}- ${faculty} – ${department}`);
+    suggestions.push(`${courseCode}- ${faculty}, ${department}`);
+  }
+
+  // 4. Fallbacks if courseCode missing
+  if (!courseCode && department && level) {
+    suggestions.push(`${department} ${longLevel}`);
+    if (faculty) suggestions.push(`${faculty} ${department} ${shortLevel}`);
+  }
+
+  // Deduplicate
+  return [...new Set(suggestions.filter(Boolean))];
+};
+
 export {
   shortenDept,
   checkPasswordStrength,
   getPasswordStrengthColor,
   getPasswordStrengthText,
   formatDate,
+  generateGroupName,
+  generateGroupNameSuggestions,
 };

@@ -359,7 +359,14 @@ export default function CreateSession() {
 
           {/* Action Buttons */}
           <div className="glass rounded-2xl p-6">
-            <div className="flex flex-col sm:flex-row gap-4 justify-end">
+            <div className="flex flex-row not-lg:flex-col gap-4">
+              <div className="flex items-center flex-1 gap-2">
+                <LuUsers className="w-5 h-5 text-cyan-400" />
+                <p className="text-body-sm text-gray-300">
+                  Once created, you can start tracking attendance for this
+                  session
+                </p>
+              </div>
               <button
                 type="button"
                 onClick={handleReset}
@@ -375,16 +382,6 @@ export default function CreateSession() {
                 Create Session
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* Info Card */}
-        <div className="card mt-8 text-center animate-fade-in-up">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <LuUsers className="w-5 h-5 text-cyan-400" />
-            <p className="text-body-sm text-gray-300">
-              Once created, you can start tracking attendance for this session
-            </p>
           </div>
         </div>
       </div>

@@ -309,7 +309,7 @@ function randomInt(min, max) {
 }
 
 // auto create a single session
-export function createSession(id) {
+function createSession(id) {
   const course = Math.random() > 0.2 ? randomItem(courses) : null; // 20% chance of guest lecture
   const instructor = randomItem(instructors);
   const date = new Date();
@@ -347,4 +347,4 @@ function createMockSessions(count = 10) {
   return Array.from({ length: count }, (_, i) => createSession(i + 1));
 }
 
-export { groups, generateStudentData, createMockSessions };
+export { groups, generateStudentData, createMockSessions, createSession };

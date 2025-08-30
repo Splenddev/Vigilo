@@ -15,7 +15,12 @@ import {
   LuClipboardPlus,
   LuCircleUserRound,
 } from 'react-icons/lu';
-import { HiOutlineUserGroup, HiUserGroup } from 'react-icons/hi';
+import {
+  HiClipboardList,
+  HiOutlineClipboardList,
+  HiOutlineUserGroup,
+  HiUserGroup,
+} from 'react-icons/hi';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -40,9 +45,13 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: FiHome, label: 'Home', href: '/lecturer/dashboard' },
-    { icon: LuClipboardList, label: 'Sessions', href: '/lecturer/sessions' },
-    { icon: HiOutlineUserGroup, href: '/lecturer/groups', label: 'Groups' },
-    { icon: LuUsers, label: 'Students', href: '/lecturer/students' },
+    { icon: LuCalendar, label: 'Sessions', href: '/lecturer/sessions' },
+    { icon: LuUsers, href: '/lecturer/groups', label: 'Groups' },
+    {
+      icon: HiOutlineClipboardList,
+      label: 'Students',
+      href: '/lecturer/students',
+    },
     { icon: LuSettings, label: 'Settings', href: '/settings' },
     { icon: LuCircleHelp, label: 'Help', href: '/help' },
   ];
@@ -87,23 +96,22 @@ const Sidebar = () => {
               <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
                 Navigation
               </h3>
-
-              {menuItems.map((item, index) => (
-                <Anchor
-                  key={item.label}
-                  href={item.href}
-                  variant="primary"
-                  className="flex items-center px-4 py-3 rounded-xl text-white hover:bg-white/10 border border-transparent hover:border-purple-400/50 transition-all duration-200 group"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  animated>
-                  <item.icon className="w-5 h-5 mr-3 text-gray-300 group-hover:text-purple-400 transition-colors" />
-                  <span className="font-medium group-hover:text-purple-300 transition-colors">
-                    {item.label}
-                  </span>
-                </Anchor>
-              ))}
+              <AnimatePresence>
+                {menuItems.map((item, index) => (
+                  <Anchor
+                    key={item.label}
+                    href={item.href}
+                    variant="primary"
+                    className="flex items-center px-4 py-3 rounded-xl text-white hover:bg-white/10 border border-transparent hover:border-purple-400/50 transition-all duration-200 group"
+                    transition={{ delay: index * 0.1 }}
+                    animated>
+                    <item.icon className="w-5 h-5 mr-3 text-gray-300 group-hover:text-purple-400 transition-colors" />
+                    <span className="font-medium group-hover:text-purple-300 transition-colors">
+                      {item.label}
+                    </span>
+                  </Anchor>
+                ))}
+              </AnimatePresence>
             </div>
 
             {/* User Profile Section */}
@@ -137,14 +145,14 @@ const Sidebar = () => {
                     <Anchor
                       href="/lecturer/sessions/new"
                       variant="primary"
-                      className=" px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-purple-500/20 border border-white/20 transition-colors flex items-center">
+                      className=" px-4 py-2 rounded-lg bg-white/10 text-gray-200 hover:text-white hover:border-purple-500 border border-white/20 transition-colors flex items-center">
                       <LuClipboardPlus className="w-5 h-5 mr-3" />
                       New Session
                     </Anchor>
                     <Anchor
-                      href="/lecturer/courses/new"
+                      href="/lecturer/groups/new"
                       variant="primary"
-                      className="flex items-center px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-purple-500/10 hover:border-purple-500 border border-white/20 transition-colors">
+                      className="flex items-center px-4 py-2 rounded-lg bg-white/10 text-gray-200 hover:text-white hover:border-purple-500 border border-white/20 transition-colors">
                       <HiOutlineUserGroup className="w-5 h-5 mr-3" />
                       New Group
                     </Anchor>
@@ -157,7 +165,7 @@ const Sidebar = () => {
                 onClick={() => setOpenNew(!openNew)}
                 animate={{ rotate: openNew ? 45 : 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="w-12 h-12 rounded-full flex items-center justify-center 
+                className="w-10 h-10 rounded-full flex items-center justify-center 
       bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg 
       hover:scale-105 transition-transform duration-200 place-self-end">
                 <LuPlus className="w-6 h-6 " />

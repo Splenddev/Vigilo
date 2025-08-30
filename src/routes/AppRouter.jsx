@@ -18,6 +18,7 @@ import UserProfile from '../pages/UserProfile';
 import StudentsList from '../features/lecturer/StudentsList';
 import HelpPage from '../pages/Help';
 import CourseList from '../features/courses/CourseList';
+import CreateGroup from '../features/group/CreateGroup';
 
 const router = createBrowserRouter([
   {
@@ -59,10 +60,14 @@ const router = createBrowserRouter([
             element: <Groups />,
           },
           {
+            path: 'groups/new',
+            element: <CreateGroup />,
+          },
+          { path: 'groups/:groupId/info', element: <GroupInfo /> },
+          {
             path: 'courses',
             element: <CourseList />,
           },
-          { path: 'groups/:groupId/info', element: <GroupInfo /> },
         ],
       },
       { path: '/student', element: <StudentLayout /> },

@@ -40,7 +40,7 @@ const Anchor = ({
 
   const activeClasses = {
     default:
-      'text-primary bg-gradient-to-r from-purple-500/20 to-pink-500/10 border-purple-500 bg-white/5 shadow-lg shadow-purple-500/10',
+      'bg-gradient-to-r from-purple-500/20 to-pink-500/10 border-purple-500 bg-white/5 shadow-lg shadow-purple-500/10',
     primary: 'animate-pulse-glow shadow-lg shadow-purple-500/25',
     secondary: 'border-purple-400 bg-purple-500/20 animate-pulse-glow',
     ghost: 'bg-white/15 border-white/30 animate-pulse-glow',

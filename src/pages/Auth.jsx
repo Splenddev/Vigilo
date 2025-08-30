@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
   FaEye,
@@ -21,17 +22,30 @@ import { checkPasswordStrength } from '../utils/helpers';
 import { emailRegex } from '../utils/regex';
 import LabelCheckbox from '../components/atoms/LabelCheckbox';
 import { useNavigate } from 'react-router-dom';
+import EmailVerificationModal from '../components/modal/EmailVerificationModal';
+import { departments, faculties } from '../utils/facultiesDepartments';
+import Select from '../components/molecules/Select';
+import { useAuth } from '../hooks/useAuth';
+import { useErrorModal, useSuccessModal } from '../hooks/useStatusModal';
 
 const Auth = () => {
+  const { register, login, user, loading, error: authError } = useAuth();
+
+  const { showSuccess } = useSuccessModal();
+  const { showError } = useErrorModal();
+
   const [isLogin, setIsLogin] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [hasRegistered, setHasRegistered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    userType: 'lecturer',
+    role: 'lecturer',
+    department: '',
+    faculty: '',
     rememberMe: false,
     agreeToTerms: false,
   });
@@ -66,11 +80,23 @@ const Auth = () => {
 
     if (!isLogin) {
       // Name validation for signup
-      if (!formData.firstName.trim()) {
+      if (!formData.firstName?.trim()) {
         newErrors.firstName = 'First name is required';
       }
-      if (!formData.lastName.trim()) {
+      if (!formData.lastName?.trim()) {
         newErrors.lastName = 'Last name is required';
+      }
+
+      if (!formData.department) {
+        newErrors.department = 'Department is required';
+      }
+
+      if (!formData.faculty) {
+        newErrors.faculty = 'Faculty is required';
+      }
+
+      if (formData.role === 'student' && !formData.level) {
+        newErrors.level = 'Level is required';
       }
 
       // Confirm password validation
@@ -86,8 +112,7 @@ const Auth = () => {
       }
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return newErrors;
   };
 
   const handleInputChange = (e) => {
@@ -111,7 +136,12 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    // Run validation
+    const newErrors = validateForm();
+    setErrors(newErrors);
+
+    // Exit early if invalid
+    if (Object.keys(newErrors).length > 0) return;
 
     // Trim only non-password string fields
     const cleanedData = Object.fromEntries(
@@ -120,28 +150,27 @@ const Auth = () => {
       )
     );
 
-    setLoading(true);
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       if (isLogin) {
         console.log('Login attempted:', {
           email: cleanedData.email,
-          password: formData.password, // send raw password
+          password: formData.password,
         });
-        alert('Login successful! (This is a demo)');
-        navigate(`/${formData.userType}`);
+        await login({ email: cleanedData.email, password: formData.password });
+        navigate(`/${user.role}`);
       } else {
         console.log('Signup attempted:', cleanedData);
-        alert('Account created successfully! (This is a demo)');
-        setIsLogin(true);
+        const { agreeToTerms, confirmPassword, ...data } = cleanedData;
+        const res = await register(data);
+        if (res.success) {
+          showSuccess(res.message || 'Successful action!');
+          setIsModalOpen(true);
+          setHasRegistered(true);
+        }
       }
-    } catch (error) {
-      console.error('Auth error:', error);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      showError(err.response?.data?.message || 'Something went wrong');
+      console.error('Auth error:', err);
     }
   };
   // Social auth handlers (mock)
@@ -159,7 +188,7 @@ const Auth = () => {
       email: '',
       password: '',
       confirmPassword: '',
-      userType: 'lecturer',
+      role: 'lecturer',
       rememberMe: false,
       agreeToTerms: false,
     });
@@ -170,6 +199,17 @@ const Auth = () => {
   return (
     <div className="relative flex items-center justify-center p-4 w-full min-h-screen">
       {/* content */}
+      {isModalOpen && (
+        <EmailVerificationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          email={formData.email}
+          onSuccess={() => {
+            setHasRegistered(false);
+            setIsLogin(true);
+          }}
+        />
+      )}
 
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden">
@@ -178,7 +218,7 @@ const Auth = () => {
         <div className="absolute top-3/4 left-3/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mb-4">
@@ -209,9 +249,11 @@ const Auth = () => {
                     onChange={handleInputChange}
                     error={errors.firstName}
                     icon={FaUser}
+                    required
                   />
 
                   <FormInput
+                    required
                     label="Last Name"
                     name="lastName"
                     value={formData.lastName}
@@ -220,6 +262,58 @@ const Auth = () => {
                     error={errors.lastName}
                     icon={FaUser}
                   />
+                  <Select
+                    name="faculty"
+                    label="Faculty"
+                    value={formData.faculty}
+                    onChange={handleInputChange}
+                    required
+                    placeholder="Select Faculty"
+                    options={faculties.map((faculty) => ({
+                      value: faculty,
+                      label: faculty,
+                    }))}
+                    errorText={errors.faculty}
+                  />
+                  {/* Department */}
+                  <Select
+                    errorText={errors.department}
+                    name="department"
+                    label="Department"
+                    value={formData.department}
+                    onChange={handleInputChange}
+                    required
+                    placeholder={`Select ${
+                      formData.faculty ? 'Department' : 'a faculty first'
+                    }`}
+                    options={
+                      formData.faculty
+                        ? departments[formData.faculty]?.map((dept) => ({
+                            value: dept.toLowerCase(),
+                            label: dept,
+                          }))
+                        : []
+                    }
+                    disabled={!formData.faculty}
+                  />
+                  {/* Level */}
+                  {formData.role === 'student' && (
+                    <Select
+                      label="Level"
+                      options={[
+                        { value: 100, label: '100 Level' },
+                        { value: 200, label: '200 Level' },
+                        { value: 300, label: '300 Level' },
+                        { value: 400, label: '400 Level' },
+                        { value: 500, label: '500 Level' },
+                      ]}
+                      name="level"
+                      placeholder="Select level"
+                      value={formData.level}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  )}
                 </div>
 
                 {/* User Type */}
@@ -232,18 +326,18 @@ const Auth = () => {
                       icon={FaGraduationCap}
                       label="Student"
                       value="student"
-                      selectedValue={formData.userType}
+                      selectedValue={formData.role}
                       onChange={handleInputChange}
-                      name="userType"
+                      name="role"
                     />
 
                     <RadioCard
                       icon={FaUserTie}
                       label="Lecturer"
                       value="lecturer"
-                      selectedValue={formData.userType}
+                      selectedValue={formData.role}
                       onChange={handleInputChange}
-                      name="userType"
+                      name="role"
                     />
                   </div>
                 </div>
@@ -319,39 +413,13 @@ const Auth = () => {
                 </p>
               )}
             </div>
-            {isLogin && (
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  I am a
-                </label>
-                <div className="grid grid-cols-2 gap-4">
-                  <RadioCard
-                    icon={FaGraduationCap}
-                    label="Student"
-                    value="student"
-                    selectedValue={formData.userType}
-                    onChange={handleInputChange}
-                    name="userType"
-                  />
-
-                  <RadioCard
-                    icon={FaUserTie}
-                    label="Lecturer"
-                    value="lecturer"
-                    selectedValue={formData.userType}
-                    onChange={handleInputChange}
-                    name="userType"
-                  />
-                </div>
-              </div>
-            )}
 
             {/* Submit Button */}
             <button
               type="button"
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 px-4 rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+              className="w-full btn-primary text-white font-semibold py-3 px-4 rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
               {loading ? (
                 <div className="flex items-center justify-center">
                   <FaSpinner className="animate-spin w-5 h-5 mr-2" />
@@ -363,6 +431,15 @@ const Auth = () => {
                 'Create Account'
               )}
             </button>
+
+            {!isLogin && hasRegistered && (
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="w-full btn-secondary p-3">
+                Verify
+              </button>
+            )}
 
             {/* Forgot Password */}
             {isLogin && (
@@ -393,7 +470,10 @@ const Auth = () => {
           {/* Social Login */}
           <div className="flex">
             <button
-              onClick={() => handleSocialAuth('Google')}
+              onClick={() => {
+                handleSocialAuth('Google');
+                console.log('user:', user);
+              }}
               className="flex items-center justify-center px-4 py-3 border border-white/20 rounded-xl bg-white/5 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-200 transform hover:scale-[1.02] w-full">
               <FaGoogle className="w-5 h-5 mr-2 text-red-400" />
               Google
