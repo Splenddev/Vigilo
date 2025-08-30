@@ -6,9 +6,17 @@ import Anchor from '../atoms/Anchor'; /* eslint-disable no-unused-vars */
 import { AnimatePresence, motion } from 'framer-motion';
 import { fadeIn } from '../../utils/animationVariants';
 import { toggleSidebar } from '../../hooks/useSidebar';
+import { useAuth } from '../../hooks/useAuth';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { user, logout, loading } = useAuth();
+
+  const { firstName = '', lastName = '' } = user;
+
+  const catenateName = firstName.split('')[0] + lastName.split('')[0];
+
+  const avatar = user.avatar || catenateName;
 
   return (
     <nav className="glass sticky top-0 z-40 w-full border-b border-white/10">
@@ -34,7 +42,7 @@ const Navbar = () => {
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               variant="transparent">
               <div className="w-7 h-7 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-white">DR</span>
+                <span className="text-sm font-medium text-white">{avatar}</span>
               </div>
               <LuChevronDown className="w-4 h-4 text-gray-300" />
             </Button>
@@ -64,6 +72,11 @@ const Navbar = () => {
                         {link.text}
                       </Anchor>
                     ))}
+                    <Button
+                      variant="dangerLight"
+                      func={logout}>
+                      Logout
+                    </Button>
                   </div>
                 </motion.div>
               )}

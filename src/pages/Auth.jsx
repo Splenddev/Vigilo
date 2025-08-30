@@ -1,15 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
-  FaEye,
-  FaEyeSlash,
   FaGoogle,
-  FaGithub,
   FaUser,
   FaEnvelope,
-  FaLock,
   FaGraduationCap,
-  FaCheckCircle,
   FaExclamationCircle,
   FaArrowLeft,
   FaSpinner,
@@ -156,8 +151,13 @@ const Auth = () => {
           email: cleanedData.email,
           password: formData.password,
         });
-        await login({ email: cleanedData.email, password: formData.password });
-        navigate(`/${user.role}`);
+        const res = await login({
+          email: cleanedData.email,
+          password: formData.password,
+        });
+        if (res.success) {
+          navigate(`/${res.user.role}`);
+        }
       } else {
         console.log('Signup attempted:', cleanedData);
         const { agreeToTerms, confirmPassword, ...data } = cleanedData;
@@ -169,7 +169,10 @@ const Auth = () => {
         }
       }
     } catch (err) {
-      showError(err.response?.data?.message || 'Something went wrong');
+      showError(
+        err.response?.data?.error || err.message || 'Something went wrong',
+        err.status
+      );
       console.error('Auth error:', err);
     }
   };

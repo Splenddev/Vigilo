@@ -16,10 +16,13 @@ import {
   FaFileDownload,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const Home = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isVisible, setIsVisible] = useState({});
+
+  const { user } = useAuth();
 
   const navigate = useNavigate();
 
@@ -151,10 +154,10 @@ const Home = () => {
 
             <div className="flex flex-col items-center justify-center gap-4 mt-10 sm:flex-row">
               <button
-                className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-200 shadow-2xl hover:shadow-purple-500/25"
-                onClick={() => navigate('/auth')}>
+                className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-white btn-primary rounded-xl shadow-2xl hover:shadow-purple-500/25"
+                onClick={() => navigate(user ? `/${user?.role}` : '/auth')}>
                 <FaSignInAlt className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                Get Started Free
+                {user ? 'Proceed to dashboard' : 'Get Started Free'}
                 <div className="absolute inset-0 bg-white/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
 

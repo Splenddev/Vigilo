@@ -17,6 +17,7 @@ import {
   itemVariants,
   scaleIn,
   slideInUp,
+  slideUp,
 } from '../../utils/animationVariants';
 
 // Mock data for demonstration
@@ -115,7 +116,7 @@ const LecturerDashboard = () => {
               />
               <motion.p
                 className="text-base sm:text-lg lg:text-xl text-[var(--color-text-secondary)] mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed"
-                variants={slideInUp}
+                variants={slideUp}
                 transition={{ delay: 0.2, duration: 0.6 }}>
                 Take attendance in seconds with Vigilo&apos;s intelligent
                 session management system

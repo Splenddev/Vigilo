@@ -61,7 +61,7 @@ export const slideUp = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.4 },
   },
   exit: {
     opacity: 0,
@@ -170,7 +170,7 @@ export const zoomIn = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.4,delay:.4, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 
@@ -179,7 +179,7 @@ export const zoomOut = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.35, ease: 'easeOut' },
+    transition: { duration: 0.35, ease: 'easeOut', delay: 0.4 },
   },
 };
 
@@ -261,7 +261,7 @@ export const slideInUp = {
   visible: {
     y: 0,
     opacity: 1,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    transition: { duration: 0.4, ease: 'easeOut', delay: 0.6 },
   },
   exit: {
     y: 100,

@@ -19,6 +19,9 @@ import StudentsList from '../features/lecturer/StudentsList';
 import HelpPage from '../pages/Help';
 import CourseList from '../features/courses/CourseList';
 import CreateGroup from '../features/group/CreateGroup';
+import ProtectedRoutes from './ProtectedRoute';
+import { ROLES } from '../utils/roles';
+import Unauthorized from '../pages/Unauthorized';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +40,11 @@ const router = createBrowserRouter([
 
       {
         path: '/lecturer',
-        element: <LecturerLayout />,
+        element: (
+          <ProtectedRoutes allowedRoles={[ROLES.LECTURER]}>
+            <LecturerLayout />
+          </ProtectedRoutes>
+        ),
         children: [
           {
             index: true,
@@ -70,9 +77,17 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: '/student', element: <StudentLayout /> },
+      {
+        path: '/student',
+        element: (
+          <ProtectedRoutes allowedRoles={[ROLES.STUDENT]}>
+            <StudentLayout />
+          </ProtectedRoutes>
+        ),
+      },
       { path: '/profile', element: <UserProfile /> },
       { path: '/help', element: <HelpPage /> },
+      { path: '/unauthorized', element: <Unauthorized /> },
     ],
   },
 ]);

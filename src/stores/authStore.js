@@ -1,3 +1,4 @@
+// src/stores/authStore.js
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import api from '../utils/api';
@@ -8,11 +9,13 @@ export const useAuthStore = create(
       user: null,
       loading: false,
       error: null,
+      isOnline: navigator.onLine, // ✅ track network state
 
       // ---- Helpers ----
       setUser: (user) => set({ user }),
       setError: (error) => set({ error }),
       setLoading: (loading) => set({ loading }),
+      setOnline: (status) => set({ isOnline: status }),
 
       // ---- Actions ----
       register: async (credentials) => {
@@ -109,7 +112,17 @@ export const useAuthStore = create(
       name: 'auth-storage',
       partialize: (state) => ({
         user: state.user,
+        isOnline: state.isOnline, // ✅ persist network state
       }),
     }
   )
 );
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    useAuthStore.getState().setOnline(true);
+  });
+  window.addEventListener('offline', () => {
+    useAuthStore.getState().setOnline(false);
+  });
+}
