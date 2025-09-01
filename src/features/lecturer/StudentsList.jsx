@@ -13,8 +13,11 @@ import {
 import { generateStudentData } from '../../utils/data';
 import AdvancedFilters from '../../components/modal/AdvancedFilters';
 import LabelCheckbox from '../../components/atoms/LabelCheckbox';
+import { useNavigate } from 'react-router-dom';
+import FilterSummary from '../../components/molecules/FilterSummary';
+import { studentsFilters } from '../attendance/assets/assets';
 
-const studentsData = generateStudentData();
+const studentsData = generateStudentData(750);
 
 const StudentsList = () => {
   const [search, setSearch] = useState('');
@@ -23,7 +26,10 @@ const StudentsList = () => {
     levels: [],
     statuses: [],
     attendanceRange: [0, 100],
+    absentRate: [0, 100],
   });
+
+  const navigate = useNavigate();
 
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -68,8 +74,13 @@ const StudentsList = () => {
     // Attendance range
     list = list.filter(
       (s) =>
-        s.attendance >= filters.attendanceRange[0] &&
-        s.attendance <= filters.attendanceRange[1]
+        s.attendance.rate >= filters.attendanceRange[0] &&
+        s.attendance.rate <= filters.attendanceRange[1]
+    );
+    list = list.filter(
+      (s) =>
+        s.attendance.summary.absent >= filters.absentRate[0] &&
+        s.attendance.summary.absent <= filters.absentRate[1]
     );
 
     // Sorting
@@ -101,6 +112,11 @@ const StudentsList = () => {
     startIndex,
     startIndex + studentsPerPage
   );
+
+  const filtersData = studentsFilters({
+    dpts: uniqueDepartments,
+    lvls: uniqueLevels,
+  });
 
   const handleSort = (column) => {
     if (sortBy === column) {
@@ -146,7 +162,7 @@ const StudentsList = () => {
           s.department,
           s.level,
           s.group,
-          s.attendance,
+          s.attendance.rate,
           s.status,
         ].join(',')
       ),
@@ -240,34 +256,7 @@ const StudentsList = () => {
           onClose={() => setShowFilters(false)}
           selected={filters}
           setSelected={setFilters}
-          filters={[
-            {
-              key: 'departments',
-              label: 'Departments',
-              type: 'multi',
-              options: uniqueDepartments,
-            },
-            {
-              key: 'levels',
-              label: 'Levels',
-              type: 'multi',
-              options: uniqueLevels,
-            },
-            {
-              key: 'statuses',
-              label: 'Status',
-              type: 'multi',
-              options: ['active', 'inactive'],
-            },
-            {
-              key: 'attendanceRange',
-              label: 'Attendance Range',
-              type: 'range',
-              min: 0,
-              max: 100,
-              default: [0, 100],
-            },
-          ]}
+          filters={filtersData}
           onApply={(selected) => {
             setFilters(selected);
             setCurrentPage(1);
@@ -284,6 +273,12 @@ const StudentsList = () => {
           }}
         />
       )}
+
+      <FilterSummary
+        filters={filtersData}
+        selected={filters}
+        setSelected={setFilters}
+      />
 
       {/* Table */}
       <div className="glass rounded-xl overflow-hidden">
@@ -339,10 +334,11 @@ const StudentsList = () => {
               </tr>
             </thead>
             <tbody>
-              {currentStudents.map((student, index) => (
+              {currentStudents.map((student) => (
                 <tr
                   key={student.id}
-                  className={`border-b border-white/5 hover:bg-white/5 transition-colors ${
+                  onClick={() => navigate(`${student.id}`)}
+                  className={`border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer ${
                     selectedStudents.includes(student.id)
                       ? 'bg-purple-500/10'
                       : ''
@@ -382,10 +378,10 @@ const StudentsList = () => {
                     <div className="w-24">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm text-t-secondary">
-                          {student.attendance}%
+                          {student.attendance.rate}%
                         </span>
                       </div>
-                      <AttendanceBar percentage={student.attendance} />
+                      <AttendanceBar percentage={student.attendance.rate} />
                     </div>
                   </td>
                   <td className="p-4">

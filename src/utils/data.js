@@ -161,7 +161,7 @@ const groups = [
   },
 ];
 
-const generateStudentData = (length = 120) => {
+const generateStudentData = (length = 50) => {
   const nigerianNames = [
     'Adebayo Ogundimu',
     'Chioma Okafor',
@@ -230,43 +230,153 @@ const generateStudentData = (length = 120) => {
     'Political Science',
   ];
 
-  const groups = ['A', 'B', 'C', 'D', 'E'];
-  const levels = [100, 200, 300, 400, 500];
-  const statuses = ['active', 'inactive'];
+  const coursesByDept = {
+    'Computer Science': [
+      'Advanced Algorithms',
+      'Machine Learning',
+      'Database Systems',
+      'Operating Systems',
+    ],
+    'Mechanical Engineering': [
+      'Thermodynamics',
+      'Fluid Mechanics',
+      'Machine Design',
+      'Control Systems',
+    ],
+    Biochemistry: [
+      'Metabolism',
+      'Enzyme Kinetics',
+      'Molecular Biology',
+      'Genetics',
+    ],
+    'Civil Engineering': [
+      'Structural Analysis',
+      'Geotechnical Engineering',
+      'Hydraulics',
+      'Construction Materials',
+    ],
+    'Electrical Engineering': [
+      'Circuit Analysis',
+      'Power Systems',
+      'Digital Electronics',
+      'Control Engineering',
+    ],
+    Medicine: ['Anatomy', 'Physiology', 'Pharmacology', 'Pathology'],
+    Law: ['Constitutional Law', 'Criminal Law', 'Contract Law', 'Human Rights'],
+    'Business Administration': [
+      'Accounting',
+      'Marketing',
+      'Finance',
+      'Organizational Behavior',
+    ],
+    Mathematics: [
+      'Abstract Algebra',
+      'Real Analysis',
+      'Probability',
+      'Linear Algebra',
+    ],
+    Physics: [
+      'Quantum Mechanics',
+      'Electrodynamics',
+      'Thermal Physics',
+      'Solid State Physics',
+    ],
+    Chemistry: [
+      'Organic Chemistry',
+      'Inorganic Chemistry',
+      'Physical Chemistry',
+      'Analytical Chemistry',
+    ],
+    Microbiology: ['Virology', 'Bacteriology', 'Immunology', 'Parasitology'],
+    Economics: [
+      'Microeconomics',
+      'Macroeconomics',
+      'Econometrics',
+      'International Trade',
+    ],
+    'Political Science': [
+      'Political Theory',
+      'Comparative Politics',
+      'International Relations',
+      'Public Policy',
+    ],
+  };
 
+  const attStatuses = ['present', 'late', 'absent'];
+  const accStatus = ['active', 'inactive'];
   const allNames = [...nigerianNames, ...internationalNames];
+
   const students = [];
 
   for (let i = 1; i <= length; i++) {
     const name = allNames[Math.floor(Math.random() * allNames.length)];
     const department =
       departments[Math.floor(Math.random() * departments.length)];
-    const level = levels[Math.floor(Math.random() * levels.length)];
-    const group = groups[Math.floor(Math.random() * groups.length)];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const attendance = Math.floor(Math.random() * 101); // 0-100
+    const level = [100, 200, 300, 400, 500][Math.floor(Math.random() * 5)];
+    const gpa = (Math.random() * 2 + 2).toFixed(2); // 2.0 - 4.0
 
     // Generate email from name
     const emailName = name.toLowerCase().replace(/\s+/g, '.');
     const email = `${emailName}@university.edu`;
 
+    // Group naming convention
+    const group = `Class of ${department} – ${level} Level`;
+
+    // Generate random session attendance
+    const courseList = coursesByDept[department] || ['General Studies'];
+    const sessionCount = Math.floor(Math.random() * 10) + 5; // 5-15 sessions
+
+    let summary = { present: 0, absent: 0, late: 0 };
+    const sessions = Array.from({ length: sessionCount }, (_, idx) => {
+      const status =
+        attStatuses[Math.floor(Math.random() * attStatuses.length)];
+      summary[status]++;
+
+      return {
+        id: `S${i}-${idx + 1}`,
+        course: courseList[Math.floor(Math.random() * courseList.length)],
+        date: new Date(
+          2025,
+          Math.floor(Math.random() * 6) + 1,
+          Math.floor(Math.random() * 28) + 1
+        )
+          .toISOString()
+          .split('T')[0],
+        status,
+        details:
+          status === 'present'
+            ? 'Marked on time via geolocation'
+            : status === 'late'
+            ? 'Arrived 10-20 minutes late'
+            : 'Absent (no plea submitted)',
+      };
+    });
+
+    const totalSessions = sessions.length;
+    const attended = summary.present + summary.late;
+    const attendanceRate = ((attended / totalSessions) * 100).toFixed(1); // % with 1 decimal
+
     students.push({
-      id: i,
+      id: String(i),
       name,
       email,
       department,
       level,
-      group: `${department.charAt(0)}${group}`,
-      attendance,
-      status,
-      avatar: `https://i.pravatar.cc/40?img=${i}`,
+      status: randomItem(accStatus),
+      gpa: parseFloat(gpa),
+      groups: [group],
+      avatar: `https://i.pravatar.cc/150?img=${i}`,
+      attendance: {
+        summary,
+        rate: Number(attendanceRate),
+        sessions,
+      },
     });
   }
 
   return students;
 };
 
-// utils/mockSessions.js
 const courses = [
   { id: 'c1', name: 'Computer Science 101' },
   { id: 'c2', name: 'Data Structures' },

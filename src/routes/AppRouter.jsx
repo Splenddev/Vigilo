@@ -22,6 +22,7 @@ import CreateGroup from '../features/group/CreateGroup';
 import ProtectedRoutes from './ProtectedRoute';
 import { ROLES } from '../utils/roles';
 import Unauthorized from '../pages/Unauthorized';
+import StudentInfo from '../features/lecturer/StudentInfo';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
             path: 'students',
             element: <StudentsList />,
           },
+          { path: 'students/:studentId', element: <StudentInfo /> },
           {
             path: 'groups',
             element: <Groups />,

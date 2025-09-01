@@ -24,3 +24,42 @@ export const sessionListDropdown = [
     className: 'text-red-400 hover:text-red-300 hover:bg-red-500/10',
   },
 ];
+
+export const studentsFilters = ({ dpts, lvls }) => {
+  return [
+    {
+      key: 'departments',
+      label: 'Departments',
+      type: 'multi',
+      options: dpts,
+    },
+    {
+      key: 'levels',
+      label: 'Levels',
+      type: 'multi',
+      options: lvls,
+    },
+    {
+      key: 'statuses',
+      label: 'Status',
+      type: 'multi',
+      options: ['active', 'inactive'],
+    },
+    {
+      key: 'attendanceRange',
+      label: 'Attendance Range',
+      type: 'range',
+      min: 0,
+      max: 100,
+      default: [0, 100],
+    },
+    {
+      key: 'absentRate',
+      label: 'Absent Rate',
+      type: 'range',
+      min: 0,
+      max: 100,
+      default: [0, 100],
+    },
+  ];
+};

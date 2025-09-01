@@ -105,7 +105,7 @@
     -webkit-text-fill-color: transparent;
   }
 
-  .gradient-bg{
+  .gradient-bg {
     @apply bg-gradient-to-r from-purple-500 to-pink-500;
   }
 
@@ -163,6 +163,13 @@
     backdrop-filter: blur(12px);
     border: 1px solid var(--color-border-primary);
     @apply rounded-2xl p-6 hover:border-purple-500/50 hover:scale-102 transform transition-all duration-300;
+  }
+
+  .transform-t-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(50%, 50%);
   }
 }
 

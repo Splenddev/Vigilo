@@ -16,6 +16,13 @@ export const containerVariants = {
 
 export const cardVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
+  hover: {
+    y: -5,
+    transition: {
+      duration: 0.3,
+      ease: 'easeInOut',
+    },
+  },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
@@ -170,7 +177,7 @@ export const zoomIn = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.4,delay:.4, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.4, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 

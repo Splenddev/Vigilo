@@ -90,7 +90,7 @@ const Sidebar = () => {
             </div>
 
             {/* Navigation Menu */}
-            <div className="p-6 space-y-2 h-[calc(100dvh-160px)] overflow-y-auto">
+            <div className="p-6 space-y-2 h-[calc(100dvh-160px)] overflow-y-auto pt-0">
               <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
                 Navigation
               </h3>
@@ -129,9 +129,7 @@ const Sidebar = () => {
               onClick={() => navigate('/profile')}>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-t-primary">
-                    {avatar}
-                  </span>
+                  <span className="text-sm font-bold text-white">{avatar}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-t-primary truncate">
@@ -177,8 +175,8 @@ const Sidebar = () => {
                 animate={{ rotate: openNew ? 45 : 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="w-10 h-10 rounded-full flex items-center justify-center 
-      gradient-bg text-t-primary shadow-lg 
-      hover:scale-105 transition-transform duration-200 place-self-end">
+                gradient-bg text-white shadow-lg 
+                hover:scale-105 transition-transform duration-200 place-self-end">
                 <LuPlus className="w-6 h-6 " />
               </motion.button>
             </div>
