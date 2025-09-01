@@ -15,7 +15,7 @@ const VARIANTS = {
     card: 'glass-strong',
     value: 'text-t-primary',
     label: 'text-t-primary font-semibold',
-    icon: 'text-slate-200',
+    icon: 'text-t-tertiary',
   },
 };
 

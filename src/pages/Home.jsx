@@ -135,44 +135,44 @@ const Home = () => {
 
         <div className="relative z-10 px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium text-purple-300 bg-purple-900/50 rounded-full border border-purple-700/50 backdrop-blur-sm">
+            <div className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium text-purple-300 not-dark:text-white  bg-purple-900/50 rounded-full border border-purple-700/50 backdrop-blur-sm">
               <FaGraduationCap className="w-4 h-4 mr-2" />
               Trusted by 500+ Educational Institutions
             </div>
 
-            <h1 className="text-5xl font-bold text-white sm:text-6xl lg:text-7xl">
+            <h1 className="text-5xl font-bold text-t-primary sm:text-6xl lg:text-7xl">
               Welcome to{' '}
               <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
                 Vigilo
               </span>
             </h1>
 
-            <p className="max-w-3xl mx-auto mt-6 text-xl text-gray-300 sm:text-2xl">
+            <p className="max-w-3xl mx-auto mt-6 text-xl text-t-secondary sm:text-2xl">
               The smarter way to manage class attendance with cutting-edge
               technology, real-time insights, and seamless integration.
             </p>
 
             <div className="flex flex-col items-center justify-center gap-4 mt-10 sm:flex-row">
               <button
-                className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-white btn-primary rounded-xl shadow-2xl hover:shadow-purple-500/25"
+                className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-t-primary btn-primary rounded-xl shadow-2xl hover:shadow-purple-500/25"
                 onClick={() => navigate(user ? `/${user?.role}` : '/auth')}>
                 <FaSignInAlt className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
                 {user ? 'Proceed to dashboard' : 'Get Started Free'}
                 <div className="absolute inset-0 bg-white/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
 
-              <button className="group inline-flex items-center px-8 py-4 text-lg font-semibold text-white border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200">
+              <button className="group inline-flex items-center px-8 py-4 text-lg font-semibold text-t-primary border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200">
                 <FaPlay className="w-4 h-4 mr-2" />
                 Watch Demo
                 <FaArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-8 mt-12 text-gray-400">
+            <div className="flex items-center justify-center gap-8 mt-12 text-t-tertiary">
               <div className="text-sm">No setup stress</div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <div className="w-1 h-1 bg-t-ttext-t-tertiary rounded-full"></div>
               <div className="text-sm">Runs on any device</div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <div className="w-1 h-1 bg-t-ttext-t-tertiary rounded-full"></div>
               <div className="text-sm">Pay only when you use it</div>
             </div>
           </div>
@@ -187,10 +187,10 @@ const Home = () => {
               <div
                 key={index}
                 className="text-center">
-                <div className="text-4xl font-bold text-white lg:text-5xl">
+                <div className="text-4xl font-bold text-t-primary lg:text-5xl">
                   {stat.number}
                 </div>
-                <div className="mt-2 text-gray-400">{stat.label}</div>
+                <div className="mt-2 text-t-tertiary">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -204,10 +204,10 @@ const Home = () => {
         className="py-24">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white sm:text-5xl">
+            <h2 className="text-4xl font-bold text-t-primary sm:text-5xl">
               Powerful Features for Modern Education
             </h2>
-            <p className="max-w-2xl mx-auto mt-6 text-xl text-gray-300">
+            <p className="max-w-2xl mx-auto mt-6 text-xl text-t-secondary">
               Everything you need to streamline attendance management and boost
               student engagement
             </p>
@@ -222,12 +222,12 @@ const Home = () => {
                 }`}
                 style={{ animationDelay: `${index * 200}ms` }}>
                 <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl group-hover:scale-110 transition-transform">
-                  <feature.icon className="w-8 h-8 text-white" />
+                  <feature.icon className="w-8 h-8 text-t-primary" />
                 </div>
-                <h3 className="mb-4 text-2xl font-semibold text-white text-center">
+                <h3 className="mb-4 text-2xl font-semibold text-t-primary text-center">
                   {feature.title}
                 </h3>
-                <p className="text-gray-400 text-center leading-relaxed">
+                <p className="text-t-tertiary text-center leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -244,10 +244,10 @@ const Home = () => {
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-white sm:text-5xl mb-6">
+              <h2 className="text-4xl font-bold text-t-primary sm:text-5xl mb-6">
                 Why Choose Vigilo?
               </h2>
-              <p className="text-xl text-gray-300 mb-8">
+              <p className="text-xl text-t-secondary mb-8">
                 Join thousands of educators who have revolutionized their
                 attendance management with our comprehensive solution.
               </p>
@@ -258,7 +258,7 @@ const Home = () => {
                     key={index}
                     className="flex items-center space-x-3">
                     <FaCheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                    <span className="text-gray-300">{benefit}</span>
+                    <span className="text-t-secondary">{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -269,13 +269,13 @@ const Home = () => {
               <div className="relative p-8 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
                 <div className="flex items-center space-x-4 mb-6">
                   <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <FaUsers className="w-6 h-6 text-white" />
+                    <FaUsers className="w-6 h-6 text-t-primary" />
                   </div>
                   <div>
-                    <div className="text-white font-semibold">
+                    <div className="text-t-primary font-semibold">
                       Live Dashboard
                     </div>
-                    <div className="text-gray-400 text-sm">
+                    <div className="text-t-tertiary text-sm">
                       Real-time attendance tracking
                     </div>
                   </div>
@@ -283,15 +283,17 @@ const Home = () => {
 
                 <div className="space-y-4">
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
-                    <span className="text-gray-300">Computer Science 101</span>
+                    <span className="text-t-secondary">
+                      Computer Science 101
+                    </span>
                     <span className="text-green-400">98% Present</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
-                    <span className="text-gray-300">Mathematics 201</span>
+                    <span className="text-t-secondary">Mathematics 201</span>
                     <span className="text-yellow-400">85% Present</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
-                    <span className="text-gray-300">Physics 301</span>
+                    <span className="text-t-secondary">Physics 301</span>
                     <span className="text-green-400">92% Present</span>
                   </div>
                 </div>
@@ -305,7 +307,7 @@ const Home = () => {
       <section className="py-24">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white sm:text-5xl mb-6">
+            <h2 className="text-4xl font-bold text-t-primary sm:text-5xl mb-6">
               Trusted by Educators Worldwide
             </h2>
           </div>
@@ -321,11 +323,11 @@ const Home = () => {
                   <div
                     key={index}
                     className="w-full flex-shrink-0 p-12 text-center">
-                    <blockquote className="text-2xl font-medium text-white mb-8">
+                    <blockquote className="text-2xl font-medium text-t-primary mb-8">
                       "{testimonial.quote}"
                     </blockquote>
-                    <div className="text-gray-400">
-                      <div className="font-semibold text-white">
+                    <div className="text-t-tertiary">
+                      <div className="font-semibold text-t-primary">
                         {testimonial.author}
                       </div>
                       <div>{testimonial.role}</div>
@@ -355,7 +357,7 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-r from-purple-600 to-pink-600">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white sm:text-5xl mb-6">
+          <h2 className="text-4xl font-bold text-t-primary sm:text-5xl mb-6">
             Ready to Transform Your Attendance Management?
           </h2>
           <p className="max-w-2xl mx-auto text-xl text-purple-100 mb-10">
@@ -368,7 +370,7 @@ const Home = () => {
               <FaSignInAlt className="w-5 h-5 mr-2" />
               Start Your Free Trial
             </button>
-            <button className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white border-2 border-white/50 rounded-xl hover:border-white hover:bg-white/10 transition-all duration-200">
+            <button className="inline-flex items-center px-8 py-4 text-lg font-semibold text-t-primary border-2 border-white/50 rounded-xl hover:border-white hover:bg-white/10 transition-all duration-200">
               Schedule Demo
               <FaArrowRight className="w-4 h-4 ml-2" />
             </button>

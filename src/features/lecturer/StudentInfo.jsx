@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { generateStudentData } from '../../utils/data';
 import EmptyState from '../../components/common/EmptyState';
 import Button from '../../components/atoms/Button';
@@ -22,12 +22,14 @@ import {
 import { cardVariants, containerVariants } from '../../utils/animationVariants';
 
 // Sample data (you would normally get this from props or API)
-const studentsData = generateStudentData(700);
+const studentsData = generateStudentData(100);
 
 const StudentInfo = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+
+  const navigate = useNavigate();
 
   const { studentId } = useParams();
   const student = studentsData.find((s) => s.id === studentId);
@@ -98,7 +100,13 @@ const StudentInfo = () => {
       <EmptyState
         title="Student Not Found"
         message="The student record you’re trying to access does not exist or may have been removed."
-        action={<Button className="btn-primary">Go Back</Button>}
+        action={
+          <Button
+            className="btn-primary"
+            onClick={() => navigate(-1)}>
+            Go Back
+          </Button>
+        }
         variant="danger"
       />
     );

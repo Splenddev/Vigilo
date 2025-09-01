@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import FilterSummary from '../../components/molecules/FilterSummary';
 import { studentsFilters } from '../attendance/assets/assets';
 
-const studentsData = generateStudentData(750);
+const studentsData = generateStudentData(75);
 
 const StudentsList = () => {
   const [search, setSearch] = useState('');

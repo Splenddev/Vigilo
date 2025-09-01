@@ -1,12 +1,6 @@
 // hooks/useFilterSummary.js
 import { useMemo } from 'react';
 
-/**
- * filters: array of filter descriptors (safe default [])
- * selected: selected state object (safe default {})
- *
- * Returns: array of { key, label, value } summary items
- */
 export const useFilterSummary = (filters = [], selected = {}) => {
   return useMemo(() => {
     if (!Array.isArray(filters)) return [];
@@ -22,6 +16,7 @@ export const useFilterSummary = (filters = [], selected = {}) => {
           key: f.key,
           label: `${f.label}: ${v}`,
           value: v,
+          type: f.type,
         }));
         return acc.concat(items);
       }
@@ -31,11 +26,16 @@ export const useFilterSummary = (filters = [], selected = {}) => {
           min = f.default?.[0] ?? f.min ?? 0,
           max = f.default?.[1] ?? f.max ?? 100,
         ] = value;
-        return acc.concat({
-          key: f.key,
-          label: `${f.label}: ${min}% - ${max}%`,
-          value: null,
-        });
+
+        // ✅ only show if min > 0
+        if (min > 0) {
+          return acc.concat({
+            key: f.key,
+            label: `${f.label}: ${min}% - ${max}%`,
+            value: [min, max],
+            type: f.type,
+          });
+        }
       }
 
       return acc;

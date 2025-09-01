@@ -98,7 +98,7 @@ const GroupInfo = () => {
           whileTap="tap"
           variants={rippleEffect}
           onClick={() => navigate(-1)}
-          className="group flex items-center gap-2 text-white glass px-3 sm:px-4 py-2 rounded-xl border border-slate-200 shadow-md text-sm sm:text-base mb-5">
+          className="group flex items-center gap-2 text-t-primary glass px-3 sm:px-4 py-2 rounded-xl border border-slate-200 shadow-md text-sm sm:text-base mb-5">
           <FaArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
           <span className="font-medium">Back to Groups</span>
         </motion.button>
@@ -119,12 +119,12 @@ const GroupInfo = () => {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
                 {group.groupName}
               </h1>
-              <p className="text-sm sm:text-base text-gray-300">
+              <p className="text-sm sm:text-base text-t-secondary">
                 {group.description}
               </p>
             </motion.div>
             <motion.div
-              className="flex items-center gap-2 btn-secondary text-white px-4 py-2 rounded-xl place-self-end shadow-lg shrink-0"
+              className="flex items-center gap-2 btn-secondary text-t-primary px-4 py-2 rounded-xl place-self-end shadow-lg shrink-0"
               variants={cardVariants}
               initial="hidden"
               animate="visible">
@@ -192,8 +192,8 @@ const GroupInfo = () => {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-2 px-4 py-2 rounded-t-lg font-medium outline-0 transition-all ${
                 activeTab === tab.key
-                  ? 'bg-slate-700 text-white'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'bg-slate-700 text-t-primary'
+                  : 'text-gray-400 hover:text-t-primary'
               }`}>
               <Icon className="w-4 h-4" />
               {tab.label}

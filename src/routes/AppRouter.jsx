@@ -23,6 +23,7 @@ import ProtectedRoutes from './ProtectedRoute';
 import { ROLES } from '../utils/roles';
 import Unauthorized from '../pages/Unauthorized';
 import StudentInfo from '../features/lecturer/StudentInfo';
+import SettingsPage from '../pages/SettingsPage';
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,7 @@ const router = createBrowserRouter([
       },
       { path: '/profile', element: <UserProfile /> },
       { path: '/help', element: <HelpPage /> },
+      { path: '/settings', element: <SettingsPage /> },
       { path: '/unauthorized', element: <Unauthorized /> },
     ],
   },

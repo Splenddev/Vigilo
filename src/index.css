@@ -79,6 +79,16 @@
   --color-primary: var(--color-primary-purple);
   --color-secondary: var(--color-primary-pink);
   --color-accent: var(--color-primary-cyan);
+
+  --gradient-primary: linear-gradient(to right, #7c3aed, #ec4899);
+  --gradient-secondary: linear-gradient(to right, #7c3aed, #06b6d4);
+  --gradient-accent: linear-gradient(to right, #ec4899, #06b6d4);
+  --gradient-bg-primary: linear-gradient(
+    to bottom right,
+    #0f172a,
+    #581c87,
+    #0f172a
+  );
 }
 
 @layer utilities {

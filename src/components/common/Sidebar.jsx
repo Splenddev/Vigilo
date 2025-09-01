@@ -76,7 +76,7 @@ const Sidebar = () => {
             transition={{ duration: 0.3, ease: 'easeOut' }}
             className={`fixed left-0 top-0 bottom-0 h-full w-70 glass-strong border-r border-white/20 z-70`}>
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center justify-between p-6 border-b border-t-secondary">
               <h2
                 className="text-xl font-bold gradient-text cursor-pointer"
                 onClick={() => navigate('/')}>
@@ -90,7 +90,7 @@ const Sidebar = () => {
             </div>
 
             {/* Navigation Menu */}
-            <div className="p-6 space-y-2 h-[calc(100dvh-160px)] overflow-y-auto pt-0">
+            <div className="p-6 space-y-2 h-[calc(100dvh-160px)] overflow-y-auto pt-2">
               <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
                 Navigation
               </h3>

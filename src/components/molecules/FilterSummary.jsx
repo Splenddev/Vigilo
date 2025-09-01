@@ -27,15 +27,17 @@ const FilterSummary = ({ filters, selected, setSelected }) => {
   if (summary.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 mb-4">
       {summary.map((s, idx) => (
         <span
           key={idx}
-          className="bg-purple-600/20 text-purple-300 px-3 py-1 rounded-lg flex items-center gap-2 text-sm">
+          className="glass dark:text-primary px-3 py-1 rounded-lg flex items-center gap-2 text-sm">
           {s.label}
           <Button
             icon={s.type === 'range' ? FiRefreshCcw : FiX}
-            onClick={() => removeFilter(s.key, s.value, s.type)} // pass type
+            onClick={() => removeFilter(s.key, s.value, s.type)}
+            size="sm"
+            variant="dangerLight"
             className="hover:text-white"
           />
         </span>
