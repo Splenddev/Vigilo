@@ -7,14 +7,14 @@ const VARIANTS = {
   },
   dark: {
     card: 'bg-slate-800 border border-slate-700 shadow-sm hover:shadow-md',
-    value: 'text-white',
+    value: 'text-t-primary',
     label: 'text-slate-300',
     icon: 'text-slate-300',
   },
   glass: {
     card: 'glass-strong',
-    value: 'text-white',
-    label: 'text-white font-semibold',
+    value: 'text-t-primary',
+    label: 'text-t-primary font-semibold',
     icon: 'text-slate-200',
   },
 };

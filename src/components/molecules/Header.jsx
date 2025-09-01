@@ -29,7 +29,7 @@ const Header = ({
           className="font-semibold mb-4 leading-tight"
         />
         {subtitle && (
-          <p className="text-white text-lg md:text-xl opacity-80 mb-6 ">
+          <p className="text-t-primary text-lg md:text-xl opacity-80 mb-6 ">
             {subtitle}
           </p>
         )}

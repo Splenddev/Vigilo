@@ -44,7 +44,7 @@ const PasswordInput = ({
             variant="custom"
             size="none"
             func={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-t-primary transition-colors">
             {showPassword ? (
               <FaEyeSlash className="w-4 h-4" />
             ) : (

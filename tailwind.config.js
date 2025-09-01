@@ -1,8 +1,7 @@
 // tailwind.config.js
 
-// Color palette constants for better maintainability
+// ---- Brand Colors ----
 const colors = {
-  // Brand colors
   brand: {
     green: {
       DEFAULT: '#58CC02', // Duolingo green
@@ -20,8 +19,25 @@ const colors = {
       light: '#FFE873',
       dark: '#E6B800',
     },
+    purple: {
+      DEFAULT: '#7c3aed',
+      light: '#a855f7',
+      dark: '#5b21b6',
+      soft: '#f3e8ff',
+    },
+    pink: {
+      DEFAULT: '#ec4899',
+      light: '#f472b6',
+      dark: '#be185d',
+      soft: '#fce7f3',
+    },
+    cyan: {
+      DEFAULT: '#06b6d4',
+      light: '#67e8f9',
+      dark: '#0891b2',
+      soft: '#e0f7fa',
+    },
   },
-  // Semantic colors
   semantic: {
     danger: {
       DEFAULT: '#FF4B4B',
@@ -36,28 +52,27 @@ const colors = {
   },
 };
 
-// Typography scale
+// ---- Typography Scale ----
 const typography = {
   fontFamily: {
     sen: ['Sen', 'sans-serif'],
     baloo: ['"Baloo 2"', 'cursive'],
     fredoka: ['"Fredoka One"', 'cursive'],
     poppins: ['Poppins', 'sans-serif'],
+    montserrat: ['Montserrat', 'sans-serif'],
+    serif: ['Merriweather', 'serif'],
   },
   fontSize: {
-    // Semantic heading sizes
     'heading-xl': ['2.25rem', { lineHeight: '2.75rem', fontWeight: '700' }],
     'heading-lg': ['1.75rem', { lineHeight: '2.25rem', fontWeight: '700' }],
     'heading-md': ['1.25rem', { lineHeight: '1.75rem', fontWeight: '600' }],
-
-    // Body text
     body: ['1rem', { lineHeight: '1.5rem' }],
     'body-sm': ['0.875rem', { lineHeight: '1.25rem' }],
     'body-xs': ['0.75rem', { lineHeight: '1rem' }],
   },
 };
 
-// Design tokens
+// ---- Design Tokens ----
 const designTokens = {
   borderRadius: {
     sm: '0.375rem',
@@ -81,7 +96,7 @@ const designTokens = {
   },
 };
 
-// Container configuration
+// ---- Container ----
 const containerConfig = {
   center: true,
   padding: {
@@ -98,41 +113,44 @@ const containerConfig = {
   },
 };
 
-// Main configuration
+// ---- Main Config ----
 export default {
+  darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
 
   theme: {
     container: containerConfig,
 
     extend: {
-      screen: { xs: '480px', hd: '1440px' },
-      // Colors with semantic aliases
-      colors: {
-        // Primary brand colors
-        primary: colors.brand.green,
-        secondary: colors.brand.blue,
-        accent: colors.brand.yellow,
+      screens: { xs: '480px', hd: '1440px' },
 
-        // Semantic colors
+      // ---- Colors (semantic aliases map to CSS vars or brand palette) ----
+      colors: {
+        primary: colors.brand.purple, // matches your CSS var --color-primary
+        secondary: colors.brand.pink, // --color-secondary
+        accent: colors.brand.cyan, // --color-accent
+
         success: colors.brand.green,
         warning: colors.brand.yellow,
         danger: colors.semantic.danger,
         neutral: colors.semantic.neutral,
 
-        // Additional brand colors for flexibility
+        // Extra brand flexibility
         'brand-green': colors.brand.green,
         'brand-blue': colors.brand.blue,
         'brand-yellow': colors.brand.yellow,
+        'brand-purple': colors.brand.purple,
+        'brand-pink': colors.brand.pink,
+        'brand-cyan': colors.brand.cyan,
       },
 
-      // Typography
+      // ---- Typography ----
       ...typography,
 
-      // Design tokens
+      // ---- Design tokens ----
       ...designTokens,
 
-      // Animation utilities for playful interactions
+      // ---- Animations ----
       animation: {
         'bounce-gentle': 'bounce 1s ease-in-out 2',
         'pulse-slow': 'pulse 3s ease-in-out infinite',
@@ -146,7 +164,7 @@ export default {
         },
       },
 
-      // Custom utilities for the playful theme
+      // ---- Scaling ----
       scale: {
         102: '1.02',
         103: '1.03',

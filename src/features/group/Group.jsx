@@ -38,14 +38,14 @@ const GroupCard = ({ group, index }) => {
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-3">
               <LuGraduationCap className="w-6 h-6 text-purple-400" />
-              <span className="text-body-sm font-medium text-white bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+              <span className="text-body-sm font-medium text-t-primary bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
                 {group.courseId}
               </span>
             </div>
-            <h3 className="text-heading-lg text-white mb-3 leading-tight">
+            <h3 className="text-heading-lg text-t-primary mb-3 leading-tight">
               {group.groupName}
             </h3>
-            <p className="text-body text-gray-300 leading-relaxed">
+            <p className="text-body text-t-secondary leading-relaxed">
               {group.description}
             </p>
           </div>
@@ -92,7 +92,7 @@ export default function Groups() {
           <h1 className="text-heading-xl gradient-text mb-4">
             Academic Groups
           </h1>
-          <p className="text-body text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-body text-t-secondary max-w-2xl mx-auto leading-relaxed">
             Manage and monitor your academic groups with comprehensive insights
             into sessions, students, and performance.
           </p>
@@ -112,8 +112,10 @@ export default function Groups() {
         {groups.length === 0 && (
           <div className="card text-center py-12 animate-fade-in-up">
             <LuGraduationCap className="w-16 h-16 text-purple-400 mx-auto mb-4 opacity-50" />
-            <h3 className="text-heading-md text-white mb-2">No Groups Yet</h3>
-            <p className="text-body text-gray-300 mb-6">
+            <h3 className="text-heading-md text-t-primary mb-2">
+              No Groups Yet
+            </h3>
+            <p className="text-body text-t-secondary mb-6">
               Create your first academic group to start tracking attendance
             </p>
             <button className="btn-primary px-6 py-3 rounded-xl">

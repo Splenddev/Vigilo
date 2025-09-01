@@ -55,44 +55,46 @@ const RecentSession = ({ groupedSessions }) => {
                       <InfoRow
                         label={session.course?.name || 'Unnamed Session'}
                         labelClassName="font-bold text-md"
-                        className="mb-4"
                         icon={LuBookOpen}
                         align="center">
-                        <p className="text-xs text-[var(--color-text-secondary)] mt-1">
-                          {session.status}
-                        </p>
+                        <p className="text-xs">{session.status}</p>
                       </InfoRow>
 
                       {/* Session Info */}
-                      <div className="space-y-2 mb-4">
-                        <div className="flex items-center text-xs sm:text-sm text-[var(--color-text-tertiary)]">
-                          <LuCalendar className="w-3 h-3 sm:w-4 sm:h-4 mr-2 shrink-0 text-[var(--color-neutral-light)]" />
-                          <span>{formatDate(session.date)}</span>
-                        </div>
-                        <div className="flex items-center text-xs sm:text-sm text-[var(--color-text-tertiary)]">
-                          <LuClock className="w-3 h-3 sm:w-4 sm:h-4 mr-2 shrink-0 text-[var(--color-neutral-light)]" />
-                          <span>{session.time}</span>
-                        </div>
+                      <div className="space-y-2 my-4">
+                        <InfoRow
+                          icon={LuCalendar}
+                          iconClassName="w-3 h-3 sm:w-4 sm:h-4 shrink-0"
+                          label={formatDate(session.date)}
+                          align="center"
+                        />
+                        <InfoRow
+                          iconClassName="w-3 h-3 sm:w-4 sm:h-4 shrink-0"
+                          icon={LuClock}
+                          label={session.time}
+                          align="center"
+                        />
                       </div>
 
                       {/* Attendance Stats */}
-                      <div className="bg-[var(--color-bg-secondary)] rounded-lg p-3 sm:p-4 mb-4">
+                      <div className="bg-bg-secondary rounded-lg p-3 sm:p-4 mb-4">
                         <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center text-xs sm:text-sm">
-                            <LuUsers className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--color-success)] mr-2 shrink-0" />
-                            <span className="font-semibold text-white">
-                              {session.attendance.present}/
-                              {session.attendance.total}
-                            </span>
-                            <span className="text-[var(--color-text-tertiary)] ml-1">
-                              present
-                            </span>
-                          </div>
+                          <InfoRow
+                            iconClassName="w-3 h-3 sm:w-4 sm:h-4 text-success shrink-0"
+                            labelClassName="font-semibold"
+                            icon={LuUsers}
+                            label={`${session.attendance.present}/
+                              ${session.attendance.total} `}
+                            text="success"
+                            align="center"
+                            direction="row">
+                            present
+                          </InfoRow>
                           <div className="text-right">
-                            <div className="text-xs text-[var(--color-text-tertiary)] mb-1">
+                            <div className="text-xs text-t-secondary mb-1">
                               Rate
                             </div>
-                            <div className="text-xs sm:text-sm font-bold text-[var(--color-success)]">
+                            <div className="text-xs sm:text-sm font-bold text-success">
                               {Math.round(
                                 (session.attendance.present /
                                   session.attendance.total) *
@@ -104,9 +106,9 @@ const RecentSession = ({ groupedSessions }) => {
                         </div>
 
                         {/* Animated Progress Bar */}
-                        <div className="w-full bg-[var(--color-bg-tertiary)] rounded-full h-1.5 sm:h-2 overflow-hidden">
+                        <div className="w-full bg-bg-tertiary rounded-full h-1.5 sm:h-2 overflow-hidden">
                           <motion.div
-                            className="bg-[var(--color-success)] h-1.5 sm:h-2 rounded-full"
+                            className="bg-success h-1.5 sm:h-2 rounded-full"
                             initial={{ width: 0 }}
                             animate={{
                               width: `${

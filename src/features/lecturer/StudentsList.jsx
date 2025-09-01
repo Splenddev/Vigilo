@@ -313,7 +313,7 @@ const StudentsList = () => {
                     key={column.key}
                     className="p-4 text-left cursor-pointer hover:bg-white/5 transition-colors"
                     onClick={() => handleSort(column.key)}>
-                    <div className="flex items-center gap-2 text-sm font-medium text-gray-300">
+                    <div className="flex items-center gap-2 text-sm font-medium text-t-secondary">
                       {column.label}
                       <div className="flex flex-col">
                         <ChevronUp
@@ -364,7 +364,7 @@ const StudentsList = () => {
                   </td>
                   <td className="p-4">
                     <div>
-                      <div className="font-medium text-white">
+                      <div className="font-medium text-t-primary">
                         {student.name}
                       </div>
                       <a
@@ -375,13 +375,13 @@ const StudentsList = () => {
                       </a>
                     </div>
                   </td>
-                  <td className="p-4 text-gray-300">{student.department}</td>
-                  <td className="p-4 text-gray-300">{student.level}</td>
-                  <td className="p-4 text-gray-300">{student.group}</td>
+                  <td className="p-4 text-t-secondary">{student.department}</td>
+                  <td className="p-4 text-t-secondary">{student.level}</td>
+                  <td className="p-4 text-t-secondary">{student.group}</td>
                   <td className="p-4">
                     <div className="w-24">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm text-gray-300">
+                        <span className="text-sm text-t-secondary">
                           {student.attendance}%
                         </span>
                       </div>
@@ -453,7 +453,7 @@ const StudentsList = () => {
                       onClick={() => setCurrentPage(page)}
                       className={`px-3 py-2 text-sm rounded-lg transition-colors ${
                         currentPage === page
-                          ? 'bg-purple-600 text-white'
+                          ? 'bg-purple-600 text-t-primary'
                           : 'glass hover:bg-white/10'
                       }`}>
                       {page}

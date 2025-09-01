@@ -50,7 +50,7 @@ const NetworkBanner = () => {
         bg-gradient-to-r from-red-600/90 via-red-500/90 to-red-600/90 z-100 text-white text-center
         border-b border-red-400/30
         transition-all duration-300 ease-out
-        ${isAnimating ? 'animate-fade-in-up' : 'opacity-100'} h-13 
+        ${isAnimating ? 'animate-fade-in-up' : 'opacity-100'} sm:h-13 h-16 
         ${
           networkStatus === 'online'
             ? 'opacity-0 transform -translate-y-full'

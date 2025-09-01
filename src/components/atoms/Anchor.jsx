@@ -29,7 +29,7 @@ const Anchor = ({
     secondary: 'btn-secondary',
     ghost: 'btn-ghost',
     glass:
-      'card hover:scale-105 transform text-white hover:border-purple-500/50',
+      'card hover:scale-105 transform text-t-primary hover:border-purple-500/50',
     danger:
       'text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/30 hover:border-red-400/50',
     success:

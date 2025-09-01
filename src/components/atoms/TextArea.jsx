@@ -148,7 +148,7 @@ const TextArea = forwardRef(
           {label && (
             <motion.label
               htmlFor={textareaId}
-              className="block mb-1.5 text-sm font-semibold text-white"
+              className="block mb-1.5 text-sm font-semibold text-t-primary"
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2, delay: 0.1 }}>
@@ -213,7 +213,7 @@ const TextArea = forwardRef(
                   ${
                     disabled
                       ? 'bg-white/5 text-gray-400 cursor-not-allowed border-white/10'
-                      : 'bg-white/5 text-white border-white/20 hover:bg-white/10 focus:bg-white/10'
+                      : 'bg-white/5 text-t-primary border-white/20 hover:bg-white/10 focus:bg-white/10'
                   }
                   ${
                     error

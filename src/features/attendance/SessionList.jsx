@@ -214,13 +214,13 @@ const SessionList = () => {
   const uniqueCourses = getUniqueFilter();
 
   return (
-    <div className="glass p-6 text-white">
+    <div className="glass p-6 text-t-primary">
       {/* Header */}
       <div className="pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold text-white">Sessions</h2>
-            <p className="text-sm text-gray-300 mt-1">
+            <h2 className="text-xl font-semibold text-t-primary">Sessions</h2>
+            <p className="text-sm text-t-secondary mt-1">
               {filteredSessions.length} of {sessions.length} sessions
             </p>
           </div>
@@ -234,7 +234,7 @@ const SessionList = () => {
                 placeholder="Search sessions, locations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 pl-9 pr-4 py-2 bg-white/5 border border-white/20 text-white placeholder-gray-400 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:bg-white/10 text-sm outline-0 transition-all duration-300"
+                className="flex-1 pl-9 pr-4 py-2 bg-white/5 border border-white/20 text-t-primary placeholder-gray-400 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:bg-white/10 text-sm outline-0 transition-all duration-300"
               />
             </div>
 
@@ -294,9 +294,9 @@ const SessionList = () => {
 
       {/* Bulk Actions */}
       {selectedSessions.length > 0 && (
-        <div className="px-4 py-3 bg-purple-900/30 border border-purple-500/30 rounded-xl mb-4">
+        <div className="px-4 py-3 glass border border-purple-500/30 rounded-xl mb-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-purple-300 font-medium">
+            <span className="text-sm text-t-accent font-medium ">
               {selectedSessions.length} session(s) selected
             </span>
             <div className="flex items-center gap-2">
@@ -329,31 +329,31 @@ const SessionList = () => {
                 />
               </th>
               <th
-                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                className="px-4 py-3 text-left text-xs font-medium text-t-secondary uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSort('course')}>
                 Course & Type
               </th>
               <th
-                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                className="px-4 py-3 text-left text-xs font-medium text-t-secondary uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSort('location')}>
                 Location
               </th>
               <th
-                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                className="px-4 py-3 text-left text-xs font-medium text-t-secondary uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSort('date')}>
                 Date & Time
               </th>
               <th
-                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                className="px-4 py-3 text-left text-xs font-medium text-t-secondary uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSort('attendance')}>
                 Attendance
               </th>
               <th
-                className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
+                className="px-4 py-3 text-left text-xs font-medium text-t-secondary uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSort('status')}>
                 Status
               </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th className="px-4 py-3 text-right text-xs font-medium text-t-secondary uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -393,7 +393,7 @@ const SessionList = () => {
                       icon={LuMapPin}
                       iconClassName="text-pink-400">
                       <IconText
-                        className="truncate text-gray-300"
+                        className="truncate text-t-secondary"
                         text={session.location?.building}
                       />
                     </InfoRow>
@@ -407,12 +407,12 @@ const SessionList = () => {
                       <IconText
                         icon={LuClock}
                         text={session.time}
-                        className="text-gray-300"
+                        className="text-t-secondary"
                       />
                       <IconText
                         icon={LuTimer}
                         text={formatDuration(session.duration)}
-                        className="text-gray-300"
+                        className="text-t-secondary"
                       />
                     </InfoRow>
                   </td>
@@ -450,7 +450,7 @@ const SessionList = () => {
                       <button
                         ref={(el) => (actionRefs[session.id] = el)}
                         onClick={() => toggleActions(session.id)}
-                        className="p-1 rounded-lg hover:bg-white/10 text-gray-300 hover:text-white transition-colors duration-200">
+                        className="p-1 rounded-lg hover:bg-white/10 text-t-secondary hover:text-t-primary transition-colors duration-200">
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
 
@@ -486,10 +486,10 @@ const SessionList = () => {
       {filteredSessions.length === 0 && (
         <div className="text-center py-12">
           <LuBookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-white mb-2">
+          <h3 className="text-lg font-medium text-t-primary mb-2">
             No sessions found
           </h3>
-          <p className="text-gray-300">
+          <p className="text-t-secondary">
             {searchTerm || filters !== 'all'
               ? 'Try adjusting your search or filters'
               : "You haven't created any sessions yet"}

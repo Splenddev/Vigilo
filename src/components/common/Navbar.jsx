@@ -8,6 +8,7 @@ import { fadeIn } from '../../utils/animationVariants';
 import { toggleSidebar } from '../../hooks/useSidebar';
 import { useAuth } from '../../hooks/useAuth';
 import { useAuthStore } from '../../stores/authStore';
+import Theme from './ThemeToggler';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -25,21 +26,22 @@ const Navbar = () => {
   return (
     <nav
       className={`glass sticky ${
-        networkStatus === 'online' ? 'top-0' : 'top-13'
+        networkStatus === 'online' ? 'top-0' : 'sm:top-13 top-16'
       } z-40 w-full border-b border-white/10`}>
       <div className="px-2 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-16 w-full">
           {/* Logo + Menu */}
-          <div className="flex items-center">
+          <div className="flex items-center flex-1">
             <button
               onClick={toggleSidebar}
               className="h-10 mr-5 w-10 rounded-xl flex items-center justify-center shadow-sm bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200">
-              <FiMenu className="w-6 h-6 text-white" />
+              <FiMenu className="w-6 h-6 text-t-primary" />
             </button>
             <h1 className="text-2xl sm:text-4xl font-bold gradient-text">
               Vigilo
             </h1>
           </div>
+          <Theme />
 
           {/* Profile Dropdown */}
           <div className="relative">
@@ -48,7 +50,7 @@ const Navbar = () => {
               className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/50 transition-all duration-200"
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               variant="transparent">
-              <div className="w-7 h-7 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+              <div className="w-7 h-7 gradient-bg rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-white">{avatar}</span>
               </div>
               <LuChevronDown className="w-4 h-4 text-gray-300" />
@@ -73,7 +75,7 @@ const Navbar = () => {
                         variant="light"
                         href={link.to}
                         func={link.func}
-                        className={`px-4 py-2 rounded-none text-white hover:bg-white/10 transition-all   duration-200 ${
+                        className={`px-4 py-2 rounded-none text-t-primary hover:bg-white/10 transition-all   duration-200 ${
                           link.style || ''
                         }`}>
                         {link.text}

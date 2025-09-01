@@ -104,11 +104,11 @@ const LecturerDashboard = () => {
             className="absolute inset-0 bg-black/10"
             animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}>
-            <div className="absolute top-0 right-0 w-32 h-32 sm:w-64 sm:h-64 bg-white/5 rounded-full -mr-16 sm:-mr-32 -mt-16 sm:-mt-32" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 sm:w-48 sm:h-48 bg-white/5 rounded-full -ml-12 sm:-ml-24 -mb-12 sm:-mb-24" />
+            <div className="absolute top-0 right-0 w-32 h-32 sm:w-64 sm:h-64 bg-bg-glass rounded-full -mr-16 sm:-mr-32 -mt-16 sm:-mt-32" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 sm:w-48 sm:h-48 bg-bg-glass rounded-full -ml-12 sm:-ml-24 -mb-12 sm:-mb-24" />
           </motion.div>
 
-          <div className="relative px-6 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16 bg-white/10">
+          <div className="relative px-6 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16 bg-bg-glass-strong">
             <div className="max-w-4xl mx-auto text-center">
               <Title
                 contents="Start Attendance Session"
@@ -180,7 +180,7 @@ const LecturerDashboard = () => {
                 <p className="text-xs sm:text-sm font-medium text-[var(--color-text-tertiary)] uppercase tracking-wide">
                   {stat.label}
                 </p>
-                <p className="text-xl sm:text-2xl font-bold text-white mt-1">
+                <p className="text-xl sm:text-2xl font-bold text-t-primary mt-1">
                   {stat.value}
                 </p>
               </div>
@@ -208,7 +208,7 @@ const LecturerDashboard = () => {
           <motion.div whileHover={{ x: 4 }}>
             <Button
               variant="custom"
-              className="text-sm sm:text-base text-gray-200 hover:text-white font-semibold transition-colors self-start sm:self-auto"
+              className="text-sm sm:text-base text-t-secondary hover:text-t-primary font-semibold transition-colors self-start sm:self-auto"
               text="View All Sessions"
               icon={FiArrowRight}
               iconPosition="right"

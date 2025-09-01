@@ -74,7 +74,7 @@ const Sidebar = () => {
             animate={isOpen ? 'visible' : 'hidden'}
             exit="exit"
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed left-0 top-0 bottom-0 h-full w-70 glass-strong border-r border-white/20 z-70">
+            className={`fixed left-0 top-0 bottom-0 h-full w-70 glass-strong border-r border-white/20 z-70`}>
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <h2
@@ -85,7 +85,7 @@ const Sidebar = () => {
               <button
                 onClick={close}
                 className="h-9 w-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 hover:border-red-400/50 transition-all duration-200">
-                <LuX className="w-5 h-5 text-white" />
+                <LuX className="w-5 h-5 text-t-primary" />
               </button>
             </div>
 
@@ -111,11 +111,11 @@ const Sidebar = () => {
                     key={item.label}
                     href={item.href}
                     variant="primary"
-                    className="flex items-center px-4 py-3 rounded-xl text-white hover:bg-white/10 border border-transparent hover:border-purple-400/50 transition-all duration-200 group"
+                    className="flex items-center px-4 py-3 rounded-xl text-t-primary hover:bg-white/10 border border-transparent hover:border-primary transition-all font-medium duration-200 group"
                     transition={{ delay: index * 0.1 }}
                     animated>
-                    <item.icon className="w-5 h-5 mr-3 text-gray-300 group-hover:text-purple-400 transition-colors" />
-                    <span className="font-medium group-hover:text-purple-300 transition-colors">
+                    <item.icon className="w-5 h-5 mr-3 text-t-secondary group-hover:text-primary transition-colors" />
+                    <span className="font-medium  transition-colors">
                       {item.label}
                     </span>
                   </Anchor>
@@ -128,11 +128,13 @@ const Sidebar = () => {
               className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10 glass cursor-pointer"
               onClick={() => navigate('/profile')}>
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">{avatar}</span>
+                <div className="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-t-primary">
+                    {avatar}
+                  </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white truncate">
+                  <p className="text-sm font-medium text-t-primary truncate">
                     {firstName} {lastName}
                   </p>
                   <p className="text-xs text-gray-400 truncate">
@@ -154,14 +156,14 @@ const Sidebar = () => {
                     <Anchor
                       href="/lecturer/sessions/new"
                       variant="primary"
-                      className=" px-4 py-2 rounded-lg bg-white/10 text-gray-200 hover:text-white hover:border-purple-500 border border-white/20 transition-colors flex items-center">
+                      className=" px-4 py-2 rounded-lg bg-bg-glass-strong text-t-tertiary hover:text-t-primary hover:border-purple-500 border border-white/20 transition-colors flex items-center">
                       <LuClipboardPlus className="w-5 h-5 mr-3" />
                       New Session
                     </Anchor>
                     <Anchor
                       href="/lecturer/groups/new"
                       variant="primary"
-                      className="flex items-center px-4 py-2 rounded-lg bg-white/10 text-gray-200 hover:text-white hover:border-purple-500 border border-white/20 transition-colors">
+                      className="flex items-center px-4 py-2 rounded-lg bg-bg-glass-strong text-t-tertiary hover:text-t-primary hover:border-purple-500 border border-white/20 transition-colors">
                       <HiOutlineUserGroup className="w-5 h-5 mr-3" />
                       New Group
                     </Anchor>
@@ -175,7 +177,7 @@ const Sidebar = () => {
                 animate={{ rotate: openNew ? 45 : 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="w-10 h-10 rounded-full flex items-center justify-center 
-      bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg 
+      gradient-bg text-t-primary shadow-lg 
       hover:scale-105 transition-transform duration-200 place-self-end">
                 <LuPlus className="w-6 h-6 " />
               </motion.button>

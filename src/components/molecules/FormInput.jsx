@@ -62,7 +62,7 @@ const FormInput = ({
           aria-describedby={error ? `${name}-error` : undefined}
           className={`w-full ${
             Icon ? 'pl-10' : 'pl-4'
-          } pr-4 py-2 bg-white/5 border rounded-xl text-white placeholder-gray-400 
+          } pr-4 py-2 bg-white/5 border rounded-xl text-t-primary placeholder-gray-400 
           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all 
           ${error ? 'border-red-500' : 'border-white/20'} ${inputClassName}`}
           {...inputProps}

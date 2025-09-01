@@ -32,7 +32,7 @@ const RadioCard = ({
         className="sr-only"
       />
       <Icon className="w-4 h-4 mr-2 text-purple-400" />
-      <span className="text-white text-sm">{label}</span>
+      <span className="text-t-primary text-sm">{label}</span>
     </label>
   );
 };
