@@ -253,9 +253,11 @@ const Auth = () => {
                     error={errors.firstName}
                     icon={FaUser}
                     required
+                    helperText="Your legal first name as it appears on school records."
                   />
 
                   <FormInput
+                    helperText="Your legal last name as it appears on school records."
                     required
                     label="Last Name"
                     name="lastName"
@@ -376,8 +378,7 @@ const Auth = () => {
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
                 error={errors.confirmPassword}
-                matchWith={formData.password}
-                showMatchStatus={true}
+                shouldMatch={[formData.password]}
               />
             )}
 

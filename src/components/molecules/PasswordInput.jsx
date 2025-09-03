@@ -14,18 +14,19 @@ const PasswordInput = ({
   onChange,
   placeholder = '••••••••',
   error,
-  matchWith, // compare against another password
-  showMatchStatus = false,
+  shouldMatch = [], // ✅ array of values this field should match
+  notMatch = [], // ✅ array of values this field should NOT match
   showStrength = false,
   passwordStrength,
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const passwordsMatch =
-    showMatchStatus && matchWith !== undefined && value === matchWith;
-
   const renderStrengthMeter = showStrength && value;
+
+  // ✅ Match checks
+  const matches = shouldMatch.every((v) => v !== undefined && value === v);
+  const failsNotMatch = notMatch.some((v) => v !== undefined && value === v);
 
   return (
     <div>
@@ -79,25 +80,49 @@ const PasswordInput = ({
         </div>
       )}
 
-      {/* ✅ Confirm Password Match */}
-      {showMatchStatus && value && (
+      {/* ✅ Match status */}
+      {shouldMatch.length > 0 && value && (
         <div className="mt-2">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-gray-400">Confirm Password</span>
+            <span className="text-xs text-gray-400">Validation</span>
             <span
               className={`text-xs ${
-                passwordsMatch ? 'text-green-400' : 'text-red-400'
+                matches ? 'text-green-400' : 'text-red-400'
               }`}>
-              {passwordsMatch ? 'Passwords match' : 'Passwords do not match'}
+              {matches ? 'Values match' : 'Values do not match'}
             </span>
           </div>
           <div className="w-full bg-gray-700 rounded-full h-2">
             <div
               className={`h-2 rounded-full transition-all duration-300 ${
-                passwordsMatch ? 'bg-green-400' : 'bg-red-400'
+                matches ? 'bg-green-400' : 'bg-red-400'
               }`}
               style={{
-                width: passwordsMatch ? '100%' : '50%',
+                width: matches ? '100%' : '50%',
+              }}></div>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Not Match status */}
+      {notMatch.length > 0 && value && (
+        <div className="mt-2">
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-xs text-gray-400">Validation</span>
+            <span
+              className={`text-xs ${
+                failsNotMatch ? 'text-red-400' : 'text-green-400'
+              }`}>
+              {failsNotMatch ? 'Value must not match' : 'Validation passed'}
+            </span>
+          </div>
+          <div className="w-full bg-gray-700 rounded-full h-2">
+            <div
+              className={`h-2 rounded-full transition-all duration-300 ${
+                failsNotMatch ? 'bg-red-400' : 'bg-green-400'
+              }`}
+              style={{
+                width: failsNotMatch ? '50%' : '100%',
               }}></div>
           </div>
         </div>

@@ -133,6 +133,12 @@ const generateGroupNameSuggestions = ({
   return [...new Set(suggestions.filter(Boolean))];
 };
 
+const catenateName = (name = '') => {
+  const [first, last] = name.split(' ');
+  const result = first.split('')[0] + last.split('')[0];
+  return result.toUpperCase();
+};
+
 export {
   shortenDept,
   checkPasswordStrength,
@@ -141,4 +147,5 @@ export {
   formatDate,
   generateGroupName,
   generateGroupNameSuggestions,
+  catenateName,
 };

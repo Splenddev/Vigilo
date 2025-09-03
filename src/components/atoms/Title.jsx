@@ -24,7 +24,7 @@ const Title = ({
     <h1
       className={`
         ${sizeClasses[level]} 
-        ${alignClasses[align]} 
+        ${alignClasses[align]} text-t-secondary 
         ${className}
       `}>
       {contents}

@@ -31,186 +31,21 @@ import {
 } from '../utils/animationVariants';
 import Button from '../components/atoms/Button';
 import { useNavigate } from 'react-router-dom';
-
-// Animation variants from animations.js
-// const fadeIn = {
-//   hidden: { opacity: 0 },
-//   visible: { opacity: 1, transition: { duration: 0.4, ease: 'easeOut' } },
-//   exit: { opacity: 0, transition: { duration: 0.3, ease: 'easeIn' } },
-// };
-
-// const containerVariants = {
-//   collapsed: { height: 0, opacity: 0, transition: { when: 'afterChildren' } },
-//   expanded: {
-//     height: 'auto',
-//     opacity: 1,
-//     transition: { when: 'beforeChildren', staggerChildren: 0.08 },
-//   },
-// };
-
-// const cardVariants = {
-//   hidden: { opacity: 0, y: 30, scale: 0.95 },
-//   hover: {
-//     y: -5,
-//     transition: {
-//       duration: 0.3,
-//       ease: 'easeInOut',
-//     },
-//   },
-//   visible: (i = 0) => ({
-//     opacity: 1,
-//     y: 0,
-//     scale: 1,
-//     transition: { delay: i * 0.15, duration: 0.5, ease: 'easeOut' },
-//   }),
-// };
-
-// const expandVariants = {
-//   collapsed: { opacity: 0, height: 0 },
-//   expanded: { opacity: 1, height: 'auto', transition: { duration: 0.4 } },
-// };
-
-// const itemVariants = {
-//   collapsed: { opacity: 0, y: 20 },
-//   expanded: (i) => ({
-//     opacity: 1,
-//     y: 0,
-//     transition: { delay: i * 0.1, duration: 0.4 },
-//   }),
-// };
-
-// const labelVariants = {
-//   expanded: {
-//     x: 0,
-//     opacity: 1,
-//     transition: { type: 'tween', duration: 0.3, ease: 'easeOut' },
-//   },
-//   collapsed: {
-//     x: -20,
-//     opacity: 0,
-//     transition: { type: 'tween', duration: 0.2, ease: 'easeIn' },
-//   },
-// };
-
-// const navItemVariants = {
-//   collapsed: { opacity: 0, y: -10 },
-//   expanded: { opacity: 1, y: 0 },
-// };
-
-// const slideUp = {
-//   hidden: { opacity: 0, y: 40 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: { duration: 0.5, ease: 'easeOut', delay: 0.4 },
-//   },
-//   exit: {
-//     opacity: 0,
-//     y: 20,
-//     transition: { duration: 0.3, ease: 'easeIn' },
-//   },
-// };
-
-// const slideInRight = {
-//   hidden: { x: 100, opacity: 0 },
-//   visible: {
-//     x: 0,
-//     opacity: 1,
-//     transition: { duration: 0.4, ease: 'easeOut' },
-//   },
-//   exit: {
-//     x: 100,
-//     opacity: 0,
-//     transition: { duration: 0.3, ease: 'easeIn' },
-//   },
-// };
-
-// const drawerLeft = {
-//   hidden: { x: '-100%', opacity: 0 },
-//   visible: {
-//     x: 0,
-//     opacity: 1,
-//     transition: { type: 'spring', stiffness: 200, damping: 25 },
-//   },
-//   exit: {
-//     x: '-100%',
-//     opacity: 0,
-//     transition: { duration: 0.3, ease: 'easeInOut' },
-//   },
-// };
-
-// const drawerBottom = {
-//   hidden: { y: '100%' },
-//   visible: {
-//     y: 0,
-//     transition: { type: 'spring', stiffness: 200, damping: 25 },
-//   },
-//   exit: { y: '100%', transition: { duration: 0.3, ease: 'easeInOut' } },
-// };
-
-// const shake = {
-//   hidden: { x: 0 },
-//   visible: {
-//     x: [0, -8, 8, -6, 6, -3, 3, 0],
-//     transition: { duration: 0.5, ease: 'easeInOut' },
-//   },
-// };
-
-// const scaleIn = {
-//   hidden: { opacity: 0, scale: 0.95 },
-//   visible: {
-//     opacity: 1,
-//     scale: 1,
-//     transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
-//   },
-//   exit: {
-//     opacity: 0,
-//     scale: 0.97,
-//     transition: { duration: 0.25, ease: 'easeInOut' },
-//   },
-// };
-
-// const staggerContainer = {
-//   hidden: {},
-//   visible: {
-//     transition: {
-//       staggerChildren: 0.12,
-//       delayChildren: 0.1,
-//     },
-//   },
-// };
-
-// const fadeInUpChild = {
-//   hidden: { opacity: 0, y: 20 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: { duration: 0.4, ease: 'easeOut' },
-//   },
-// };
-
-// const flip = {
-//   hidden: { rotateY: 90, opacity: 0 },
-//   visible: {
-//     rotateY: 0,
-//     opacity: 1,
-//     transition: { duration: 0.5, ease: 'easeOut' },
-//   },
-//   exit: {
-//     rotateY: -90,
-//     opacity: 0,
-//     transition: { duration: 0.4, ease: 'easeIn' },
-//   },
-// };
+import ThemeToggler from '../components/common/ThemeToggler';
+import FormInput from '../components/molecules/FormInput';
+import { useAuth } from '../hooks/useAuth';
+import GeneralSettings from './components/settings/GeneralSettings';
+import PrivacySecurity from './components/settings/PrivacySecurity';
 
 const VigiloSettings = () => {
   const [userRole, setUserRole] = useState('lecturer'); // 'lecturer' or 'student'
   const [activeSection, setActiveSection] = useState('general');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState('dark');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [expandedSections, setExpandedSections] = useState({});
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const settingsSections = [
     {
@@ -272,15 +107,15 @@ const VigiloSettings = () => {
 
   const SidebarNavigation = () => (
     <motion.div
-      className="w-80 bg-slate-900/50 backdrop-blur-xl border-r border-white/10 p-6 overflow-y-auto hide-scrollbar"
+      className="w-80 bg-bg-primary backdrop-blur-xl border-r border-white/10 p-6 overflow-y-auto h-full hide-scrollbar"
       variants={drawerLeft}
       initial="hidden"
       animate="visible"
       exit="exit">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-white mb-2 flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-t-primary mb-2 flex items-center justify-between">
           Settings
-          <FiHome onClick={()=>navigate('/lecturer')} />
+          <FiHome onClick={() => navigate('/lecturer')} />
         </h2>
         <div className="flex items-center gap-3">
           <div className="w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
@@ -329,7 +164,7 @@ const VigiloSettings = () => {
                 variants={labelVariants}
                 animate={sidebarOpen ? 'expanded' : 'expanded'}
                 className={`font-medium ${
-                  isActive ? 'text-white' : 'text-slate-300'
+                  isActive ? 'text-t-primary' : 'text-t-muted'
                 }`}>
                 {section.label}
               </motion.span>
@@ -337,167 +172,6 @@ const VigiloSettings = () => {
           );
         })}
       </motion.nav>
-    </motion.div>
-  );
-
-  const GeneralSettings = () => (
-    <motion.div
-      variants={fadeIn}
-      initial="hidden"
-      animate="visible"
-      className="space-y-6">
-      <motion.div
-        variants={fadeInUpChild}
-        className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6">
-          Profile Information
-        </h3>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              First Name
-            </label>
-            <input
-              type="text"
-              defaultValue="John"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Last Name
-            </label>
-            <input
-              type="text"
-              defaultValue="Doe"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              defaultValue="john.doe@university.edu"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
-            />
-          </div>
-        </div>
-      </motion.div>
-
-      <motion.div
-        variants={fadeInUpChild}
-        className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6">Profile Picture</h3>
-        <div className="flex items-center gap-6">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-            <span className="text-2xl font-bold text-white">JD</span>
-          </div>
-          <div>
-            <button className="btn-primary flex items-center gap-2 px-6 py-3 rounded-xl">
-              <FiUpload className="text-lg" />
-              Upload New Picture
-            </button>
-            <p className="text-sm text-slate-400 mt-2">
-              JPG, PNG or GIF. Max size 5MB.
-            </p>
-          </div>
-        </div>
-      </motion.div>
-
-      <motion.div
-        variants={fadeInUpChild}
-        className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6">Theme Preferences</h3>
-        <div className="grid grid-cols-3 gap-4">
-          {['light', 'dark', 'system'].map((themeOption) => (
-            <button
-              key={themeOption}
-              onClick={() => setTheme(themeOption)}
-              className={`p-4 rounded-xl border-2 transition-all capitalize ${
-                theme === themeOption
-                  ? 'border-purple-500 bg-purple-500/20'
-                  : 'border-white/10 bg-white/5 hover:border-white/20'
-              }`}>
-              <div className="text-white font-medium">{themeOption}</div>
-            </button>
-          ))}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-
-  const PrivacySecurity = () => (
-    <motion.div
-      variants={fadeIn}
-      initial="hidden"
-      animate="visible"
-      className="space-y-6">
-      <motion.div
-        variants={fadeInUpChild}
-        className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6">Change Password</h3>
-        <motion.div
-          variants={slideUp}
-          className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Current Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              New Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Confirm New Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
-            />
-          </div>
-          <Button
-            text="Update Password"
-            className="rounded-xl"
-          />
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        variants={fadeInUpChild}
-        className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6 flex">
-          Two-Factor Authentication <FiLock className="ml-3" />
-        </h3>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-slate-300">
-              Add an extra layer of security to your account
-            </p>
-            <p className="text-sm text-slate-400 mt-1">
-              Receive codes via SMS or authenticator app
-            </p>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="btn-secondary px-6 py-3 rounded-xl">
-            Enable 2FA
-          </motion.button>
-        </div>
-      </motion.div>
     </motion.div>
   );
 
@@ -512,35 +186,35 @@ const VigiloSettings = () => {
           <motion.div
             variants={fadeInUpChild}
             className="card-hover">
-            <h3 className="text-xl font-bold text-white mb-6">
+            <h3 className="text-xl font-bold text-t-primary mb-6">
               Group Management
             </h3>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-t-muted mb-2">
                   Course Name
                 </label>
                 <input
                   type="text"
                   defaultValue="Advanced Database Systems"
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-t-primary placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-t-muted mb-2">
                   Description
                 </label>
                 <textarea
                   defaultValue="Advanced concepts in database design, optimization, and management."
                   rows={3}
-                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-t-primary placeholder-slate-400 focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all resize-none"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-t-muted mb-2">
                   Join Rules
                 </label>
-                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all">
+                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-t-primary focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all">
                   <option value="open">Open - Anyone can join</option>
                   <option value="request">Request - Requires approval</option>
                   <option value="invite">Invite Only</option>
@@ -552,7 +226,7 @@ const VigiloSettings = () => {
           <motion.div
             variants={fadeInUpChild}
             className="card-hover">
-            <h3 className="text-xl font-bold text-white mb-6">
+            <h3 className="text-xl font-bold text-t-primary mb-6">
               Export Options
             </h3>
             <div className="flex gap-4">
@@ -571,7 +245,7 @@ const VigiloSettings = () => {
         <motion.div
           variants={fadeInUpChild}
           className="card-hover">
-          <h3 className="text-xl font-bold text-white mb-6">My Groups</h3>
+          <h3 className="text-xl font-bold text-t-primary mb-6">My Groups</h3>
           <div className="space-y-4">
             {[
               'Advanced Database Systems',
@@ -584,7 +258,7 @@ const VigiloSettings = () => {
                 custom={index}
                 className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
                 <div>
-                  <h4 className="font-medium text-white">{group}</h4>
+                  <h4 className="font-medium text-t-primary">{group}</h4>
                   <p className="text-sm text-slate-400">Active member</p>
                 </div>
                 <button className="text-red-400 hover:text-red-300 transition-colors">
@@ -609,15 +283,15 @@ const VigiloSettings = () => {
           <motion.div
             variants={fadeInUpChild}
             className="card-hover">
-            <h3 className="text-xl font-bold text-white mb-6">
+            <h3 className="text-xl font-bold text-t-primary mb-6">
               Session Defaults
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-t-muted mb-2">
                   Default Duration
                 </label>
-                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all">
+                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-t-primary focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all">
                   <option value="30">30 minutes</option>
                   <option value="60">1 hour</option>
                   <option value="90">1.5 hours</option>
@@ -625,10 +299,10 @@ const VigiloSettings = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-t-muted mb-2">
                   Plea Window
                 </label>
-                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all">
+                <select className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-t-primary focus:outline-none focus:border-purple-500 focus:bg-white/10 transition-all">
                   <option value="24">24 hours</option>
                   <option value="48">48 hours</option>
                   <option value="72">72 hours</option>
@@ -640,13 +314,15 @@ const VigiloSettings = () => {
           <motion.div
             variants={fadeInUpChild}
             className="card-hover">
-            <h3 className="text-xl font-bold text-white mb-6">
+            <h3 className="text-xl font-bold text-t-primary mb-6">
               Location Settings
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-white">GPS Strict Mode</h4>
+                  <h4 className="font-medium text-t-primary">
+                    GPS Strict Mode
+                  </h4>
                   <p className="text-sm text-slate-400">
                     Require precise location matching
                   </p>
@@ -660,7 +336,7 @@ const VigiloSettings = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-white">
+                  <h4 className="font-medium text-t-primary">
                     Auto-close Sessions
                   </h4>
                   <p className="text-sm text-slate-400">
@@ -681,13 +357,15 @@ const VigiloSettings = () => {
         <motion.div
           variants={fadeInUpChild}
           className="card-hover">
-          <h3 className="text-xl font-bold text-white mb-6">
+          <h3 className="text-xl font-bold text-t-primary mb-6">
             Attendance Preferences
           </h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">Location Reminders</h4>
+                <h4 className="font-medium text-t-primary">
+                  Location Reminders
+                </h4>
                 <p className="text-sm text-slate-400">
                   Get notified when sessions start
                 </p>
@@ -714,7 +392,7 @@ const VigiloSettings = () => {
       <motion.div
         variants={fadeInUpChild}
         className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6">
+        <h3 className="text-xl font-bold text-t-primary mb-6">
           Notification Preferences
         </h3>
         <motion.div
@@ -744,7 +422,7 @@ const VigiloSettings = () => {
               custom={index}
               className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
               <div>
-                <h4 className="font-medium text-white">{item.label}</h4>
+                <h4 className="font-medium text-t-primary">{item.label}</h4>
                 <p className="text-sm text-slate-400">{item.description}</p>
               </div>
               <motion.button
@@ -770,13 +448,15 @@ const VigiloSettings = () => {
         <motion.div
           variants={fadeInUpChild}
           className="card-hover">
-          <h3 className="text-xl font-bold text-white mb-6">
+          <h3 className="text-xl font-bold text-t-primary mb-6">
             Assignment Management
           </h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">Enable Submissions</h4>
+                <h4 className="font-medium text-t-primary">
+                  Enable Submissions
+                </h4>
                 <p className="text-sm text-slate-400">
                   Allow students to submit assignments
                 </p>
@@ -790,7 +470,7 @@ const VigiloSettings = () => {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">
+                <h4 className="font-medium text-t-primary">
                   Auto-approve Submissions
                 </h4>
                 <p className="text-sm text-slate-400">
@@ -810,12 +490,14 @@ const VigiloSettings = () => {
         <motion.div
           variants={fadeInUpChild}
           className="card-hover">
-          <h3 className="text-xl font-bold text-white mb-6">Storage Usage</h3>
+          <h3 className="text-xl font-bold text-t-primary mb-6">
+            Storage Usage
+          </h3>
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-sm mb-2">
-                <span className="text-slate-300">Used Storage</span>
-                <span className="text-white">2.3 GB / 5 GB</span>
+                <span className="text-t-muted">Used Storage</span>
+                <span className="text-t-primary">2.3 GB / 5 GB</span>
               </div>
               <motion.div
                 variants={scaleIn}
@@ -841,11 +523,13 @@ const VigiloSettings = () => {
       <motion.div
         variants={flip}
         className="card-hover">
-        <h3 className="text-xl font-bold text-white mb-6">Role Management</h3>
+        <h3 className="text-xl font-bold text-t-primary mb-6">
+          Role Management
+        </h3>
         {userRole === 'lecturer' ? (
           <div className="space-y-6">
             <div>
-              <h4 className="font-medium text-white mb-4">
+              <h4 className="font-medium text-t-primary mb-4">
                 Assign Co-Representatives
               </h4>
               <div className="space-y-3">
@@ -857,18 +541,20 @@ const VigiloSettings = () => {
                       custom={index}
                       className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-medium">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-t-primary font-medium">
                           {student
                             .split(' ')
                             .map((n) => n[0])
                             .join('')}
                         </div>
                         <div>
-                          <p className="font-medium text-white">{student}</p>
+                          <p className="font-medium text-t-primary">
+                            {student}
+                          </p>
                           <p className="text-sm text-slate-400">Student</p>
                         </div>
                       </div>
-                      <select className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500">
+                      <select className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-t-primary text-sm focus:outline-none focus:border-purple-500">
                         <option value="student">Student</option>
                         <option value="co-rep">Co-Representative</option>
                         <option value="assistant">Teaching Assistant</option>
@@ -879,7 +565,9 @@ const VigiloSettings = () => {
               </div>
             </div>
             <div>
-              <h4 className="font-medium text-white mb-4">Role Permissions</h4>
+              <h4 className="font-medium text-t-primary mb-4">
+                Role Permissions
+              </h4>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                   <h5 className="font-medium text-purple-300 mb-2">
@@ -908,9 +596,9 @@ const VigiloSettings = () => {
           <div className="space-y-6">
             <div className="text-center">
               <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4">
-                <FaUserShield className="text-2xl text-white" />
+                <FaUserShield className="text-2xl text-t-primary" />
               </div>
-              <h4 className="font-medium text-white mb-2">
+              <h4 className="font-medium text-t-primary mb-2">
                 Current Role: Student
               </h4>
               <p className="text-slate-400">
@@ -918,7 +606,7 @@ const VigiloSettings = () => {
               </p>
             </div>
             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-              <h5 className="font-medium text-white mb-3">
+              <h5 className="font-medium text-t-primary mb-3">
                 Available Upgrades
               </h5>
               <div className="space-y-3">
@@ -976,7 +664,9 @@ const VigiloSettings = () => {
             {userRole === 'lecturer' ? (
               <div className="space-y-4">
                 <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-                  <h4 className="font-medium text-white mb-2">Delete Group</h4>
+                  <h4 className="font-medium text-t-primary mb-2">
+                    Delete Group
+                  </h4>
                   <p className="text-sm text-slate-400 mb-4">
                     Permanently delete this group and all associated data. This
                     action cannot be undone.
@@ -988,7 +678,7 @@ const VigiloSettings = () => {
                   </button>
                 </div>
                 <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-                  <h4 className="font-medium text-white mb-2">
+                  <h4 className="font-medium text-t-primary mb-2">
                     Transfer Ownership
                   </h4>
                   <p className="text-sm text-slate-400 mb-4">
@@ -1000,7 +690,7 @@ const VigiloSettings = () => {
               </div>
             ) : (
               <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-                <h4 className="font-medium text-white mb-2">
+                <h4 className="font-medium text-t-primary mb-2">
                   Leave All Groups
                 </h4>
                 <p className="text-sm text-slate-400 mb-4">
@@ -1014,7 +704,9 @@ const VigiloSettings = () => {
             )}
 
             <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-              <h4 className="font-medium text-white mb-2">Delete Account</h4>
+              <h4 className="font-medium text-t-primary mb-2">
+                Delete Account
+              </h4>
               <p className="text-sm text-slate-400 mb-4">
                 Permanently delete your Vigilo account and all personal data.
                 This action cannot be undone.
@@ -1053,7 +745,7 @@ const VigiloSettings = () => {
                 <div className="w-16 h-16 mx-auto rounded-full bg-red-500/20 flex items-center justify-center mb-4">
                   <HiOutlineExclamationCircle className="text-3xl text-red-400" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-t-primary mb-2">
                   Confirm Deletion
                 </h3>
                 <p className="text-slate-400">
@@ -1087,9 +779,9 @@ const VigiloSettings = () => {
   const renderActiveSection = () => {
     switch (activeSection) {
       case 'general':
-        return <GeneralSettings />;
+        return <GeneralSettings user={user} />;
       case 'privacy':
-        return <PrivacySecurity />;
+        return <PrivacySecurity user={user} />;
       case 'groups':
         return <GroupSettings />;
       case 'attendance':
@@ -1108,7 +800,7 @@ const VigiloSettings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
+    <div className="min-h-screen glass">
       <div className="flex h-screen overflow-hidden">
         {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
@@ -1118,7 +810,7 @@ const VigiloSettings = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+                className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden"
                 onClick={() => setSidebarOpen(false)}
               />
               <div className="fixed left-0 top-0 h-full z-50 lg:hidden">
@@ -1139,10 +831,10 @@ const VigiloSettings = () => {
           <div className="lg:hidden flex items-center justify-between p-4 bg-slate-900/50 backdrop-blur-xl border-b border-white/10">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-xl bg-white/5 text-white hover:bg-white/10 transition-colors">
+              className="p-2 rounded-xl bg-white/5 text-t-primary hover:bg-white/10 transition-colors">
               <HiOutlineMenu className="text-xl" />
             </button>
-            <h1 className="text-xl font-bold text-white">Settings</h1>
+            <h1 className="text-xl font-bold text-t-primary">Settings</h1>
             <div className="w-10"></div>
           </div>
 
@@ -1161,7 +853,7 @@ const VigiloSettings = () => {
               <motion.div
                 variants={fadeInUpChild}
                 className="mb-8">
-                <h1 className="text-3xl font-bold text-white mb-2">
+                <h1 className="text-3xl font-bold text-t-primary mb-2">
                   {settingsSections.find((s) => s.id === activeSection)?.label}
                 </h1>
                 <p className="text-slate-400">

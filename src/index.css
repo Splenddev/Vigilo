@@ -140,7 +140,7 @@
   }
 
   .btn-secondary {
-    @apply text-white border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200;
+    @apply dark:text-white not-dark:text-purple-500/50 border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200;
   }
 
   .btn-ghost {

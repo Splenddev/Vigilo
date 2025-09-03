@@ -9,6 +9,7 @@ import { toggleSidebar } from '../../hooks/useSidebar';
 import { useAuth } from '../../hooks/useAuth';
 import { useAuthStore } from '../../stores/authStore';
 import Theme from './ThemeToggler';
+import { catenateName } from '../../utils/helpers';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -19,9 +20,9 @@ const Navbar = () => {
 
   const { firstName = '', lastName = '' } = user;
 
-  const catenateName = firstName.split('')[0] + lastName.split('')[0];
+  const fullName = firstName + ' ' + lastName;
 
-  const avatar = user.avatar || catenateName;
+  const avatar = user.avatar || catenateName(fullName);
 
   return (
     <nav

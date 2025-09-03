@@ -1,53 +1,82 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiSun, FiMoon } from 'react-icons/fi';
+import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
 import Button from '../atoms/Button';
 
-const ThemeToggler = () => {
+const THEME_OPTIONS = {
+  light: { label: 'Light', icon: FiSun },
+  dark: { label: 'Dark', icon: FiMoon },
+  system: { label: 'System', icon: FiMonitor },
+};
+
+const ThemeToggler = ({ mode = 'toggle' }) => {
   const [theme, setTheme] = useState(
     () => localStorage.getItem('theme') || 'light'
   );
 
   useEffect(() => {
-    // ✅ Set data-theme on <html>
-    document.documentElement.setAttribute('data-theme', theme);
+    const applyTheme = (themeValue) => {
+      if (themeValue === 'system') {
+        const prefersDark = window.matchMedia(
+          '(prefers-color-scheme: dark)'
+        ).matches;
+        themeValue = prefersDark ? 'dark' : 'light';
+      }
+
+      if (themeValue === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      document.documentElement.setAttribute('data-theme', themeValue);
+    };
+
+    applyTheme(theme);
     localStorage.setItem('theme', theme);
+
+    // 🔄 Live system theme sync
+    if (theme === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyTheme('system');
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
+  if (mode === 'options') {
+    return (
+      <div className="grid grid-cols-3 gap-4">
+        {Object.entries(THEME_OPTIONS).map(([key, { label, icon: Icon }]) => (
+          <button
+            key={key}
+            onClick={() => setTheme(key)}
+            className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all capitalize ${
+              theme === key
+                ? 'border-purple-500 bg-purple-500/20'
+                : 'border-white/10 bg-white/5 hover:border-white/20'
+            }`}>
+            <Icon className="text-xl" />
+            <div className="text-t-primary font-medium">{label}</div>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  // ✅ Default toggle
+  const Icon = theme === 'light' ? FiSun : FiMoon;
+
   return (
     <Button
       onClick={toggleTheme}
       className="relative flex items-center justify-center p-6 rounded-full bg-base-200 shadow-md hover:scale-105 transition-transform overflow-hidden mr-3"
-      icon={theme === 'light' ? FiSun : FiMoon}
-      size="sm">
-      {/* <AnimatePresence
-        exitBeforeEnter
-        initial={false}>
-        {theme === 'light' ? (
-          <motion.span
-            key="sun"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
-            transition={{ duration: 0.25 }}>
-            <FiSun />
-          </motion.span>
-        ) : (
-          <motion.span
-            key="moon"
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
-            transition={{ duration: 0.25 }}>
-            <FiMoon />
-          </motion.span>
-        )}
-      </AnimatePresence> */}
-    </Button>
+      icon={Icon}
+      size="sm"
+    />
   );
 };
 

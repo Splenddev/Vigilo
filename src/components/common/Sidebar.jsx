@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { drawerLeft, fadeIn } from '../../utils/animationVariants';
 import { useAuth } from '../../hooks/useAuth';
+import { catenateName } from '../../utils/helpers';
 
 const Sidebar = () => {
   const { isOpen, close } = useSidebar({ rootId: 'vigilo-sidebar' });
@@ -28,9 +29,9 @@ const Sidebar = () => {
 
   const { firstName = '', lastName = '' } = user;
 
-  const catenateName = firstName.split('')[0] + lastName.split('')[0];
+  const fullName = firstName + ' ' + lastName;
 
-  const avatar = user.avatar || catenateName;
+  const avatar = user.avatar || catenateName(fullName);
 
   useEffect(() => {
     if (prevPath.current !== pathname) {
@@ -74,7 +75,7 @@ const Sidebar = () => {
             animate={isOpen ? 'visible' : 'hidden'}
             exit="exit"
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className={`fixed left-0 top-0 bottom-0 h-full w-70 glass-strong border-r border-white/20 z-70`}>
+            className={`fixed left-0 top-0 bottom-0 h-full w-80 glass border-r border-white/20 z-70`}>
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-t-secondary">
               <h2
@@ -111,7 +112,7 @@ const Sidebar = () => {
                     key={item.label}
                     href={item.href}
                     variant="primary"
-                    className="flex items-center px-4 py-3 rounded-xl text-t-primary hover:bg-white/10 border border-transparent hover:border-primary transition-all font-medium duration-200 group"
+                    className="flex items-center px-4 py-3 rounded-xl text-t-primary  transition-all font-medium duration-200 group"
                     transition={{ delay: index * 0.1 }}
                     animated>
                     <item.icon className="w-5 h-5 mr-3 text-t-secondary group-hover:text-primary transition-colors" />
@@ -133,7 +134,7 @@ const Sidebar = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-t-primary truncate">
-                    {firstName} {lastName}
+                    {fullName}
                   </p>
                   <p className="text-xs text-gray-400 truncate">
                     {user.email || ''}
