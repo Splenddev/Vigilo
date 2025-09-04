@@ -8,7 +8,7 @@ import {
 } from 'react-icons/lu';
 import Title from '../../components/atoms/Title';
 import Button from '../../components/atoms/Button';
-import RecentSession from './components/RecentSession';
+import RecentSession from '../attendance/components/RecentSession';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
 import { motion } from 'framer-motion';
@@ -16,7 +16,6 @@ import {
   containerVariants,
   itemVariants,
   scaleIn,
-  slideInUp,
   slideUp,
 } from '../../utils/animationVariants';
 

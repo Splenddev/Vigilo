@@ -65,7 +65,7 @@ const Sidebar = () => {
             animate="visible"
             exit="exit"
             onClick={close}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60"
+            className="fixed inset-0 bg-bg-primary/90 backdrop-blur-xs z-60"
             transition={{ duration: 0.2 }}
           />
 
@@ -77,7 +77,7 @@ const Sidebar = () => {
             transition={{ duration: 0.3, ease: 'easeOut' }}
             className={`fixed left-0 top-0 bottom-0 h-full w-80 glass border-r border-white/20 z-70`}>
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-t-secondary">
+            <div className="flex items-center justify-between p-6">
               <h2
                 className="text-xl font-bold gradient-text cursor-pointer"
                 onClick={() => navigate('/')}>

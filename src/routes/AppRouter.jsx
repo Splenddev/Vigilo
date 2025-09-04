@@ -8,7 +8,7 @@ import NotFound from '../pages/NotFound';
 import Home from '../pages/Home';
 import StudentLayout from '../components/layout/StudentLayout';
 import LecturerLayout from '../components/layout/LecturerLayout';
-import LecturerDashboard from '../features/attendance/LecturerDashboard';
+import LecturerDashboard from '../features/lecturer/LecturerDashboard';
 import SessionList from '../features/attendance/SessionList';
 import Groups from '../features/group/Group';
 import GroupInfo from '../features/group/GroupInfo';
@@ -24,6 +24,7 @@ import { ROLES } from '../utils/roles';
 import Unauthorized from '../pages/Unauthorized';
 import StudentInfo from '../features/lecturer/StudentInfo';
 import SettingsPage from '../pages/SettingsPage';
+import StudentDashboard from '../features/student/StudentDashboard';
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,18 @@ const router = createBrowserRouter([
             <StudentLayout />
           </ProtectedRoutes>
         ),
+        children: [
+          {
+            index: true,
+            element: (
+              <Navigate
+                to="dashboard"
+                replace
+              />
+            ),
+          },
+          { path: 'dashboard', element: <StudentDashboard /> },
+        ],
       },
       { path: '/profile', element: <UserProfile /> },
       { path: '/help', element: <HelpPage /> },
