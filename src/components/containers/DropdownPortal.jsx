@@ -1,13 +1,20 @@
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+const getAnchorEl = (anchorRef) => {
+  if (!anchorRef) return null;
+  if (typeof anchorRef === 'string') return document.getElementById(anchorRef);
+  return anchorRef.current || null;
+};
+
 export default function DropdownPortal({ anchorRef, children, onClose }) {
   const [position, setPosition] = useState(null);
 
   const calculatePosition = () => {
-    if (!anchorRef.current) return;
+    const anchorEl = getAnchorEl(anchorRef);
+    if (!anchorEl) return;
 
-    const rect = anchorRef.current.getBoundingClientRect();
+    const rect = anchorEl.getBoundingClientRect();
     const dropdownHeight = 200; // rough estimate or pass as prop/ref
     const dropdownWidth = 192; // your w-48
     const viewportHeight = window.innerHeight;
@@ -34,24 +41,16 @@ export default function DropdownPortal({ anchorRef, children, onClose }) {
   useEffect(() => {
     calculatePosition();
 
-    const handleClick = (e) => {
-      if (!anchorRef.current?.contains(e.target)) {
-        onClose?.();
-      }
-    };
-
     // Close on scroll (both directions)
     const handleScroll = () => onClose?.();
 
-    // Recalc on resize
+    // Recalculate on resize
     window.addEventListener('resize', calculatePosition);
     window.addEventListener('scroll', handleScroll, true);
-    document.addEventListener('mousedown', handleClick);
 
     return () => {
       window.removeEventListener('resize', calculatePosition);
       window.removeEventListener('scroll', handleScroll, true);
-      document.removeEventListener('mousedown', handleClick);
     };
   }, [anchorRef, onClose]);
 

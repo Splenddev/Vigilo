@@ -65,11 +65,24 @@ const getPasswordStrengthText = (passwordStrength) => {
   return 'Strong';
 };
 
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
     year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+const formatTime = (timeStr) => {
+  const [hours, minutes] = timeStr.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hours), parseInt(minutes));
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
   });
 };
 
@@ -139,12 +152,40 @@ const catenateName = (name = '') => {
   return result.toUpperCase();
 };
 
+const toggleState = (key, setState) => {
+  setState((prev) => {
+    if (typeof prev === 'boolean') {
+      // single toggle (e.g. isOpen)
+      return !prev;
+    }
+
+    if (Array.isArray(prev)) {
+      // array of keys/ids
+      return prev.includes(key)
+        ? prev.filter((id) => id !== key)
+        : [...prev, key];
+    }
+
+    if (typeof prev === 'object' && prev !== null) {
+      // object map {id: boolean}
+      return {
+        ...prev,
+        [key]: !prev[key],
+      };
+    }
+
+    return prev;
+  });
+};
+
 export {
   shortenDept,
   checkPasswordStrength,
   getPasswordStrengthColor,
   getPasswordStrengthText,
   formatDate,
+  formatTime,
+  toggleState,
   generateGroupName,
   generateGroupNameSuggestions,
   catenateName,

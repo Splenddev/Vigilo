@@ -38,6 +38,7 @@ import ViewAttendancePage from '../features/student/ViewAttendancePage';
 // Utils
 import ProtectedRoutes from './ProtectedRoute';
 import { ROLES } from '../utils/roles';
+import SessionInfoPage from '../features/lecturer/SessionInfo';
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
           { path: 'dashboard', element: <LecturerDashboard /> },
           { path: 'sessions', element: <SessionList /> },
           { path: 'sessions/new', element: <CreateSession /> },
+          { path: 'sessions/:sessionId/info', element: <SessionInfoPage /> },
           { path: 'students', element: <StudentsList /> },
           { path: 'students/:studentId', element: <StudentInfo /> },
           { path: 'groups', element: <Groups /> },

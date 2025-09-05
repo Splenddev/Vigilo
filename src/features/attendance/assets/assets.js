@@ -25,6 +25,29 @@ export const sessionListDropdown = [
   },
 ];
 
+import { FiEye, FiDownload, FiXCircle, FiShare2 } from 'react-icons/fi';
+
+export const sessionInfoDropdown = [
+  {
+    key: 'downloadAttendance',
+    label: 'Download',
+    icon: FiDownload,
+    className: 'hover:bg-gray-100',
+  },
+  {
+    key: 'share',
+    label: 'Share Session',
+    icon: FiShare2,
+    className: 'hover:bg-gray-100',
+  },
+  {
+    key: 'cancel',
+    label: 'Cancel Session',
+    icon: FiXCircle,
+    className: 'text-red-400 hover:text-red-300 hover:bg-red-500/10',
+  },
+];
+
 export const studentsFilters = ({ dpts, lvls }) => {
   return [
     {

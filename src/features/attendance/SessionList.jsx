@@ -21,7 +21,7 @@ import {
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
 import InfoRow from '../../components/molecules/InfoRow';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, toggleState } from '../../utils/helpers';
 import { getSessionTypeColor } from '../../hooks/useAttendance';
 import LabelCheckbox from '../../components/atoms/LabelCheckbox';
 import AdvancedFilters from '../../components/modal/AdvancedFilters';
@@ -29,6 +29,7 @@ import { createMockSessions } from '../../utils/data';
 import DropdownPortal from '../../components/containers/DropdownPortal';
 import Dropdown from '../../components/atoms/Dropdown';
 import { sessionListDropdown } from './assets/assets';
+import { useNavigate } from 'react-router-dom';
 // Mock data
 const mockSessions = createMockSessions(50);
 
@@ -186,16 +187,14 @@ const SessionList = () => {
     }
   };
 
-  const toggleActions = (sessionId) => {
-    setShowActions((prev) => ({
-      ...prev,
-      [sessionId]: !prev[sessionId],
-    }));
-  };
+  const navigate = useNavigate();
 
   const handleAction = (action, sessionId) => {
     console.log(`${action} session ${sessionId}`);
-    setShowActions((prev) => ({ ...prev, [sessionId]: false }));
+    if (action === 'view') {
+      navigate(`${sessionId}/info`);
+    }
+    // setShowActions((prev) => ({ ...prev, [sessionId]: false }));
   };
 
   const getUniqueFilter = () => {
@@ -449,7 +448,7 @@ const SessionList = () => {
                     <div className="relative">
                       <button
                         ref={(el) => (actionRefs[session.id] = el)}
-                        onClick={() => toggleActions(session.id)}
+                        onClick={() => toggleState(session.id,setShowActions)}
                         className="p-1 rounded-lg hover:bg-white/10 text-t-secondary hover:text-t-primary transition-colors duration-200">
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
@@ -457,7 +456,7 @@ const SessionList = () => {
                       {showActions[session.id] && (
                         <DropdownPortal
                           anchorRef={{ current: actionRefs[session.id] }}
-                          onClose={() => toggleActions(session.id)}>
+                          onClose={() => toggleState(session.id,setShowActions)}>
                           <div className="py-1">
                             {sessionListDropdown.map((action) => (
                               <Dropdown
@@ -467,7 +466,7 @@ const SessionList = () => {
                                 onAction={() =>
                                   handleAction(action.key, session.id)
                                 }
-                                className={`capitalize ${action.className}`}
+                                className={`capitalize ${action.className} z-10`}
                               />
                             ))}
                           </div>
