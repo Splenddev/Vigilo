@@ -21,44 +21,43 @@ import DropdownPortal from '../../components/containers/DropdownPortal';
 import Dropdown from '../../components/atoms/Dropdown';
 import { useSharedView } from '../../hooks/useSharedView';
 
-// Mock session data
 const sessionData = {
-  id: 'ENG305-2024-S1-S05',
+  id: 'BCH402-2024-S1-L12',
   course: {
-    code: 'ENG305',
-    name: 'African Literature in the 20th Century',
-    credits: 3,
+    code: 'BCH402',
+    name: 'Molecular Biology of the Cell',
+    credits: 4,
   },
   instructor: {
-    name: 'Dr. Aisha Bello',
-    email: 'aisha.bello@university.edu',
+    name: 'Prof. Emmanuel Okafor',
+    email: 'emmanuel.okafor@university.edu',
     avatar:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=150&h=150&fit=crop&crop=face',
   },
   date: '2024-09-05',
-  time: '12:00',
-  duration: 90, // minutes
+  time: '10:00',
+  duration: 150, // minutes
   location: {
-    room: 'LT3',
-    building: 'Faculty of Arts',
+    room: 'B201',
+    building: 'Faculty of Biological Sciences',
   },
-  sessionType: 'Seminar',
+  sessionType: 'Lecture',
   attendance: {
-    present: 58,
-    total: 64,
+    present: 95,
+    total: 102,
   },
   status: 'completed',
   description:
-    'Discussion on postcolonial themes in African literature, focusing on Chinua Achebe and Ngũgĩ wa Thiong’o.',
+    'Exploring the structure and function of cellular organelles, gene expression, and signal transduction pathways with emphasis on molecular techniques.',
   materials: [
-    'Selected Readings',
-    'Essay Prompt - Achebe vs. Ngũgĩ',
-    'Seminar Slides',
+    'Lecture Notes - Cellular Organelles',
+    'Lab Manual: DNA Extraction',
+    'Assignment 2 - Signal Pathways',
   ],
   nextSession: {
-    date: '2024-09-10',
-    time: '12:00',
-    topic: 'Feminist Perspectives in African Literature',
+    date: '2024-09-12',
+    time: '10:00',
+    topic: 'Protein Synthesis and Regulation',
   },
 };
 
