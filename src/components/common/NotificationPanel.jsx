@@ -9,8 +9,7 @@ import {
   LuCircleCheck,
   LuUserPlus,
   LuX,
-  LuMailO,
-  LuTrianglepen,
+  LuMailOpen,
   LuTrash,
 } from 'react-icons/lu';
 import Button from '../atoms/Button';
