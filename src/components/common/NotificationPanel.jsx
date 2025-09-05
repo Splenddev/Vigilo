@@ -4,11 +4,13 @@ import {
   LuBell,
   LuClock,
   LuTriangleAlert,
+  LuTriangle,
   LuClockAlert,
   LuCircleCheck,
   LuUserPlus,
   LuX,
-  LuMailOpen,
+  LuMailO,
+  LuTrianglepen,
   LuTrash,
 } from 'react-icons/lu';
 import Button from '../atoms/Button';
@@ -134,7 +136,7 @@ const NotificationPanel = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-2 w-96 rounded-2xl z-50 bg-white dark:bg-gray-800 shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            className="absolute -right-20 top-full mt-2 w-[95vw] max-w-96 rounded-2xl z-50 bg-white dark:bg-gray-800 shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
             {/* Header */}
             <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
               <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
@@ -154,7 +156,7 @@ const NotificationPanel = () => {
               {notifications.length === 0 ? (
                 <div className="text-center py-12 px-4">
                   <div className="mx-auto w-16 h-16 text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-300 rounded-full flex items-center justify-center">
-                    <CheckCircleIcon />
+                    <LuCircleCheck />
                   </div>
                   <h4 className="mt-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
                     All caught up!
