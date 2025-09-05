@@ -25,12 +25,12 @@ export const sessionListDropdown = [
   },
 ];
 
-import { FiEye, FiDownload, FiXCircle, FiShare2 } from 'react-icons/fi';
+import {  FiDownload, FiXCircle, FiShare2 } from 'react-icons/fi';
 
 export const sessionInfoDropdown = [
   {
-    key: 'downloadAttendance',
-    label: 'Download',
+    key: 'export',
+    label: 'Export',
     icon: FiDownload,
     className: 'hover:bg-gray-100',
   },
