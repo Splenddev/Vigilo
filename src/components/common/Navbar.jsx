@@ -40,9 +40,7 @@ const Navbar = () => {
               className="h-10 mr-5 w-10 rounded-xl flex items-center justify-center shadow-sm bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200">
               <FiMenu className="w-6 h-6 text-t-primary" />
             </button>
-            <h1 className="gradient-logo text-3xl">
-              Vigilo
-            </h1>
+            <h1 className="gradient-logo text-3xl">Vigilo</h1>
           </div>
           <Theme />
           <NotificationPanel notifications={mockNotifications} />
@@ -51,7 +49,7 @@ const Navbar = () => {
           <div className="relative">
             <Button
               size="sm"
-              className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/50 transition-all duration-200"
+              className="bg-white/5 hover:bg-white/10 border ml-2 border-white/10 hover:border-purple-400/50 transition-all duration-200"
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               variant="transparent">
               <div className="w-7 h-7 gradient-bg rounded-full flex items-center justify-center">

@@ -67,16 +67,16 @@ const ThemeToggler = ({ mode = 'toggle' }) => {
     );
   }
 
-  // ✅ Default toggle
-  const Icon = theme === 'light' ? FiSun : FiMoon;
+  const Icon =
+    theme === 'system' ? FiMonitor : theme === 'light' ? FiSun : FiMoon;
 
   return (
     <Button
       onClick={toggleTheme}
-      className="relative flex items-center justify-center p-6 rounded-full bg-base-200 shadow-md hover:scale-105 transition-transform overflow-hidden mr-3"
-      icon={Icon}
-      size="sm"
-    />
+      className="relative flex items-center justify-center overflow-hidden mr-3 p-2"
+    >
+      <Icon/>
+    </Button>
   );
 };
 

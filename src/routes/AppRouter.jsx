@@ -27,6 +27,7 @@ import SettingsPage from '../pages/SettingsPage';
 import StudentDashboard from '../features/student/StudentDashboard';
 import Unauthorized from '../pages/Unauthorized';
 import MarkAttendance from '../features/student/MarkAttendance';
+import ViewAttendancePage from '../features/student/ViewAttendancePage';
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,7 @@ const router = createBrowserRouter([
           { path: 'dashboard', element: <StudentDashboard /> },
           { path: 'attendance', element: <AttendancePage /> },
           { path: 'attendance/:id', element: <MarkAttendance /> },
+          { path: 'attendance/:id/info', element: <ViewAttendancePage /> },
         ],
       },
       { path: '/profile', element: <UserProfile /> },

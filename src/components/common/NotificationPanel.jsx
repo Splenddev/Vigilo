@@ -1,81 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// --- HELPER COMPONENTS ---
-
-// Icon component for SVG icons
-const Icon = ({ path, className = 'w-6 h-6' }) => (
-  <svg
-    className={className}
-    fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg">
-    <path
-      fillRule="evenodd"
-      d={path}
-      clipRule="evenodd"></path>
-  </svg>
-);
-
-// --- ICONS ---
-
-const BellIcon = () => (
-  <Icon path="M10 2a6 6 0 00-6 6v3.586l-1.707 1.707A1 1 0 003 15h14a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 003-3h-6a3 3 0 003 3z" />
-);
-const CheckCircleIcon = () => (
-  <Icon path="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-);
-const XIcon = () => (
-  <Icon path="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" />
-);
-const UserPlusIcon = () => (
-  <Icon path="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
-);
-const AlertTriangleIcon = () => (
-  <Icon path="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.22 3.006-1.742 3.006H4.42c-1.522 0-2.492-1.672-1.742-3.006l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" />
-);
-const ClockIcon = () => (
-  <Icon path="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z" />
-);
-const TrashIcon = () => (
-  <Icon path="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" />
-);
-const EnvelopeOpenIcon = () => (
-  <Icon path="M18 8.42a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8zM10 13L4.93 9.42A2 2 0 014 8V6.42l6 4.42 6-4.42V8a2 2 0 01-.93.58L10 13z" />
-);
-
-// Button component with variants
-const Button = ({
-  onClick,
-  children,
-  variant = 'primary',
-  size = 'md',
-  className = '',
-}) => {
-  const baseClasses =
-    'inline-flex items-center justify-center font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200';
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-xs',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-6 py-3 text-base',
-  };
-  const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary:
-      'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400',
-    danger: 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500',
-    ghost:
-      'bg-transparent text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
-  };
-
-  return (
-    <button
-      onClick={onClick}
-      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}>
-      {children}
-    </button>
-  );
-};
+import {
+  LuBell,
+  LuClock,
+  LuTriangleAlert,
+  LuClockAlert,
+  LuCircleCheck,
+  LuUserPlus,
+  LuX,
+  LuMailOpen,
+  LuTrash,
+} from 'react-icons/lu';
+import Button from '../atoms/Button';
 
 // --- MOCK DATA ---
 const initialNotifications = [
@@ -126,12 +62,15 @@ const NotificationPanel = () => {
   const unreadCount = notifications.filter((n) => n.unread).length;
 
   const typeConfig = {
-    session_starting: { icon: <ClockIcon />, color: 'bg-blue-500' },
-    invite: { icon: <UserPlusIcon />, color: 'bg-purple-500' },
-    warning: { icon: <AlertTriangleIcon />, color: 'bg-red-500' },
-    reminder: { icon: <ClockIcon />, color: 'bg-yellow-500 text-yellow-900' },
-    update: { icon: <CheckCircleIcon />, color: 'bg-green-500' },
-    default: { icon: <BellIcon />, color: 'bg-gray-500' },
+    session_starting: { icon: <LuClock />, color: 'bg-blue-500' },
+    invite: { icon: <LuUserPlus />, color: 'bg-purple-500' },
+    warning: { icon: <LuTriangleAlert />, color: 'bg-red-500' },
+    reminder: {
+      icon: <LuClockAlert />,
+      color: 'bg-yellow-500 text-yellow-900',
+    },
+    update: { icon: <LuCircleCheck />, color: 'bg-green-500' },
+    default: { icon: <LuBell />, color: 'bg-gray-500' },
   };
 
   // Close panel on outside click
@@ -165,35 +104,15 @@ const NotificationPanel = () => {
     setNotifications([]);
   };
 
-  // Main App component to render the NotificationPanel
-  const App = () => (
-    <div className="relative font-sans antialiased text-gray-900 bg-gray-50 dark:bg-gray-900 dark:text-white">
-      <header className="flex items-center justify-end p-4 bg-white dark:bg-gray-800 shadow-md">
-        <NotificationPanel />
-      </header>
-      <main className="p-8 h-screen flex items-center justify-center text-center">
-        <div>
-          <h1 className="text-4xl font-bold mb-4">
-            Notification Panel Component
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Click the bell icon in the top-right corner to see the redesigned
-            panel.
-          </p>
-        </div>
-      </main>
-    </div>
-  );
-
   return (
     <div
       className="relative"
       ref={panelRef}>
       {/* Bell Button */}
-      <button
+      <Button
         onClick={() => setShowPanel(!showPanel)}
         className="relative p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
-        <BellIcon />
+        <LuBell />
         <AnimatePresence>
           {unreadCount > 0 && (
             <motion.span
@@ -205,7 +124,7 @@ const NotificationPanel = () => {
             </motion.span>
           )}
         </AnimatePresence>
-      </button>
+      </Button>
 
       {/* Dropdown Panel */}
       <AnimatePresence>
@@ -226,12 +145,12 @@ const NotificationPanel = () => {
                 variant="ghost"
                 size="sm"
                 className="!p-1">
-                <XIcon />
+                <LuX />
               </Button>
             </header>
 
             {/* Notification List */}
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-96 overflow-y-auto overflow-x-hidden">
               {notifications.length === 0 ? (
                 <div className="text-center py-12 px-4">
                   <div className="mx-auto w-16 h-16 text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-300 rounded-full flex items-center justify-center">
@@ -274,26 +193,23 @@ const NotificationPanel = () => {
                               {n.time}
                             </p>
                           </div>
-                          {n.unread && (
-                            <div className="absolute top-1/2 -translate-y-1/2 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex items-center gap-2 flex-col">
+                            {n.unread && (
                               <Button
                                 onClick={() => handleMarkAsRead(n.id)}
-                                variant="ghost"
+                                variant="custom"
+                                className="text-primary-cyan border border-primary-cyan hover:bg-cyan-100 hover:scale-104"
                                 size="sm"
-                                className="!p-1"
                                 title="Mark as read">
-                                <EnvelopeOpenIcon />
+                                <LuMailOpen />
                               </Button>
-                            </div>
-                          )}
-                          <div className="absolute top-1/2 -translate-y-1/2 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            )}
                             <Button
                               onClick={() => handleDismiss(n.id)}
-                              variant="ghost"
+                              variant="danger"
                               size="sm"
-                              className="!p-1 text-red-500"
                               title="Dismiss notification">
-                              <TrashIcon />
+                              <LuTrash />
                             </Button>
                           </div>
                         </div>
@@ -328,4 +244,4 @@ const NotificationPanel = () => {
   );
 };
 
-export default NotificationPanel
+export default NotificationPanel;

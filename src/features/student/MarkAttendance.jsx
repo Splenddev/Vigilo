@@ -25,6 +25,8 @@ import {
   LuCircleCheck,
   LuTriangleAlert,
 } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/atoms/Button';
 
 // Mock session data
 const mockSession = {
@@ -179,9 +181,10 @@ const MarkAttendance = () => {
     setManualCode('');
   };
 
+  const navigate = useNavigate();
+
   const handleGoBack = () => {
-    // In real app, this would navigate back to dashboard
-    alert('Returning to dashboard...');
+    navigate(-1);
   };
 
   const getStatusColor = () => {
@@ -213,13 +216,13 @@ const MarkAttendance = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}>
-          <button
+          <Button
             onClick={handleGoBack}
-            className="btn-ghost p-3 rounded-xl">
+            variant="outline">
             <FiArrowLeft className="text-xl" />
-          </button>
+          </Button>
           <div>
-            <h1 className="text-heading-lg gradient-text">Mark Attendance</h1>
+            <h1 className="text-heading-xl gradient-text">Mark Attendance</h1>
             <p className="text-body-sm text-slate-400">
               {currentTime.toLocaleTimeString([], {
                 hour: '2-digit',
@@ -274,7 +277,7 @@ const MarkAttendance = () => {
                   cy="32"
                   r="28"
                   fill="none"
-                  stroke="rgba(255,255,255,0.1)"
+                  stroke="#ccc"
                   strokeWidth="4"
                 />
                 <motion.circle

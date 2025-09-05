@@ -137,15 +137,6 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: 'easeOut' },
-  },
-};
-
 const cardVariants = {
   initial: { opacity: 0, scale: 0.95 },
   animate: { opacity: 1, scale: 1 },
@@ -275,8 +266,7 @@ const AttendanceListPage = () => {
   };
 
   const handleViewDetails = (session) => {
-    // In real app, navigate to session details
-    alert(`Viewing details for ${session.groupName}`);
+    navigate(`/student/attendance/${session.id}/info`, { state: { session } });
   };
 
   return (
@@ -425,7 +415,8 @@ const AttendanceListPage = () => {
                       <InfoRow
                         icon={LuClock}
                         textColor="text-cyan-400"
-                        iconSize="text-sm" align='center'
+                        iconSize="text-sm"
+                        align="center"
                         label={`${session.startTime} - ${session.endTime}`}>
                         {session.status === 'ongoing' && (
                           <div className="text-cyan-400 font-medium">
@@ -439,25 +430,6 @@ const AttendanceListPage = () => {
                             </div>
                           )}
                       </InfoRow>
-                      <div className="flex items-center gap-2">
-                        <LuClock className="text-cyan-400" />
-                        <div>
-                          <span className="text-t-secondary">
-                            {session.startTime} - {session.endTime}
-                          </span>
-                          {session.status === 'ongoing' && (
-                            <div className="text-cyan-400 font-medium">
-                              {formatTimeRemaining(session.timeRemaining)}
-                            </div>
-                          )}
-                          {session.status === 'completed' &&
-                            session.completedAt && (
-                              <div className="text-slate-400">
-                                Ended at {session.completedAt}
-                              </div>
-                            )}
-                        </div>
-                      </div>
 
                       <div className="flex items-center gap-2">
                         <LuMapPin className="text-purple-400" />
