@@ -337,13 +337,13 @@ const StudentsList = () => {
               {currentStudents.map((student) => (
                 <tr
                   key={student.id}
-                  onClick={() => navigate(`${student.id}`)}
+                  onClick={() => navigate(`/lecturer/students/${student.id}`)}
                   className={`border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer ${
                     selectedStudents.includes(student.id)
                       ? 'bg-purple-500/10'
                       : ''
                   }`}>
-                  <td className="p-4">
+                  <td className="p-4 z-5">
                     <LabelCheckbox
                       checked={selectedStudents.includes(student.id)}
                       onChange={(e) =>
