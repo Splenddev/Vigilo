@@ -2,8 +2,8 @@ import clsx from 'clsx';
 
 const Button = ({
   children,
-  variant = 'primary', // 'primary' | 'secondary' | 'ghost' | 'custom'
-  size = 'md', // 'sm' | 'md' | 'lg' |'none'
+  variant = 'primary', // 'primary' | 'secondary' | 'ghost' | 'custom' | 'outline'
+  size = 'md', // 'sm' | 'md' | 'lg' | 'normal'
   className = '',
   icon: Icon,
   iconPosition = 'left',
@@ -22,14 +22,16 @@ const Button = ({
   };
 
   const variantClasses = {
-    primary: 'btn-primary font-semibold ',
-    secondary: 'btn-secondary font-semibold ',
+    primary: 'btn-primary font-semibold',
+    secondary: 'btn-secondary font-semibold',
     ghost: 'font-semibold btn-ghost',
     custom: '',
     danger:
       'btn-danger bg-red-500 text-t-primary hover:bg-red-600 active:bg-red-700 font-semibold border border-red-600',
     dangerLight:
       'btn-danger-light font-semibold text-red-600 hover:text-red-700 active:text-red-800',
+    outline:
+      'font-semibold border rounded-xl border-gray-400 text-t-primary hover:bg-t-muted active:bg-gray-200',
   };
 
   return (

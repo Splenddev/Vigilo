@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiHome } from 'react-icons/fi';
 import {
   LuX,
   LuUsers,
@@ -10,6 +9,7 @@ import {
   LuPlus,
   LuClipboardPlus,
 } from 'react-icons/lu';
+import { FiHome, FiUsers, FiBook } from 'react-icons/fi';
 import { HiOutlineClipboardList, HiOutlineUserGroup } from 'react-icons/hi';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
@@ -42,18 +42,29 @@ const Sidebar = () => {
 
   const [openNew, setOpenNew] = useState(false);
 
-  const menuItems = [
-    { icon: FiHome, label: 'Home', href: '/lecturer/dashboard' },
-    { icon: LuCalendar, label: 'Sessions', href: '/lecturer/sessions' },
-    { icon: LuUsers, href: '/lecturer/groups', label: 'Groups' },
-    {
-      icon: HiOutlineClipboardList,
-      label: 'Students',
-      href: '/lecturer/students',
-    },
+  const defaultMenuItems = [
     { icon: LuSettings, label: 'Settings', href: '/settings' },
     { icon: LuCircleHelp, label: 'Help', href: '/help' },
   ];
+
+  const studentLinks = [
+    { href: '/student/dashboard', label: 'Dashboard', icon: FiHome },
+    { href: '/student/attendance', label: 'Attendance', icon: LuCalendar },
+    { href: '/student/groups', label: 'Groups', icon: FiUsers },
+    { href: '/student/assignments', label: 'Assignments', icon: FiBook },
+  ];
+
+  const lecturerLinks = [
+    { href: '/lecturer/dashboard', label: 'Dashboard', icon: FiHome },
+    { href: '/lecturer/groups', label: 'Groups', icon: FiUsers },
+    { href: '/lecturer/sessions', label: 'Sessions', icon: LuCalendar },
+    { href: '/lecturer/students', label: 'Students', icon: FiBook },
+  ];
+
+  const menuItems =
+    user.role === 'student'
+      ? [...studentLinks, ...defaultMenuItems]
+      : [...lecturerLinks, ...defaultMenuItems];
 
   return (
     <AnimatePresence>
@@ -126,7 +137,7 @@ const Sidebar = () => {
 
             {/* User Profile Section */}
             <div
-              className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10 glass cursor-pointer"
+              className="absolute bottom-0 left-0 right-0 p-4 border-t border-t-white/10 glass cursor-pointer"
               onClick={() => navigate('/profile')}>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 gradient-bg rounded-full flex items-center justify-center">
@@ -171,15 +182,17 @@ const Sidebar = () => {
               </AnimatePresence>
 
               {/* FAB button */}
-              <motion.button
-                onClick={() => setOpenNew(!openNew)}
-                animate={{ rotate: openNew ? 45 : 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="w-10 h-10 rounded-full flex items-center justify-center 
+              {user.role === 'lecturer' && (
+                <motion.button
+                  onClick={() => setOpenNew(!openNew)}
+                  animate={{ rotate: openNew ? 45 : 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center 
                 gradient-bg text-white shadow-lg 
                 hover:scale-105 transition-transform duration-200 place-self-end">
-                <LuPlus className="w-6 h-6 " />
-              </motion.button>
+                  <LuPlus className="w-6 h-6 " />
+                </motion.button>
+              )}
             </div>
           </motion.aside>
         </>

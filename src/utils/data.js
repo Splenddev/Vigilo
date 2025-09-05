@@ -457,4 +457,41 @@ function createMockSessions(count = 10) {
   return Array.from({ length: count }, (_, i) => createSession(i + 1));
 }
 
-export { groups, generateStudentData, createMockSessions, createSession };
+const mockNotifications = [
+  {
+    id: 1,
+    type: 'session_starting',
+    message: 'CSC 201 attendance starts in 5 minutes',
+    time: '2 min ago',
+    unread: true,
+  },
+  {
+    id: 2,
+    type: 'invite',
+    message: 'New group invite from Prof. Wilson',
+    time: '1 hour ago',
+    unread: true,
+  },
+  {
+    id: 3,
+    type: 'warning',
+    message: 'Your device location doesn’t match lecture hall',
+    time: '3 hours ago',
+    unread: false,
+  },
+  // {
+  //   id: 4,
+  //   type: 'reminder',
+  //   message: 'Don’t forget to mark CSC 305 attendance',
+  //   time: 'Yesterday',
+  //   unread: false,
+  // },
+];
+
+export {
+  groups,
+  generateStudentData,
+  createMockSessions,
+  createSession,
+  mockNotifications,
+};

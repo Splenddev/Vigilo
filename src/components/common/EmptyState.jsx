@@ -5,6 +5,7 @@ export default function EmptyState({
   message = 'We couldn’t find what you’re looking for.',
   action,
   variant = 'danger',
+  icon: Icon = LuTriangleAlert,
 }) {
   const variants = {
     danger: 'text-red-500 border-red-500/40 bg-red-500/10',
@@ -17,7 +18,7 @@ export default function EmptyState({
     <div
       className={`p-6 flex flex-col items-center justify-center text-center space-y-3 border ${variants[variant]} animate-fade-in-up`}>
       <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/5 border border-white/10">
-        <LuTriangleAlert className="w-7 h-7" />
+        <Icon className="w-7 h-7" />
       </div>
 
       <h2 className="text-heading-md">{title}</h2>

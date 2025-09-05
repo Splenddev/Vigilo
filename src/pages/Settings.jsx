@@ -13,17 +13,6 @@ import { MdOutlineAssignment } from 'react-icons/md';
 // Animation variants - reference your animations.js file
 import * as anim from '../utils/animationVariants';
 
-/**
- * Vigilo Settings Page
- * - Role-aware (lecturer | student)
- * - Uses Tailwind utility classes and your theme tokens (.card, .btn-primary, etc.)
- * - Framer Motion animations referenced from ./animations
- * - Icons from react-icons
- *
- * NOTE: This file is a single-file starter. In production split into components
- * and wire API calls to the provided handlers (onSave, onToggle, onSubmit).
- */
-
 const NAV_ITEMS = [
   { key: 'general', label: 'General', Icon: HiOutlineUserCircle },
   { key: 'privacy', label: 'Privacy & Security', Icon: FiLock },

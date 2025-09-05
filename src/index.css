@@ -133,6 +133,10 @@
     -webkit-text-fill-color: transparent;
   }
 
+.gradient-logo{
+  @apply bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent;
+}
+
   /* Button styles */
   .btn-primary {
     background: var(--gradient-primary);
@@ -232,7 +236,8 @@
   --color-primary-purple: #7c3aed;
   --color-primary-purple-light: #a855f7;
   --color-primary-purple-dark: #5b21b6;
-  --color-primary-purple-soft: #f3e8ff;
+  --color-prima
+  ry-purple-soft: #f3e8ff;
 
   --color-t-primary: #111827;
   --color-t-secondary: #374151;

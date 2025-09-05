@@ -11,13 +11,10 @@ import {
   FiCalendar,
   FiBook,
 } from 'react-icons/fi';
-
-// Mock data - in real app, this would come from API
-const mockStudent = {
-  firstName: 'Felix',
-  lastName: 'Vincent',
-  email: 'felix.vincent@university.edu',
-};
+import NotificationPanel from '../../components/common/NotificationPanel';
+import { useAuth } from '../../hooks/useAuth';
+import Button from '../../components/atoms/Button';
+import { useNavigate } from 'react-router-dom';
 
 const mockGroups = [
   {
@@ -79,25 +76,9 @@ const mockRecentHistory = [
   },
 ];
 
-const mockNotifications = [
-  {
-    id: 1,
-    type: 'session_starting',
-    message: 'CSC 201 attendance starts in 5 minutes',
-    time: '2 min ago',
-  },
-  {
-    id: 2,
-    type: 'invite',
-    message: 'New group invite from Prof. Wilson',
-    time: '1 hour ago',
-  },
-];
-
 const StudentDashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [notifications, setNotifications] = useState(mockNotifications);
-  const [showNotifications, setShowNotifications] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -121,7 +102,7 @@ const StudentDashboard = () => {
       case 'absent':
         return 'text-red-400';
       default:
-        return 'text-slate-400';
+        return 'text-t-tertiary';
     }
   };
 
@@ -132,13 +113,15 @@ const StudentDashboard = () => {
       case 'pending':
         return <FiClock className="text-yellow-400" />;
       default:
-        return <FiAlertCircle className="text-slate-400" />;
+        return <FiAlertCircle className="text-t-tertiary" />;
     }
   };
 
+  const nav=useNavigate()
+
   const handleMarkAttendance = (sessionId) => {
     // In real app, this would navigate to attendance marking page
-    alert(`Navigating to attendance for session ${sessionId}`);
+    nav('/student/attendance',{state:{id:sessionId}})
   };
 
   const handleViewGroup = (groupId) => {
@@ -157,9 +140,9 @@ const StudentDashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-heading-xl gradient-text mb-1">
-            Hi, {mockStudent.firstName}
+            Hi, {user.firstName || ''}
           </h1>
-          <div className="flex items-center gap-4 text-body-sm text-slate-400">
+          <div className="flex items-center gap-4 text-body-sm text-t-tertiary">
             <span>
               {currentTime.toLocaleDateString('en-US', {
                 weekday: 'long',
@@ -170,7 +153,7 @@ const StudentDashboard = () => {
             <div className="flex items-center gap-1">
               <span
                 className={
-                  hasActiveSessions ? 'text-green-400' : 'text-slate-400'
+                  hasActiveSessions ? 'text-green-400' : 'text-t-tertiary'
                 }>
                 {hasActiveSessions
                   ? `${mockActiveSessions.length} Active Session${
@@ -181,47 +164,6 @@ const StudentDashboard = () => {
             </div>
           </div>
         </div>
-
-        <div className="flex items-center gap-3">
-          {/* Notifications */}
-          <div className="relative">
-            <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="btn-ghost p-3 relative">
-              <FiBell className="text-lg" />
-              {notifications.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {notifications.length}
-                </span>
-              )}
-            </button>
-
-            {showNotifications && (
-              <div className="absolute right-0 top-full mt-2 w-80 card z-50">
-                <h3 className="text-heading-md mb-3">Notifications</h3>
-                <div className="space-y-2">
-                  {notifications.map((notification) => (
-                    <div
-                      key={notification.id}
-                      className="p-3 bg-white/5 rounded-lg">
-                      <p className="text-body-sm text-white mb-1">
-                        {notification.message}
-                      </p>
-                      <p className="text-body-xs text-slate-400">
-                        {notification.time}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Profile */}
-          <button className="btn-ghost p-3">
-            <FiUser className="text-lg" />
-          </button>
-        </div>
       </div>
 
       {/* Active Sessions - Priority Placement */}
@@ -229,7 +171,7 @@ const StudentDashboard = () => {
         <div className="card bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <h2 className="text-heading-md text-white">
+            <h2 className="text-heading-md text-t-secondary">
               Active Attendance Sessions
             </h2>
           </div>
@@ -237,9 +179,9 @@ const StudentDashboard = () => {
             {mockActiveSessions.map((session) => (
               <div
                 key={session.id}
-                className="bg-white/5 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                className="bg-bg-glass rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-purple-500/10 hover:border-purple-500/50 transition-300 transition-all ease-in-out">
                 <div className="flex-1">
-                  <h3 className="text-body font-semibold text-white mb-1">
+                  <h3 className="text-body font-semibold text-t-secondary mb-1">
                     {session.groupName}
                   </h3>
                   <div className="flex flex-wrap items-center gap-4 text-body-sm text-slate-300">
@@ -261,16 +203,16 @@ const StudentDashboard = () => {
                     )}
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={() => handleMarkAttendance(session.id)}
                   disabled={!session.canJoin}
-                  className={`btn-primary px-6 py-3 rounded-xl whitespace-nowrap ${
+                  text="Mark Attendance"
+                  className={` whitespace-nowrap ${
                     !session.canJoin
                       ? 'opacity-50 cursor-not-allowed'
                       : 'animate-pulse-glow'
-                  }`}>
-                  Mark Attendance
-                </button>
+                  }`}
+                />
               </div>
             ))}
           </div>
@@ -281,10 +223,10 @@ const StudentDashboard = () => {
       {!hasActiveSessions && (
         <div className="card text-center py-8">
           <FiCheckCircle className="text-4xl text-green-400 mx-auto mb-3" />
-          <h3 className="text-heading-md text-white mb-2">
+          <h3 className="text-heading-md text-t-secondary mb-2">
             No active sessions right now
           </h3>
-          <p className="text-body-sm text-slate-400">
+          <p className="text-body-sm text-t-tertiary">
             You're all caught up! Check back when your lecturers start new
             attendance sessions.
           </p>
@@ -293,7 +235,7 @@ const StudentDashboard = () => {
 
       {/* Groups/Courses Section */}
       <div className="space-y-4">
-        <h2 className="text-heading-lg text-white">Your Groups</h2>
+        <h2 className="text-heading-lg text-t-secondary">Your Groups</h2>
 
         {joinedGroups.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -305,13 +247,13 @@ const StudentDashboard = () => {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
                     {getStatusIcon(group.status)}
-                    <span className="text-body-xs text-slate-400 uppercase tracking-wide">
+                    <span className="text-body-xs text-t-tertiary uppercase tracking-wide">
                       {group.status}
                     </span>
                   </div>
                   <FiBook className="text-purple-400" />
                 </div>
-                <h3 className="text-heading-md text-white mb-2">
+                <h3 className="text-heading-md text-t-secondary mb-2">
                   {group.name}
                 </h3>
                 <p className="text-body-sm text-slate-300 mb-3">
@@ -319,7 +261,7 @@ const StudentDashboard = () => {
                 </p>
                 {group.attendanceRate && (
                   <div className="flex items-center justify-between">
-                    <span className="text-body-xs text-slate-400">
+                    <span className="text-body-xs text-t-tertiary">
                       Attendance Rate
                     </span>
                     <span
@@ -339,9 +281,11 @@ const StudentDashboard = () => {
           </div>
         ) : (
           <div className="card text-center py-8">
-            <FiUsers className="text-4xl text-slate-400 mx-auto mb-3" />
-            <h3 className="text-heading-md text-white mb-2">No groups yet</h3>
-            <p className="text-body-sm text-slate-400">
+            <FiUsers className="text-4xl text-t-tertiary mx-auto mb-3" />
+            <h3 className="text-heading-md text-t-secondary mb-2">
+              No groups yet
+            </h3>
+            <p className="text-body-sm text-t-tertiary">
               You haven't joined any groups yet. Check your email/SMS for
               invites from your lecturers.
             </p>
@@ -365,7 +309,7 @@ const StudentDashboard = () => {
                       Pending
                     </span>
                   </div>
-                  <h4 className="text-body font-semibold text-white mb-1">
+                  <h4 className="text-body font-semibold text-t-secondary mb-1">
                     {group.name}
                   </h4>
                   <p className="text-body-sm text-slate-300">
@@ -381,7 +325,7 @@ const StudentDashboard = () => {
       {/* Recent Attendance History */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-heading-lg text-white">Recent Activity</h2>
+          <h2 className="text-heading-lg text-t-secondary">Recent Activity</h2>
           <button className="text-body-sm text-purple-400 hover:text-purple-300 transition-colors">
             View Full History
           </button>
@@ -394,13 +338,15 @@ const StudentDashboard = () => {
                 key={record.id}
                 className="flex items-center justify-between py-3 border-b border-white/10 last:border-b-0">
                 <div className="flex items-center gap-3">
-                  <FiCalendar className="text-slate-400" />
+                  <FiCalendar className="text-purple-400" />
                   <div>
-                    <p className="text-body text-white">
+                    <p className="text-body text-t-secondary">
                       <span className="font-medium">{record.groupName}</span> •{' '}
                       {record.time}
                     </p>
-                    <p className="text-body-sm text-slate-400">{record.date}</p>
+                    <p className="text-body-sm text-t-tertiary">
+                      {record.date}
+                    </p>
                   </div>
                 </div>
                 <span
@@ -414,8 +360,8 @@ const StudentDashboard = () => {
           </div>
         ) : (
           <div className="text-center py-8">
-            <FiCalendar className="text-4xl text-slate-400 mx-auto mb-3" />
-            <p className="text-body-sm text-slate-400">
+            <FiCalendar className="text-4xl text-t-tertiary mx-auto mb-3" />
+            <p className="text-body-sm text-t-tertiary">
               No records yet. Mark your first attendance to see history here.
             </p>
           </div>
