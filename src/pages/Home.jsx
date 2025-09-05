@@ -17,6 +17,7 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { ROLES } from '../utils/roles';
 
 const Home = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -25,6 +26,16 @@ const Home = () => {
   const { user } = useAuth();
 
   const navigate = useNavigate();
+
+  const handleCTA = () => {
+    if (!user) {
+      navigate('/auth');
+    } else if (user.role === ROLES.STUDENT) {
+      navigate('/student/dashboard');
+    } else if (user.role === ROLES.LECTURER) {
+      navigate('/lecturer/dashboard');
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -155,10 +166,9 @@ const Home = () => {
             <div className="flex flex-col items-center justify-center gap-4 mt-10 sm:flex-row">
               <button
                 className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-t-primary btn-primary rounded-xl shadow-2xl hover:shadow-purple-500/25"
-                onClick={() => navigate(user ? `/${user?.role}` : '/auth')}>
+                onClick={handleCTA}>
                 <FaSignInAlt className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
                 {user ? 'Proceed to dashboard' : 'Get Started Free'}
-                <div className="absolute inset-0 bg-white/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </button>
 
               <button className="group inline-flex items-center px-8 py-4 text-lg font-semibold text-t-primary border-2 border-purple-500/50 rounded-xl hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-200">
@@ -170,27 +180,25 @@ const Home = () => {
 
             <div className="flex items-center justify-center gap-8 mt-12 text-t-tertiary">
               <div className="text-sm">No setup stress</div>
-              <div className="w-1 h-1 bg-t-ttext-t-tertiary rounded-full"></div>
+              <div className="w-1 h-1 bg-t-tertiary rounded-full"></div>
               <div className="text-sm">Runs on any device</div>
-              <div className="w-1 h-1 bg-t-ttext-t-tertiary rounded-full"></div>
-              <div className="text-sm">Pay only when you use it</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-black/30 backdrop-blur-sm">
+      <section className="py-16 bg-bg-glass-dark backdrop-blur-sm">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
             {stats.map((stat, index) => (
               <div
                 key={index}
                 className="text-center">
-                <div className="text-4xl font-bold text-t-primary lg:text-5xl">
+                <div className="text-4xl font-bold text-gray-100 lg:text-5xl">
                   {stat.number}
                 </div>
-                <div className="mt-2 text-t-tertiary">{stat.label}</div>
+                <div className="mt-2 text-t-secondary">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -266,9 +274,9 @@ const Home = () => {
 
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-2xl opacity-20"></div>
-              <div className="relative p-8 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+              <div className="relative p-8 bg-bg-glass-sm backdrop-blur-sm rounded-2xl border border-bg-glass-md">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 btn-primary rounded-full flex items-center justify-center">
                     <FaUsers className="w-6 h-6 text-t-primary" />
                   </div>
                   <div>
@@ -282,17 +290,17 @@ const Home = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                  <div className="flex justify-between items-center p-3 glass rounded-lg">
                     <span className="text-t-secondary">
                       Computer Science 101
                     </span>
                     <span className="text-green-400">98% Present</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                  <div className="flex justify-between items-center p-3 glass rounded-lg">
                     <span className="text-t-secondary">Mathematics 201</span>
                     <span className="text-yellow-400">85% Present</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                  <div className="flex justify-between items-center p-3 glass rounded-lg">
                     <span className="text-t-secondary">Physics 301</span>
                     <span className="text-green-400">92% Present</span>
                   </div>
@@ -355,9 +363,9 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-purple-600 to-pink-600">
+      <section className="py-24 gradient-bg">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-t-primary sm:text-5xl mb-6">
+          <h2 className="text-4xl font-bold text-white sm:text-5xl mb-6">
             Ready to Transform Your Attendance Management?
           </h2>
           <p className="max-w-2xl mx-auto text-xl text-purple-100 mb-10">
@@ -368,9 +376,9 @@ const Home = () => {
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button className="group inline-flex items-center px-8 py-4 text-lg font-semibold text-purple-600 bg-white rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-2xl">
               <FaSignInAlt className="w-5 h-5 mr-2" />
-              Start Your Free Trial
+              Create a Free Account
             </button>
-            <button className="inline-flex items-center px-8 py-4 text-lg font-semibold text-t-primary border-2 border-white/50 rounded-xl hover:border-white hover:bg-white/10 transition-all duration-200">
+            <button className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white border-2 border-white/50 rounded-xl hover:border-white hover:bg-white/10 transition-all duration-200">
               Schedule Demo
               <FaArrowRight className="w-4 h-4 ml-2" />
             </button>

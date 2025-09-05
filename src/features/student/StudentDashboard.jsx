@@ -83,7 +83,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 60000); // Update every minute
+    }, 120000);
 
     return () => clearInterval(timer);
   }, []);
@@ -117,11 +117,10 @@ const StudentDashboard = () => {
     }
   };
 
-  const nav=useNavigate()
+  const nav = useNavigate();
 
-  const handleMarkAttendance = (sessionId) => {
-    // In real app, this would navigate to attendance marking page
-    nav('/student/attendance',{state:{id:sessionId}})
+  const handleMarkAttendance = () => {
+    nav('/student/attendance/:id');
   };
 
   const handleViewGroup = (groupId) => {
@@ -134,199 +133,210 @@ const StudentDashboard = () => {
     (group) => group.status === 'pending'
   );
 
+  const networkStatus = 'online';
+
   return (
-    <div className="min-h-screen p-4 md:p-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-heading-xl gradient-text mb-1">
-            Hi, {user.firstName || ''}
-          </h1>
-          <div className="flex items-center gap-4 text-body-sm text-t-tertiary">
-            <span>
-              {currentTime.toLocaleDateString('en-US', {
-                weekday: 'long',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </span>
-            <div className="flex items-center gap-1">
-              <span
-                className={
-                  hasActiveSessions ? 'text-green-400' : 'text-t-tertiary'
-                }>
-                {hasActiveSessions
-                  ? `${mockActiveSessions.length} Active Session${
-                      mockActiveSessions.length !== 1 ? 's' : ''
-                    }`
-                  : 'All sessions complete today'}
+    <div className="lg:space-x-6 flex flex-col lg:flex-row ">
+      <div className="flex-1 space-y-6 p-4 md:p-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-heading-xl gradient-text mb-1">
+              Hi, {user.firstName || ''}
+            </h1>
+            <div className="flex items-center gap-4 text-body-sm text-t-tertiary">
+              <span>
+                {currentTime.toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric',
+                })}
               </span>
+              <div className="flex items-center gap-1">
+                <span
+                  className={
+                    hasActiveSessions ? 'text-green-400' : 'text-t-tertiary'
+                  }>
+                  {hasActiveSessions
+                    ? `${mockActiveSessions.length} Active Session${
+                        mockActiveSessions.length !== 1 ? 's' : ''
+                      }`
+                    : 'All sessions complete today'}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Active Sessions - Priority Placement */}
-      {hasActiveSessions && (
-        <div className="card bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <h2 className="text-heading-md text-t-secondary">
-              Active Attendance Sessions
-            </h2>
-          </div>
-          <div className="space-y-3">
-            {mockActiveSessions.map((session) => (
-              <div
-                key={session.id}
-                className="bg-bg-glass rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-purple-500/10 hover:border-purple-500/50 transition-300 transition-all ease-in-out">
-                <div className="flex-1">
-                  <h3 className="text-body font-semibold text-t-secondary mb-1">
-                    {session.groupName}
-                  </h3>
-                  <div className="flex flex-wrap items-center gap-4 text-body-sm text-slate-300">
-                    <div className="flex items-center gap-1">
-                      <FiClock className="text-yellow-400" />
-                      <span className="text-yellow-400 font-medium">
-                        {formatTimeRemaining(session.timeRemaining)}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <FiMapPin />
-                      <span>{session.location}</span>
-                    </div>
-                    {session.requiresLocation && (
-                      <div className="flex items-center gap-1">
-                        <FiWifi className="text-cyan-400" />
-                        <span className="text-cyan-400">Location required</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <Button
-                  onClick={() => handleMarkAttendance(session.id)}
-                  disabled={!session.canJoin}
-                  text="Mark Attendance"
-                  className={` whitespace-nowrap ${
-                    !session.canJoin
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'animate-pulse-glow'
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* No Active Sessions */}
-      {!hasActiveSessions && (
-        <div className="card text-center py-8">
-          <FiCheckCircle className="text-4xl text-green-400 mx-auto mb-3" />
-          <h3 className="text-heading-md text-t-secondary mb-2">
-            No active sessions right now
-          </h3>
-          <p className="text-body-sm text-t-tertiary">
-            You're all caught up! Check back when your lecturers start new
-            attendance sessions.
-          </p>
-        </div>
-      )}
-
-      {/* Groups/Courses Section */}
-      <div className="space-y-4">
-        <h2 className="text-heading-lg text-t-secondary">Your Groups</h2>
-
-        {joinedGroups.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {joinedGroups.map((group) => (
-              <div
-                key={group.id}
-                className="card-hover cursor-pointer"
-                onClick={() => handleViewGroup(group.id)}>
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    {getStatusIcon(group.status)}
-                    <span className="text-body-xs text-t-tertiary uppercase tracking-wide">
-                      {group.status}
-                    </span>
-                  </div>
-                  <FiBook className="text-purple-400" />
-                </div>
-                <h3 className="text-heading-md text-t-secondary mb-2">
-                  {group.name}
-                </h3>
-                <p className="text-body-sm text-slate-300 mb-3">
-                  {group.lecturer}
-                </p>
-                {group.attendanceRate && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-body-xs text-t-tertiary">
-                      Attendance Rate
-                    </span>
-                    <span
-                      className={`text-body-sm font-semibold ${
-                        group.attendanceRate >= 90
-                          ? 'text-green-400'
-                          : group.attendanceRate >= 70
-                          ? 'text-yellow-400'
-                          : 'text-red-400'
-                      }`}>
-                      {group.attendanceRate}%
-                    </span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="card text-center py-8">
-            <FiUsers className="text-4xl text-t-tertiary mx-auto mb-3" />
-            <h3 className="text-heading-md text-t-secondary mb-2">
-              No groups yet
-            </h3>
-            <p className="text-body-sm text-t-tertiary">
-              You haven't joined any groups yet. Check your email/SMS for
-              invites from your lecturers.
-            </p>
-          </div>
-        )}
-
-        {/* Pending Groups */}
-        {pendingGroups.length > 0 && (
-          <div className="space-y-3">
-            <h3 className="text-body font-semibold text-slate-300">
-              Pending Approvals
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {pendingGroups.map((group) => (
+        {/* Active Sessions - Priority Placement */}
+        {hasActiveSessions && (
+          <div className="card bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+              <h2 className="text-heading-md text-t-secondary">
+                Active Attendance Sessions
+              </h2>
+            </div>
+            <div className="space-y-3">
+              {mockActiveSessions.map((session) => (
                 <div
-                  key={group.id}
-                  className="card border-yellow-500/30 bg-yellow-500/5">
-                  <div className="flex items-center gap-2 mb-2">
-                    <FiClock className="text-yellow-400" />
-                    <span className="text-body-xs text-yellow-400 uppercase tracking-wide">
-                      Pending
-                    </span>
+                  key={session.id}
+                  className="bg-bg-glass rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-purple-500/10 hover:border-purple-500/50 transition-300 transition-all ease-in-out">
+                  <div className="flex-1">
+                    <h3 className="text-body font-semibold text-t-secondary mb-1">
+                      {session.groupName}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-4 text-body-sm text-slate-300">
+                      <div className="flex items-center gap-1">
+                        <FiClock className="text-yellow-400" />
+                        <span className="text-yellow-400 font-medium">
+                          {formatTimeRemaining(session.timeRemaining)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <FiMapPin />
+                        <span>{session.location}</span>
+                      </div>
+                      {session.requiresLocation && (
+                        <div className="flex items-center gap-1">
+                          <FiWifi className="text-cyan-400" />
+                          <span className="text-cyan-400">
+                            Location required
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <h4 className="text-body font-semibold text-t-secondary mb-1">
-                    {group.name}
-                  </h4>
-                  <p className="text-body-sm text-slate-300">
-                    {group.lecturer}
-                  </p>
+                  <Button
+                    onClick={() => handleMarkAttendance(session.id)}
+                    disabled={!session.canJoin}
+                    text="Mark Attendance"
+                    className={` whitespace-nowrap  place-self-end ${
+                      !session.canJoin
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'animate-pulse-glow'
+                    }`}
+                  />
                 </div>
               ))}
             </div>
           </div>
         )}
+
+        {/* No Active Sessions */}
+        {!hasActiveSessions && (
+          <div className="card text-center py-8">
+            <FiCheckCircle className="text-4xl text-green-400 mx-auto mb-3" />
+            <h3 className="text-heading-md text-t-secondary mb-2">
+              No active sessions right now
+            </h3>
+            <p className="text-body-sm text-t-tertiary">
+              You're all caught up! Check back when your lecturers start new
+              attendance sessions.
+            </p>
+          </div>
+        )}
+
+        {/* Groups/Courses Section */}
+        <div className="space-y-4 ">
+          <h2 className="text-heading-lg text-t-secondary">Your Groups</h2>
+
+          {joinedGroups.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {joinedGroups.map((group) => (
+                <div
+                  key={group.id}
+                  className="card-hover cursor-pointer"
+                  onClick={() => handleViewGroup(group.id)}>
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      {getStatusIcon(group.status)}
+                      <span className="text-body-xs text-t-tertiary uppercase tracking-wide">
+                        {group.status}
+                      </span>
+                    </div>
+                    <FiBook className="text-purple-400" />
+                  </div>
+                  <h3 className="text-heading-md text-t-secondary mb-2">
+                    {group.name}
+                  </h3>
+                  <p className="text-body-sm text-slate-300 mb-3">
+                    {group.lecturer}
+                  </p>
+                  {group.attendanceRate && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-body-xs text-t-tertiary">
+                        Attendance Rate
+                      </span>
+                      <span
+                        className={`text-body-sm font-semibold ${
+                          group.attendanceRate >= 90
+                            ? 'text-green-400'
+                            : group.attendanceRate >= 70
+                            ? 'text-yellow-400'
+                            : 'text-red-400'
+                        }`}>
+                        {group.attendanceRate}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="card text-center py-8">
+              <FiUsers className="text-4xl text-t-tertiary mx-auto mb-3" />
+              <h3 className="text-heading-md text-t-secondary mb-2">
+                No groups yet
+              </h3>
+              <p className="text-body-sm text-t-tertiary">
+                You haven't joined any groups yet. Check your email/SMS for
+                invites from your lecturers.
+              </p>
+            </div>
+          )}
+
+          {/* Pending Groups */}
+          {pendingGroups.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-body font-semibold text-slate-300">
+                Pending Approvals
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {pendingGroups.map((group) => (
+                  <div
+                    key={group.id}
+                    className="card border-yellow-500/30 bg-yellow-500/5">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FiClock className="text-yellow-400" />
+                      <span className="text-body-xs text-yellow-400 uppercase tracking-wide">
+                        Pending
+                      </span>
+                    </div>
+                    <h4 className="text-body font-semibold text-t-secondary mb-1">
+                      {group.name}
+                    </h4>
+                    <p className="text-body-sm text-slate-300">
+                      {group.lecturer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Recent Attendance History */}
-      <div className="card">
+      <div
+        className={`glass p-4 md:p-6 lg:w-90 sticky ${
+          networkStatus === 'online' ? 'top-0' : 'sm:top-13 top-16'
+        }`}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-heading-lg text-t-secondary">Recent Activity</h2>
-          <button className="text-body-sm text-purple-400 hover:text-purple-300 transition-colors">
+          <button
+            className="text-body-sm text-purple-400 hover:text-purple-300 transition-colors"
+            onClick={() => nav('/student/attendance')}>
             View Full History
           </button>
         </div>

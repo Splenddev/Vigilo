@@ -4,7 +4,6 @@ import {
   LuBell,
   LuClock,
   LuTriangleAlert,
-  LuTriangle,
   LuClockAlert,
   LuCircleCheck,
   LuUserPlus,
@@ -13,6 +12,7 @@ import {
   LuTrash,
 } from 'react-icons/lu';
 import Button from '../atoms/Button';
+import EmptyState from './EmptyState';
 
 // --- MOCK DATA ---
 const initialNotifications = [
@@ -111,16 +111,18 @@ const NotificationPanel = () => {
       ref={panelRef}>
       {/* Bell Button */}
       <Button
+        variant="transparent"
+        size="sm"
         onClick={() => setShowPanel(!showPanel)}
-        className="relative p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
-        <LuBell />
+        className="relative text-t-primary hover:text-gray-600 rounded-full hover:bg-gray-100"
+        icon={LuBell}>
         <AnimatePresence>
           {unreadCount > 0 && (
             <motion.span
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              className="absolute -top-1 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
               {unreadCount}
             </motion.span>
           )}
@@ -135,7 +137,7 @@ const NotificationPanel = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute -right-20 top-full mt-2 w-[95vw] max-w-96 rounded-2xl z-50 bg-white dark:bg-gray-800 shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            className="absolute -right-13 top-full mt-2 w-[95vw] max-w-96 rounded-2xl z-50 bg-white dark:bg-gray-800 shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
             {/* Header */}
             <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
               <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
@@ -151,20 +153,16 @@ const NotificationPanel = () => {
             </header>
 
             {/* Notification List */}
+            {notifications.length === 0 && (
+              <EmptyState
+                icon={LuCircleCheck}
+                variant="info"
+                title="All caught up!"
+                message="You have no new notifications"
+              />
+            )}
             <div className="max-h-96 overflow-y-auto overflow-x-hidden">
-              {notifications.length === 0 ? (
-                <div className="text-center py-12 px-4">
-                  <div className="mx-auto w-16 h-16 text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-300 rounded-full flex items-center justify-center">
-                    <LuCircleCheck />
-                  </div>
-                  <h4 className="mt-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
-                    All caught up!
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    You have no new notifications.
-                  </p>
-                </div>
-              ) : (
+              {notifications.length > 0 && (
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                   {notifications.map((n) => {
                     const config = typeConfig[n.type] || typeConfig.default;

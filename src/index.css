@@ -32,16 +32,23 @@
   --color-primary-cyan-dark: #0891b2;
   --color-primary-cyan-soft: #e0f7fa;
 
-  --color-t-primary: #111827;
-  --color-t-secondary: #374151;
-  --color-t-tertiary: #64748b;
-  --color-t-muted: #6b7280;
-  --color-t-inverse: #ffffff;
+  --color-t-primary: #ffffff;
+  --color-t-secondary: #cbd5e1;
+  --color-t-tertiary: #94a3b8;
+  --color-t-muted: #64748b;
   --color-t-accent: #7c3aed;
 
   --color-bg-primary: #0f172a;
   --color-bg-secondary: #1e293b;
   --color-bg-tertiary: #334155;
+
+  /* Glass effects */
+  --color-bg-glass-xs: rgba(255, 255, 255, 0.02);
+  --color-bg-glass-sm: rgba(255, 255, 255, 0.06);
+  --color-bg-glass-md: rgba(255, 255, 255, 0.1);
+  --color-bg-glass-lg: rgba(255, 255, 255, 0.14);
+  --color-bg-glass-xl: rgba(255, 255, 255, 0.18);
+  --color-bg-glass-dark: rgba(0, 0, 0, 0.33);
   --color-bg-glass: rgba(255, 255, 255, 0.05);
   --color-bg-glass-strong: rgba(255, 255, 255, 0.1);
 
@@ -133,9 +140,9 @@
     -webkit-text-fill-color: transparent;
   }
 
-.gradient-logo{
-  @apply bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent;
-}
+  .gradient-logo {
+    @apply bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent;
+  }
 
   /* Button styles */
   .btn-primary {
@@ -208,6 +215,13 @@
   --color-bg-primary: #0f172a;
   --color-bg-secondary: #1e293b;
   --color-bg-tertiary: #334155;
+
+  /* Glass effects */
+  --color-bg-glass-xs: rgba(255, 255, 255, 0.02);
+  --color-bg-glass-sm: rgba(255, 255, 255, 0.06);
+  --color-bg-glass-md: rgba(255, 255, 255, 0.1);
+  --color-bg-glass-lg: rgba(255, 255, 255, 0.14);
+  --color-bg-glass-xl: rgba(255, 255, 255, 0.18);
   --color-bg-glass: rgba(255, 255, 255, 0.05);
   --color-bg-glass-strong: rgba(255, 255, 255, 0.1);
 
@@ -236,8 +250,7 @@
   --color-primary-purple: #7c3aed;
   --color-primary-purple-light: #a855f7;
   --color-primary-purple-dark: #5b21b6;
-  --color-prima
-  ry-purple-soft: #f3e8ff;
+  --color-primary-purple-soft: #f3e8ff;
 
   --color-t-primary: #111827;
   --color-t-secondary: #374151;
@@ -256,9 +269,16 @@
   --color-primary-cyan-dark: #0891b2;
   --color-primary-cyan-soft: #e0f7fa;
 
-  --color-bg-primary: #f8fafc;
-  --color-bg-secondary: #ffffff;
-  --color-bg-tertiary: #e2e8f0;
+  --color-bg-primary: #f8fafc; /* Light gray */
+  --color-bg-secondary: #f1f5f9; /* Soft slate */
+  --color-bg-tertiary: #e2e8f0; /* Muted slate */
+
+  /* Glass effects */
+  --color-bg-glass-xs: rgba(0, 0, 0, 0.02);
+  --color-bg-glass-sm: rgba(0, 0, 0, 0.05);
+  --color-bg-glass-md: rgba(0, 0, 0, 0.08);
+  --color-bg-glass-lg: rgba(0, 0, 0, 0.12);
+  --color-bg-glass-xl: rgba(0, 0, 0, 0.18);
   --color-bg-glass: rgba(255, 255, 255, 0.5);
   --color-bg-glass-strong: rgba(255, 255, 255, 0.8);
 

@@ -50,19 +50,22 @@ const ThemeToggler = ({ mode = 'toggle' }) => {
   if (mode === 'options') {
     return (
       <div className="grid grid-cols-3 gap-4">
-        {Object.entries(THEME_OPTIONS).map(([key, { label, icon: Icon }]) => (
-          <button
-            key={key}
-            onClick={() => setTheme(key)}
-            className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all capitalize ${
-              theme === key
-                ? 'border-purple-500 bg-purple-500/20'
-                : 'border-white/10 bg-white/5 hover:border-white/20'
-            }`}>
-            <Icon className="text-xl" />
-            <div className="text-t-primary font-medium">{label}</div>
-          </button>
-        ))}
+        {Object.entries(THEME_OPTIONS).map(([key, { label, icon }]) => {
+          const Icon = icon;
+          return (
+            <button
+              key={key}
+              onClick={() => setTheme(key)}
+              className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all capitalize ${
+                theme === key
+                  ? 'border-purple-500 bg-purple-500/20'
+                  : 'border-white/10 bg-white/5 hover:border-white/20'
+              }`}>
+              <Icon className="text-xl" />
+              <div className="text-t-primary font-medium">{label}</div>
+            </button>
+          );
+        })}
       </div>
     );
   }
@@ -73,10 +76,10 @@ const ThemeToggler = ({ mode = 'toggle' }) => {
   return (
     <Button
       onClick={toggleTheme}
-      className="relative flex items-center justify-center overflow-hidden mr-3 p-2"
-    >
-      <Icon/>
-    </Button>
+      icon={Icon}
+      size="sm"
+      className="relative overflow-hidden mr-2"
+    />
   );
 };
 

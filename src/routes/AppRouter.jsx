@@ -4,30 +4,40 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import App from '../App';
-import AttendancePage from '../features/attendance/StudentAttendance';
-import Auth from '../pages/Auth';
-import CourseList from '../features/courses/CourseList';
-import CreateGroup from '../features/group/CreateGroup';
-import NotFound from '../pages/NotFound';
-import Home from '../pages/Home';
+
+// Layouts
 import StudentLayout from '../components/layout/StudentLayout';
 import LecturerLayout from '../components/layout/LecturerLayout';
+
+// Shared pages
+import Home from '../pages/Home';
+import Auth from '../pages/Auth';
+import NotFound from '../pages/NotFound';
+import Unauthorized from '../pages/Unauthorized';
+import UserProfile from '../pages/UserProfile';
+import HelpPage from '../pages/Help';
+import SettingsPage from '../pages/SettingsPage';
+
+// Lecturer features
 import LecturerDashboard from '../features/lecturer/LecturerDashboard';
 import SessionList from '../features/attendance/SessionList';
-import Groups from '../features/group/Group';
-import GroupInfo from '../features/group/GroupInfo';
 import CreateSession from '../features/attendance/CreateSession';
-import UserProfile from '../pages/UserProfile';
 import StudentsList from '../features/lecturer/StudentsList';
-import HelpPage from '../pages/Help';
-import ProtectedRoutes from './ProtectedRoute';
-import { ROLES } from '../utils/roles';
 import StudentInfo from '../features/lecturer/StudentInfo';
-import SettingsPage from '../pages/SettingsPage';
+import Groups from '../features/group/Group';
+import CreateGroup from '../features/group/CreateGroup';
+import GroupInfo from '../features/group/GroupInfo';
+import CourseList from '../features/courses/CourseList';
+
+// Student features
 import StudentDashboard from '../features/student/StudentDashboard';
-import Unauthorized from '../pages/Unauthorized';
+import AttendancePage from '../features/attendance/StudentAttendance';
 import MarkAttendance from '../features/student/MarkAttendance';
 import ViewAttendancePage from '../features/student/ViewAttendancePage';
+
+// Utils
+import ProtectedRoutes from './ProtectedRoute';
+import { ROLES } from '../utils/roles';
 
 const router = createBrowserRouter([
   {
@@ -35,17 +45,13 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: '/auth',
-        element: <Auth />,
-      },
+      { index: true, element: <Home /> },
+      { path: 'auth', element: <Auth /> },
+      { path: 'unauthorized', element: <Unauthorized /> },
 
+      // Lecturer routes
       {
-        path: '/lecturer',
+        path: 'lecturer',
         element: (
           <ProtectedRoutes allowedRoles={[ROLES.LECTURER]}>
             <LecturerLayout />
@@ -64,28 +70,18 @@ const router = createBrowserRouter([
           { path: 'dashboard', element: <LecturerDashboard /> },
           { path: 'sessions', element: <SessionList /> },
           { path: 'sessions/new', element: <CreateSession /> },
-          {
-            path: 'students',
-            element: <StudentsList />,
-          },
+          { path: 'students', element: <StudentsList /> },
           { path: 'students/:studentId', element: <StudentInfo /> },
-          {
-            path: 'groups',
-            element: <Groups />,
-          },
-          {
-            path: 'groups/new',
-            element: <CreateGroup />,
-          },
+          { path: 'groups', element: <Groups /> },
+          { path: 'groups/new', element: <CreateGroup /> },
           { path: 'groups/:groupId/info', element: <GroupInfo /> },
-          {
-            path: 'courses',
-            element: <CourseList />,
-          },
+          { path: 'courses', element: <CourseList /> },
         ],
       },
+
+      // Student routes
       {
-        path: '/student',
+        path: 'student',
         element: (
           <ProtectedRoutes allowedRoles={[ROLES.STUDENT]}>
             <StudentLayout />
@@ -107,10 +103,11 @@ const router = createBrowserRouter([
           { path: 'attendance/:id/info', element: <ViewAttendancePage /> },
         ],
       },
-      { path: '/profile', element: <UserProfile /> },
-      { path: '/help', element: <HelpPage /> },
-      { path: '/settings', element: <SettingsPage /> },
-      { path: '/unauthorized', element: <Unauthorized /> },
+
+      // Common authenticated routes
+      { path: 'profile', element: <UserProfile /> },
+      { path: 'help', element: <HelpPage /> },
+      { path: 'settings', element: <SettingsPage /> },
     ],
   },
 ]);

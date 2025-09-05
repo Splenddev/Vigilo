@@ -24,7 +24,8 @@ const Button = ({
   const variantClasses = {
     primary: 'btn-primary font-semibold',
     secondary: 'btn-secondary font-semibold',
-    ghost: 'font-semibold btn-ghost',
+    ghost:
+      'bg-white/5 border border-white/10 hover:bg-gray-500/10 hover:border-secondary/10',
     custom: '',
     danger:
       'btn-danger bg-red-500 text-t-primary hover:bg-red-600 active:bg-red-700 font-semibold border border-red-600',

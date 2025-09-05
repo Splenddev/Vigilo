@@ -13,8 +13,10 @@ import {
   LuTrendingUp as TrendingUp,
   LuTrendingDown as TrendingDown,
 } from 'react-icons/lu';
+import Button from '../../components/atoms/Button';
+import Title from '../../components/atoms/Title';
+import InfoRow from '../../components/molecules/InfoRow';
 
-// Mock session data with detailed information
 const mockSessionDetail = {
   id: 1,
   groupName: 'CSC 201 – Data Structures',
@@ -37,7 +39,6 @@ const mockSessionDetail = {
   duration: '18 minutes',
 };
 
-// Mock attendees data
 const mockAttendees = [
   {
     id: 1,
@@ -119,9 +120,6 @@ const ViewAttendancePage = () => {
   const [currentTab, setCurrentTab] = useState('overview');
   const [showExportMenu, setShowExportMenu] = useState(false);
 
-  // Filter attendees based on search and filter
-
-  // Get attendance statistics
   const getAttendanceStats = () => {
     const present = mockAttendees.filter((a) => a.status === 'present').length;
     const late = mockAttendees.filter((a) => a.status === 'late').length;
@@ -139,10 +137,6 @@ const ViewAttendancePage = () => {
 
   const stats = getAttendanceStats();
 
-  const handleGoBack = () => {
-    alert('Returning to attendance list...');
-  };
-
   const handleExport = (format) => {
     alert(`Exporting attendance data as ${format}...`);
     setShowExportMenu(false);
@@ -158,114 +152,98 @@ const ViewAttendancePage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button
-              onClick={handleGoBack}
-              className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105">
-              <ArrowLeft className="text-xl text-t-secondary" />
-            </button>
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                {mockSessionDetail.groupName}
-              </h1>
-              <p className="text-slate-400">{mockSessionDetail.lecturer}</p>
+              <Title
+                className="font-bold gradient-logo"
+                level="lg"
+                contents={mockSessionDetail.groupName}
+              />
+              <p className="text-slate-350">{mockSessionDetail.lecturer}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <div className="relative">
-              <button
-                onClick={() => setShowExportMenu(!showExportMenu)}
-                className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105">
+              <Button
+                variant="ghost"
+                onClick={() => setShowExportMenu(!showExportMenu)}>
                 <Download className="text-t-secondary" />
-              </button>
+              </Button>
 
               {showExportMenu && (
-                <div className="absolute right-0 top-full mt-2 bg-slate-800 border border-white/10 rounded-xl p-2 min-w-40 z-10 animate-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 top-full mt-2 bg-bg-secondary border border-white/10 rounded-xl p-2 min-w-40 z-10 animate-in slide-in-from-top-2 duration-200">
                   <button
                     onClick={() => handleExport('CSV')}
-                    className="w-full text-left px-3 py-2 text-t-secondary hover:bg-white/10 rounded-lg transition-colors">
+                    className="w-full text-left px-3 py-2 text-t-secondary hover:bg-gray-500/10 rounded-lg transition-colors">
                     Export as CSV
                   </button>
                   <button
                     onClick={() => handleExport('Excel')}
-                    className="w-full text-left px-3 py-2 text-t-secondary hover:bg-white/10 rounded-lg transition-colors">
+                    className="w-full text-left px-3 py-2 text-t-secondary hover:bg-gray-500/10 rounded-lg transition-colors">
                     Export as Excel
                   </button>
                   <button
                     onClick={() => handleExport('PDF')}
-                    className="w-full text-left px-3 py-2 text-t-secondary hover:bg-white/10 rounded-lg transition-colors">
+                    className="w-full text-left px-3 py-2 text-t-secondary hover:bg-gray-500/10 rounded-lg transition-colors">
                     Export as PDF
                   </button>
                 </div>
               )}
             </div>
 
-            <button
-              onClick={handleShare}
-              className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105">
+            <Button
+              variant="ghost"
+              onClick={handleShare}>
               <Share2 className="text-t-secondary" />
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Session Info Card */}
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="flex items-center gap-3">
-              <Clock className="text-cyan-400 text-xl" />
-              <div>
-                <p className="text-slate-300 text-sm">Duration</p>
-                <p className="text-t-secondary font-semibold">
-                  {mockSessionDetail.startTime} -{' '}
-                  {mockSessionDetail.actualEndTime}
-                </p>
-                <p className="text-slate-400 text-xs">
-                  {mockSessionDetail.duration}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <MapPin className="text-purple-400 text-xl" />
-              <div>
-                <p className="text-slate-300 text-sm">Location</p>
-                <p className="text-t-secondary font-semibold">
-                  {mockSessionDetail.location}
-                </p>
-                <p className="text-slate-400 text-xs">
-                  {mockSessionDetail.building}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Users className="text-pink-400 text-xl" />
-              <div>
-                <p className="text-slate-300 text-sm">Attendance</p>
-                <p className="text-t-secondary font-semibold">
-                  {stats.attended}/{stats.total}
-                </p>
-                <p className="text-slate-400 text-xs">
-                  {mockSessionDetail.attendanceRate}% rate
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Calendar className="text-blue-400 text-xl" />
-              <div>
-                <p className="text-slate-300 text-sm">Session Code</p>
-                <p className="text-t-secondary font-semibold">
-                  {mockSessionDetail.sessionCode}
-                </p>
-                <p className="text-slate-400 text-xs">Active session</p>
-              </div>
-            </div>
+            <InfoRow
+              icon={<Clock className="text-cyan-400 text-xl" />}
+              label="Duration"
+              align="center"
+              subLabel={mockSessionDetail.duration}>
+              <p className="text-t-secondary font-semibold text-[1rem] -my-1">
+                {mockSessionDetail.startTime} -{' '}
+                {mockSessionDetail.actualEndTime}
+              </p>
+            </InfoRow>
+            <InfoRow
+              icon={<MapPin className="text-purple-400 text-xl" />}
+              label="Location"
+              align="center"
+              subLabel={mockSessionDetail.building}>
+              <p className="text-t-secondary text-[1rem] -my-1 font-semibold">
+                {mockSessionDetail.location}
+              </p>
+            </InfoRow>
+            <InfoRow
+              icon={<Users className="text-pink-400 text-xl" />}
+              label="Attendance"
+              align="center"
+              subLabel={`${mockSessionDetail.attendanceRate}%`}>
+              <p className="text-t-secondary text-[1rem] -my-1 font-semibold">
+                {stats.attended}/{stats.total}
+              </p>
+            </InfoRow>
+            <InfoRow
+              icon={<Calendar className="text-blue-400 text-xl" />}
+              label="Session Code"
+              align="center"
+              subLabel="Active session">
+              <p className="text-t-secondary text-[1rem] -my-1 font-semibold">
+                {mockSessionDetail.sessionCode}
+              </p>
+            </InfoRow>
           </div>
 
           {mockSessionDetail.description && (
             <div className="mt-6 pt-6 border-t border-white/10">
-              <p className="text-slate-300 text-sm mb-1">Description</p>
+              <p className="text-slate-350 text-sm mb-1">Description</p>
               <p className="text-t-secondary">
                 {mockSessionDetail.description}
               </p>
@@ -274,7 +252,7 @@ const ViewAttendancePage = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex space-x-1 bg-white/5 border border-white/10 rounded-xl p-1">
+        <div className="flex space-x-1 glass border border-white/10 rounded-xl p-1">
           {[
             { id: 'overview', label: 'Overview', icon: TrendingUp },
             { id: 'analytics', label: 'Analytics', icon: TrendingUp },
@@ -285,7 +263,7 @@ const ViewAttendancePage = () => {
               className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-all duration-200 ${
                 currentTab === tab.id
                   ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
-                  : 'text-slate-400 hover:text-t-secondary hover:bg-white/5'
+                  : 'text-slate-350 hover:text-t-secondary hover:bg-white/5'
               }`}>
               <tab.icon className="text-sm" />
               <span className="font-medium">{tab.label}</span>
@@ -303,7 +281,7 @@ const ViewAttendancePage = () => {
                 <div className="text-2xl font-bold text-green-400">
                   {stats.present}
                 </div>
-                <div className="text-sm text-slate-400">Present</div>
+                <div className="text-sm text-slate-350">Present</div>
               </div>
 
               <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4 text-center hover:scale-105 transition-transform duration-200">
@@ -311,7 +289,7 @@ const ViewAttendancePage = () => {
                 <div className="text-2xl font-bold text-yellow-400">
                   {stats.late}
                 </div>
-                <div className="text-sm text-slate-400">Late</div>
+                <div className="text-sm text-slate-350">Late</div>
               </div>
 
               <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center hover:scale-105 transition-transform duration-200">
@@ -319,7 +297,7 @@ const ViewAttendancePage = () => {
                 <div className="text-2xl font-bold text-red-400">
                   {stats.absent}
                 </div>
-                <div className="text-sm text-slate-400">Absent</div>
+                <div className="text-sm text-slate-350">Absent</div>
               </div>
 
               <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 text-center hover:scale-105 transition-transform duration-200">
@@ -327,7 +305,7 @@ const ViewAttendancePage = () => {
                 <div className="text-2xl font-bold text-blue-400">
                   {mockSessionDetail.attendanceRate}%
                 </div>
-                <div className="text-sm text-slate-400">Rate</div>
+                <div className="text-sm text-slate-350">Rate</div>
               </div>
             </div>
 
@@ -338,21 +316,21 @@ const ViewAttendancePage = () => {
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">
+                  <span className="text-slate-350">
                     Total Registered Students
                   </span>
                   <span className="text-t-secondary">{stats.total}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Students Attended</span>
+                  <span className="text-slate-350">Students Attended</span>
                   <span className="text-green-400">{stats.attended}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">On-time Attendance</span>
+                  <span className="text-slate-350">On-time Attendance</span>
                   <span className="text-cyan-400">{stats.onTime}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Session Created</span>
+                  <span className="text-slate-350">Session Created</span>
                   <span className="text-t-secondary">
                     {mockSessionDetail.createdAt}
                   </span>
@@ -364,94 +342,6 @@ const ViewAttendancePage = () => {
 
         {currentTab === 'analytics' && (
           <div className="space-y-6 animate-in fade-in duration-500">
-            {/* Analytics Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-t-secondary mb-4">
-                  Attendance Breakdown
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Present on Time</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-white/10 rounded-full h-2">
-                        <div
-                          className="bg-green-500 h-2 rounded-full transition-all duration-1000"
-                          style={{
-                            width: `${(stats.present / stats.total) * 100}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-green-400 font-medium">
-                        {stats.present}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Late Arrivals</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-white/10 rounded-full h-2">
-                        <div
-                          className="bg-yellow-500 h-2 rounded-full transition-all duration-1000 delay-200"
-                          style={{
-                            width: `${(stats.late / stats.total) * 100}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-yellow-400 font-medium">
-                        {stats.late}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Absent</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-white/10 rounded-full h-2">
-                        <div
-                          className="bg-red-500 h-2 rounded-full transition-all duration-1000 delay-400"
-                          style={{
-                            width: `${(stats.absent / stats.total) * 100}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-red-400 font-medium">
-                        {stats.absent}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-t-secondary mb-4">
-                  Attendance Methods
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-300">QR Code</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-white/10 rounded-full h-2">
-                        <div className="bg-purple-500 h-2 rounded-full w-3/4 transition-all duration-1000" />
-                      </div>
-                      <span className="text-purple-400 font-medium">32</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Manual Code</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-white/10 rounded-full h-2">
-                        <div className="bg-cyan-500 h-2 rounded-full w-1/4 transition-all duration-1000 delay-200" />
-                      </div>
-                      <span className="text-cyan-400 font-medium">11</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Performance Metrics */}
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
               <h3 className="text-lg font-semibold text-t-secondary mb-4">
@@ -462,26 +352,26 @@ const ViewAttendancePage = () => {
                   <div className="text-3xl font-bold text-green-400 mb-2">
                     84%
                   </div>
-                  <div className="text-slate-300 text-sm">Overall Rate</div>
-                  <div className="text-slate-400 text-xs">Above average</div>
+                  <div className="text-slate-350 text-sm">Overall Rate</div>
+                  <div className="text-slate-350 text-xs">Above average</div>
                 </div>
 
                 <div className="text-center">
                   <div className="text-3xl font-bold text-cyan-400 mb-2">
                     18m
                   </div>
-                  <div className="text-slate-300 text-sm">Session Duration</div>
-                  <div className="text-slate-400 text-xs">2 min early</div>
+                  <div className="text-slate-350 text-sm">Session Duration</div>
+                  <div className="text-slate-350 text-xs">2 min early</div>
                 </div>
 
                 <div className="text-center">
                   <div className="text-3xl font-bold text-purple-400 mb-2">
                     2.3m
                   </div>
-                  <div className="text-slate-300 text-sm">
+                  <div className="text-slate-350 text-sm">
                     Avg Check-in Time
                   </div>
-                  <div className="text-slate-400 text-xs">Fast response</div>
+                  <div className="text-slate-350 text-xs">Fast response</div>
                 </div>
               </div>
             </div>
@@ -492,17 +382,17 @@ const ViewAttendancePage = () => {
                 Attendance Timeline
               </h3>
               <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-white/10"></div>
+                <div className="absolute left-4 top-0 bottom-0 w-0.5 glass-strong"></div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center relative z-10">
-                      <CheckCircle2 className="w-4 h-4 text-t-secondary" />
+                      <CheckCircle2 className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <p className="text-t-secondary font-medium">
                         Session Started
                       </p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-350 text-sm">
                         10:00 AM - First students began checking in
                       </p>
                     </div>
@@ -513,13 +403,13 @@ const ViewAttendancePage = () => {
 
                   <div className="flex items-center gap-4">
                     <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center relative z-10">
-                      <Clock className="w-4 h-4 text-t-secondary" />
+                      <Clock className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <p className="text-t-secondary font-medium">
                         Peak Check-in Period
                       </p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-350 text-sm">
                         10:01 - 10:05 AM - Highest activity
                       </p>
                     </div>
@@ -530,13 +420,13 @@ const ViewAttendancePage = () => {
 
                   <div className="flex items-center gap-4">
                     <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center relative z-10">
-                      <AlertTriangle className="w-4 h-4 text-t-secondary" />
+                      <AlertTriangle className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <p className="text-t-secondary font-medium">
                         Late Arrivals
                       </p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-350 text-sm">
                         10:10 - 10:15 AM - Students arriving late
                       </p>
                     </div>
@@ -547,17 +437,17 @@ const ViewAttendancePage = () => {
 
                   <div className="flex items-center gap-4">
                     <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center relative z-10">
-                      <X className="w-4 h-4 text-t-secondary" />
+                      <X className="w-4 h-4 text-white" />
                     </div>
                     <div>
                       <p className="text-t-secondary font-medium">
                         Session Ended
                       </p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-350 text-sm">
                         10:18 AM - Session closed early
                       </p>
                     </div>
-                    <div className="ml-auto text-slate-400 font-medium">
+                    <div className="ml-auto text-slate-350 font-medium">
                       Final count
                     </div>
                   </div>
@@ -573,7 +463,7 @@ const ViewAttendancePage = () => {
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Attendance Rate</span>
+                    <span className="text-slate-350">Attendance Rate</span>
                     <div className="flex items-center gap-2">
                       <TrendingUp className="text-green-400 w-4 h-4" />
                       <span className="text-green-400">+5.2%</span>
@@ -581,7 +471,7 @@ const ViewAttendancePage = () => {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-300">On-time Rate</span>
+                    <span className="text-slate-350">On-time Rate</span>
                     <div className="flex items-center gap-2">
                       <TrendingDown className="text-red-400 w-4 h-4" />
                       <span className="text-red-400">-2.1%</span>
@@ -589,7 +479,7 @@ const ViewAttendancePage = () => {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-300">Check-in Speed</span>
+                    <span className="text-slate-350">Check-in Speed</span>
                     <div className="flex items-center gap-2">
                       <TrendingUp className="text-green-400 w-4 h-4" />
                       <span className="text-green-400">+0.8s</span>
@@ -603,8 +493,8 @@ const ViewAttendancePage = () => {
                   Session Insights
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 shrink-0 bg-green-400 rounded-full "></div>
                     <div>
                       <p className="text-t-secondary text-sm">
                         High attendance rate indicates good student engagement
@@ -612,8 +502,8 @@ const ViewAttendancePage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 shrink-0 bg-yellow-400 rounded-full "></div>
                     <div>
                       <p className="text-t-secondary text-sm">
                         Session ended 2 minutes early - consider extending
@@ -622,8 +512,8 @@ const ViewAttendancePage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 shrink-0 bg-blue-400 rounded-full "></div>
                     <div>
                       <p className="text-t-secondary text-sm">
                         QR code method preferred by 74% of students
@@ -631,8 +521,8 @@ const ViewAttendancePage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full mt-2"></div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 shrink-0 bg-purple-400 rounded-full "></div>
                     <div>
                       <p className="text-t-secondary text-sm">
                         Late arrivals mostly between 10:10-10:15 AM

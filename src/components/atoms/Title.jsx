@@ -9,9 +9,11 @@ const Title = ({
 }) => {
   // Map level to Tailwind text tokens (defined in @theme)
   const sizeClasses = {
-    xl: 'text-heading-xl',
-    lg: 'text-heading-lg',
-    md: 'text-heading-md',
+    xl: 'text-3xl',
+    lg: 'text-2xl',
+    md: 'text-xl',
+    sm: 'text-lg',
+    xm: 'text-md',
   };
 
   const alignClasses = {

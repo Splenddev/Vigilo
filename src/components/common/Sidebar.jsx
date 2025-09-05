@@ -51,7 +51,6 @@ const Sidebar = () => {
     { href: '/student/dashboard', label: 'Dashboard', icon: FiHome },
     { href: '/student/attendance', label: 'Attendance', icon: LuCalendar },
     { href: '/student/groups', label: 'Groups', icon: FiUsers },
-    { href: '/student/assignments', label: 'Assignments', icon: FiBook },
   ];
 
   const lecturerLinks = [
