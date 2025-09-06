@@ -31,6 +31,7 @@ import CourseList from '../features/courses/CourseList';
 
 // Student features
 import StudentDashboard from '../features/student/StudentDashboard';
+import StudentGroupInfo from '../features/group/StudentGroupInfo';
 import AttendancePage from '../features/attendance/StudentAttendance';
 import MarkAttendance from '../features/student/MarkAttendance';
 import ViewAttendancePage from '../features/student/ViewAttendancePage';
@@ -100,6 +101,7 @@ const router = createBrowserRouter([
             ),
           },
           { path: 'dashboard', element: <StudentDashboard /> },
+          { path: 'groups', element: <StudentGroupInfo /> },
           { path: 'attendance', element: <AttendancePage /> },
           { path: 'attendance/:id', element: <MarkAttendance /> },
           { path: 'attendance/:id/info', element: <ViewAttendancePage /> },
