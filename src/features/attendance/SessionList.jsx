@@ -448,7 +448,7 @@ const SessionList = () => {
                     <div className="relative">
                       <button
                         ref={(el) => (actionRefs[session.id] = el)}
-                        onClick={() => toggleState(session.id,setShowActions)}
+                        onClick={() => toggleState(session.id, setShowActions)}
                         className="p-1 rounded-lg hover:bg-white/10 text-t-secondary hover:text-t-primary transition-colors duration-200">
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
@@ -456,19 +456,22 @@ const SessionList = () => {
                       {showActions[session.id] && (
                         <DropdownPortal
                           anchorRef={{ current: actionRefs[session.id] }}
-                          onClose={() => toggleState(session.id,setShowActions)}>
+                          onClose={() =>
+                            toggleState(session.id, setShowActions)
+                          }>
                           <div className="py-1">
-                            {sessionListDropdown.map((action) => (
-                              <Dropdown
-                                icon={action.icon}
-                                label={action.label}
-                                key={action.key}
-                                onAction={() =>
-                                  handleAction(action.key, session.id)
-                                }
-                                className={`capitalize ${action.className} z-10`}
-                              />
-                            ))}
+                            {sessionListDropdown.map(
+                              ({ icon, label, key, variant }) => (
+                                <Dropdown
+                                  icon={icon}
+                                  label={label}
+                                  key={key}
+                                  variant={variant}
+                                  onAction={() => handleAction(key, session.id)}
+                                  className="capitalize z-10"
+                                />
+                              )
+                            )}
                           </div>
                         </DropdownPortal>
                       )}

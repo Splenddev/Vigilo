@@ -21,30 +21,28 @@ export const sessionListDropdown = [
     key: 'delete',
     icon: LuTrash2,
     label: 'delete',
-    className: 'text-red-400 hover:text-red-300 hover:bg-red-500/10',
+    variant: 'danger',
   },
 ];
 
-import {  FiDownload, FiXCircle, FiShare2 } from 'react-icons/fi';
+import { FiDownload, FiXCircle, FiShare2 } from 'react-icons/fi';
 
 export const sessionInfoDropdown = [
   {
     key: 'export',
     label: 'Export',
     icon: FiDownload,
-    className: 'hover:bg-gray-100',
   },
   {
     key: 'share',
     label: 'Share Session',
     icon: FiShare2,
-    className: 'hover:bg-gray-100',
   },
   {
     key: 'cancel',
     label: 'Cancel Session',
     icon: FiXCircle,
-    className: 'text-red-400 hover:text-red-300 hover:bg-red-500/10',
+    variant: 'danger',
   },
 ];
 
@@ -85,4 +83,10 @@ export const studentsFilters = ({ dpts, lvls }) => {
       default: [0, 100],
     },
   ];
+};
+
+export const badges = {
+  present: 'success',
+  absent: 'error',
+  late: 'warning',
 };

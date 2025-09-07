@@ -16,6 +16,7 @@ import {
   LuSchool,
   LuUsers,
   LuSettings,
+  LuGraduationCap,
 } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -28,9 +29,11 @@ import {
   itemVariants,
   containerVariants,
   hoverEffect,
-  tapEffect,
   rippleEffect,
 } from '../../utils/animationVariants';
+import { StatGroup } from '../../components/containers/StatGroup';
+import StatList from '../../components/molecules/StatList';
+import { FiCalendar, FiCheckCircle, FiUsers } from 'react-icons/fi';
 
 const GroupInfo = () => {
   const { groupId } = useParams();
@@ -70,17 +73,48 @@ const GroupInfo = () => {
   // Stats
   const totalStudents = group.students.length;
   const completedSessions = group.sessions.filter(
-    (s) => s.status === 'Completed'
+    (s) => s.status === 'completed'
   ).length;
   const avgAttendance =
     completedSessions > 0
       ? Math.round(
           group.sessions
-            .filter((s) => s.status === 'Completed')
+            .filter((s) => s.status === 'completed')
             .reduce((acc, s) => acc + s.attendance.present, 0) /
             completedSessions
         )
       : 0;
+
+  const stats = [
+    {
+      icon: FiUsers,
+      label: 'New Students',
+      value: `+ ${totalStudents}`,
+      variant: 'light',
+      iconColor: 'blue', // mapped in COLOR_MAP
+    },
+    {
+      icon: FiCalendar,
+      label: 'Recent Sessions',
+      value: `+ ${group.sessions.length}`,
+      variant: 'glass',
+      iconColor: 'purple',
+    },
+    {
+      icon: FiCheckCircle,
+      label: 'Completed sessions',
+      value: completedSessions,
+      variant: 'dark',
+      iconColor: 'emerald',
+    },
+    {
+      icon: LuGraduationCap,
+      label: 'Avg. Attendance',
+      value: `${avgAttendance}%`,
+      variant: 'light',
+      iconColor: 'orange',
+    },
+  ];
 
   return (
     <motion.div
@@ -111,7 +145,15 @@ const GroupInfo = () => {
         initial="hidden"
         animate="visible">
         <div className="relative">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 gap-4">
+          <motion.div
+            className="flex items-center gap-2 text-accent px-4 py-2 rounded-xl place-self-start shadow-md bg-primary-cyan-light/20 shrink-0"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible">
+            <FaBook className="w-4 h-4" />
+            <span className="font-bold text-sm">{group.courseId}</span>
+          </motion.div>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 mt-2 gap-4">
             <motion.div
               initial="hidden"
               animate="visible"
@@ -123,54 +165,10 @@ const GroupInfo = () => {
                 {group.description}
               </p>
             </motion.div>
-            <motion.div
-              className="flex items-center gap-2 btn-secondary text-t-primary px-4 py-2 rounded-xl place-self-end shadow-lg shrink-0"
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible">
-              <FaBook className="w-5 h-5" />
-              <span className="font-bold">{group.courseId}</span>
-            </motion.div>
           </div>
 
           {/* Stats */}
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            variants={containerVariants}
-            initial="collapsed"
-            animate="expanded">
-            {[
-              { icon: FaUsers, label: 'Students', value: totalStudents },
-              {
-                icon: FaCalendar,
-                label: 'Sessions',
-                value: group.sessions.length,
-              },
-              {
-                icon: FaCheckCircle,
-                label: 'Completed',
-                value: completedSessions,
-              },
-              {
-                icon: FaGraduationCap,
-                label: 'Avg. Attendance',
-                value: avgAttendance,
-              },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible">
-                <StatCard
-                  icon={stat.icon}
-                  label={stat.label}
-                  value={stat.value}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+          <StatList stats={stats} />
         </div>
       </motion.div>
 
@@ -207,7 +205,7 @@ const GroupInfo = () => {
         {activeTab === 'overview' && (
           <motion.div
             key="overview"
-            className="glass rounded-2xl shadow-xl border border-slate-200 p-6"
+            className="card rounded-2xl shadow-xl border border-slate-200 p-6"
             variants={fadeIn}
             initial="hidden"
             animate="visible"
@@ -217,19 +215,19 @@ const GroupInfo = () => {
               <InfoRow
                 icon={FaGraduationCap}
                 label="Department"
-                className="glass-strong p-4 rounded-xl">
+                className="glass p-4 rounded-xl">
                 <span className="text-gray-300">{group.department}</span>
               </InfoRow>
               <InfoRow
                 icon={LuSchool}
                 label="Faculty"
-                className="glass-strong p-4 rounded-xl">
+                className="glass p-4 rounded-xl">
                 <span className="text-gray-300">{group.faculty}</span>
               </InfoRow>
               <InfoRow
                 icon={LuCalendar}
                 label="Academic Year"
-                className="glass-strong p-4 rounded-xl">
+                className="glass p-4 rounded-xl">
                 <span className="text-gray-300">
                   {group.academicYear.start} - {group.academicYear.end}
                 </span>

@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from 'react';
 import { drawerLeft, fadeIn } from '../../utils/animationVariants';
 import { useAuth } from '../../hooks/useAuth';
 import { catenateName } from '../../utils/helpers';
+import ThemeToggler from './ThemeToggler';
 
 const Sidebar = () => {
   const { isOpen, close } = useSidebar({ rootId: 'vigilo-sidebar' });
@@ -150,6 +151,7 @@ const Sidebar = () => {
                     {user.email || ''}
                   </p>
                 </div>
+                <ThemeToggler />
               </div>
             </div>
             {/* Floating Action Button (FAB) */}

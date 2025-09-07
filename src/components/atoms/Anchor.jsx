@@ -6,7 +6,6 @@ const Anchor = ({
   active = 'default',
   children,
   className = '',
-  func = () => {},
   href = '#',
   size = 'md', // "sm" | "md" | "lg"
   variant = 'default', // "default" | "primary" | "secondary" | "ghost" | "glass" | "danger" | "success" | "warning"
@@ -14,7 +13,7 @@ const Anchor = ({
   ...props
 }) => {
   const baseClasses =
-    'inline-flex items-center rounded-xl transition-all duration-200 font-semibold no-underline group relative flex items-center w-full text-left transition-all duration-200 rounded-xl';
+    'font-semibold no-underline group relative flex items-center text-left transition-all duration-200 rounded-xl';
 
   const sizeClasses = {
     sm: 'px-3 py-2 text-sm',
@@ -54,8 +53,8 @@ const Anchor = ({
       'bg-amber-500/20 border-amber-400 text-amber-300 animate-pulse-glow',
   };
 
-  const Link = motion(NavLink);
   if (animated) {
+    const Link = motion(NavLink);
     return (
       <AnimatePresence>
         <Link
@@ -69,7 +68,6 @@ const Anchor = ({
               className
             )
           }
-          onClick={func}
           initial={{ x: 10, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -92,7 +90,6 @@ const Anchor = ({
           className
         )
       }
-      onClick={func}
       {...props}>
       {children}
     </NavLink>

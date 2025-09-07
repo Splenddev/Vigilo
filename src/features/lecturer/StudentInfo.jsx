@@ -20,6 +20,8 @@ import {
   LuSearch,
 } from 'react-icons/lu';
 import { cardVariants, containerVariants } from '../../utils/animationVariants';
+import { FiBarChart2, FiTrendingUp } from 'react-icons/fi';
+import IconText from '../../components/atoms/IconText';
 
 // Sample data (you would normally get this from props or API)
 const studentsData = generateStudentData(100);
@@ -128,7 +130,7 @@ const StudentInfo = () => {
         <motion.div
           variants={cardVariants}
           whileHover="hover"
-          className="card mb-8 overflow-hidden relative">
+          className="card mb-5 overflow-hidden relative">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-50" />
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
             <motion.div
@@ -143,7 +145,7 @@ const StudentInfo = () => {
               <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
             </motion.div>
 
-            <div className="flex-1 space-y-4">
+            <div className="flex-1 space-y-2">
               <div>
                 <motion.h1
                   className="text-3xl font-bold mb-2"
@@ -153,33 +155,32 @@ const StudentInfo = () => {
                   {student.name}
                 </motion.h1>
                 <div className="flex flex-wrap items-center gap-4 text-sm opacity-90">
-                  <span className="flex items-center gap-2">
-                    <LuMail className="w-4 h-4" />
-                    {student.email}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <LuBookOpen className="w-4 h-4" />
-                    {student.department}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <LuGraduationCap className="w-4 h-4" />
-                    Level {student.level}
-                  </span>
+                  <IconText
+                    icon={LuMail}
+                    text={student.email}
+                    className="text-t-primary"
+                  />
+                  <IconText
+                    icon={LuBookOpen}
+                    text={student.department}
+                    className="text-t-primary"
+                  />
+                  <IconText
+                    icon={LuGraduationCap}
+                    text={student.level}
+                    className="text-t-primary"
+                  />
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <div className="px-4 py-2 bg-purple-500/20 rounded-xl text-sm font-medium">
-                  GPA: {student.gpa}
-                </div>
                 <div
-                  className={`px-4 py-2 rounded-xl text-sm font-medium ${
+                  className={`px-4 py-2 rounded-xl text-sm font-medium capitalize ${
                     student.status === 'active'
                       ? 'bg-green-400/20 text-green-400'
                       : 'bg-red-400/20 text-red-400'
                   }`}>
-                  {student.status.charAt(0).toUpperCase() +
-                    student.status.slice(1)}
+                  {student.status}
                 </div>
               </div>
             </div>
@@ -189,7 +190,7 @@ const StudentInfo = () => {
         {/* Navigation Tabs */}
         <motion.div
           variants={cardVariants}
-          className="flex gap-2 mb-8 p-2 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
+          className="flex gap-2 mb-5 p-2 bg-bg-glass-xs backdrop-blur-sm rounded-2xl border border-bg-glass-md">
           {['overview', 'attendance', 'groups'].map((tab) => (
             <motion.button
               key={tab}
@@ -226,7 +227,7 @@ const StudentInfo = () => {
                     {getTrendIcon(student.attendance.rate)}
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
                     <motion.div
                       variants={statsVariants}
                       className="text-center p-4 rounded-2xl bg-green-400/10 border border-green-400/20">
@@ -256,16 +257,30 @@ const StudentInfo = () => {
                       </div>
                       <div className="text-sm opacity-70">Absent</div>
                     </motion.div>
+                  </div>
 
-                    <motion.div
-                      variants={statsVariants}
-                      className="text-center p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20">
-                      <LuTrendingUp className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-purple-400">
-                        {student.attendance.rate}%
+                  {/* Attendance Stats */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-bg-glass-xs rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <FiBarChart2 className="w-4 h-4 text-purple-400" />
+                        <span className="text-xs text-t-tertiary">
+                          Attendance Rate
+                        </span>
                       </div>
-                      <div className="text-sm opacity-70">Rate</div>
-                    </motion.div>
+                      <p className="text-lg font-semibold text-purple-400 mt-1">
+                        {student.attendance.rate}%
+                      </p>
+                    </div>
+                    <div className="bg-bg-glass-xs rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <FiTrendingUp className="w-4 h-4 text-cyan-400" />
+                        <span className="text-xs text-t-tertiary">Streak</span>
+                      </div>
+                      <p className="text-lg font-semibold text-cyan-400 mt-1">
+                        10 days
+                      </p>
+                    </div>
                   </div>
 
                   <div className="relative">
@@ -374,14 +389,6 @@ const StudentInfo = () => {
                             <span className="flex items-center gap-2">
                               <LuCalendar className="w-4 h-4" />
                               {session.date}
-                            </span>
-                            <span className="flex items-center gap-2">
-                              <LuClock className="w-4 h-4" />
-                              {session.time}
-                            </span>
-                            <span className="flex items-center gap-2">
-                              <LuMapPin className="w-4 h-4" />
-                              {session.location}
                             </span>
                           </div>
                           <p className="text-sm mt-2 opacity-60">

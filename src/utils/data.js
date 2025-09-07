@@ -19,6 +19,14 @@ const groups = [
         attendance: { present: 42, absent: 8 },
       },
       {
+        id: 's1',
+        date: '2025-02-15',
+        topic: 'Introduction to Metabolism',
+        duration: '2h',
+        status: 'upcoming',
+        attendance: { present: 42, absent: 8 },
+      },
+      {
         id: 's2',
         date: '2025-02-22',
         topic: 'Carbohydrate Metabolism',

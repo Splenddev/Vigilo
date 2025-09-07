@@ -20,6 +20,10 @@ import { sessionInfoDropdown } from '../attendance/assets/assets';
 import DropdownPortal from '../../components/containers/DropdownPortal';
 import Dropdown from '../../components/atoms/Dropdown';
 import { useSharedView } from '../../hooks/useSharedView';
+import SessionMaterialsList from './components/SessionMaterialsList';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/atoms/Button';
+import { ROLES } from '../../utils/roles';
 
 const sessionData = {
   id: 'BCH402-2024-S1-L12',
@@ -50,23 +54,96 @@ const sessionData = {
   description:
     'Exploring the structure and function of cellular organelles, gene expression, and signal transduction pathways with emphasis on molecular techniques.',
   materials: [
-    'Lecture Notes - Cellular Organelles',
-    'Lab Manual: DNA Extraction',
-    'Assignment 2 - Signal Pathways',
+    {
+      id: 1,
+      name: 'Lecture Notes - Week 1.pdf',
+      type: 'pdf',
+      size: '1.2 MB',
+      uploadedAt: '2025-09-07',
+      url: '/files/notes-week1.pdf',
+    },
+    {
+      id: 2,
+      name: 'Assignment Sheet.docx',
+      type: 'docx',
+      size: '350 KB',
+      uploadedAt: '2025-09-06',
+      url: '/files/assignment1.docx',
+    },
+    {
+      id: 3,
+      name: 'Reference Video.mp4',
+      type: 'video',
+      size: '25 MB',
+      uploadedAt: '2025-09-05',
+      url: '/files/video.mp4',
+    },
   ],
   nextSession: {
     date: '2024-09-12',
     time: '10:00',
     topic: 'Protein Synthesis and Regulation',
   },
+  students: [
+    {
+      name: 'Alice Johnson',
+      matricNumber: '22/57am/734',
+      status: 'present',
+    },
+    {
+      name: 'Bob Smith',
+      matricNumber: '22/57am/284',
+      status: 'absent',
+    },
+    {
+      name: 'Chris Lee',
+      matricNumber: '22/57am/004',
+      status: 'present',
+    },
+    {
+      name: 'Diana Prince',
+      matricNumber: '22/57am/034',
+      status: 'present',
+    },
+    {
+      name: 'Ethan Hunt',
+      matricNumber: '22/57am/234',
+      status: 'absent',
+    },
+    {
+      name: 'Fiona Gallagher',
+      matricNumber: '22/57am/244',
+      status: 'present',
+    },
+    {
+      name: 'George Clooney',
+      matricNumber: '22/57am/084',
+      status: 'present',
+    },
+    {
+      name: 'Hannah Montana',
+      matricNumber: '22/57am/023',
+      status: 'absent',
+    },
+    {
+      name: 'Ian Somerhalder',
+      matricNumber: '22/57am/007',
+      status: 'present',
+    },
+    {
+      name: 'Jane Doe',
+      matricNumber: '22/57am/010',
+      status: 'present',
+    },
+  ],
 };
 
 const SessionInfoPage = () => {
-  const [activeTab, setActiveTab] = useState('overview');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { showSuccess } = useSuccessModal();
   const isSharedView = useSharedView();
+  const navigate = useNavigate();
 
   const handleAction = (key, sessionId) => {
     if (isSharedView) return;
@@ -140,12 +217,6 @@ const SessionInfoPage = () => {
     );
   };
 
-  const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'attendance', label: 'Attendance' },
-    { id: 'materials', label: 'Materials' },
-  ];
-
   return (
     <div className="min-h-screen p-4 md:p-6 lg:p-8">
       <div className="space-y-6">
@@ -191,17 +262,18 @@ const SessionInfoPage = () => {
                     anchorRef="moreOptions"
                     onClose={() => toggleState(sessionData.id, setMenuOpen)}>
                     <div className="py-1">
-                      {sessionInfoDropdown.map((action) => (
-                        <Dropdown
-                          icon={action.icon}
-                          label={action.label}
-                          key={action.key}
-                          onAction={() =>
-                            handleAction(action.key, sessionData.id)
-                          }
-                          className={`capitalize ${action.className} z-10`}
-                        />
-                      ))}
+                      {sessionInfoDropdown.map(
+                        ({ icon, label, variant, key }) => (
+                          <Dropdown
+                            icon={icon}
+                            label={label}
+                            key={key}
+                            variant={variant}
+                            onAction={() => handleAction(key, sessionData.id)}
+                            className="capitalize z-10"
+                          />
+                        )
+                      )}
                     </div>
                   </DropdownPortal>
                 )}
@@ -293,86 +365,61 @@ const SessionInfoPage = () => {
                 </div>
               </div>
             </div>
-
-            {/* Tabs Section */}
+            {/* Student Preview Section */}
             <div className="card">
-              <div className="border-b border-white/10 mb-6">
-                <nav className="flex space-x-8">
-                  {tabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
-                        activeTab === tab.id
-                          ? 'border-purple-400 text-purple-400'
-                          : 'border-transparent text-slate-400 hover:text-slate-300'
-                      }`}>
-                      {tab.label}
-                    </button>
-                  ))}
-                </nav>
-              </div>
+              <h3 className="font-semibold mb-4 text-t-primary">
+                Student Preview
+              </h3>
+              <div className="space-y-2 max-h-50 overflow-y-auto">
+                {sessionData.students.slice(0, 5).map((student, idx) => (
+                  <div
+                    key={idx}
+                    className={`
+    flex items-center justify-between px-4 py-2 rounded-xl
+    bg-bg-glass-xs border border-white/5 hover:bg-bg-glass-sm hover:border-white/10 transition-all duration-300 ease-in-out
+  `}>
+                    {/* Left side with dot + info */}
+                    <div className="flex items-center space-x-3">
+                      {/* Status Dot */}
+                      <span
+                        className={`w-2.5 h-2.5 rounded-full ${
+                          student.status === 'present'
+                            ? 'bg-success'
+                            : 'bg-danger'
+                        }`}></span>
 
-              {/* Tab Content */}
-              {activeTab === 'overview' && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-t-primary mb-3">
-                      Session Description
-                    </h3>
-                    <p className="text-slate-300 leading-relaxed">
-                      {sessionData.description}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold text-t-primary mb-3">
-                      Next Session
-                    </h3>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-t-primary font-medium">
-                            {sessionData.nextSession.topic}
-                          </p>
-                          <p className="text-slate-400 text-sm">
-                            {formatDate(sessionData.nextSession.date)} at{' '}
-                            {formatTime(sessionData.nextSession.time)}
-                          </p>
-                        </div>
-                        <FiArrowLeft className="w-5 h-5 text-slate-400 rotate-180" />
+                      {/* Texts */}
+                      <div className="flex flex-col leading-tight">
+                        <span className="font-medium text-t-primary">
+                          {student.name}
+                        </span>
+                        <span className="text-xs text-t-tertiary">
+                          {student.matricNumber}
+                        </span>
                       </div>
                     </div>
-                  </div>
-                </div>
-              )}
 
-              {activeTab === 'materials' && (
-                <div>
-                  <h3 className="text-lg font-semibold text-t-primary mb-4">
-                    Session Materials
-                  </h3>
-                  <div className="space-y-3">
-                    {sessionData.materials.map((material, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-purple-500/10 rounded-lg flex items-center justify-center">
-                            <FiBook className="w-4 h-4 text-purple-400" />
-                          </div>
-                          <span className="text-t-primary font-medium">
-                            {material}
-                          </span>
-                        </div>
-                        <button className="text-slate-400 hover:text-t-primary transition-colors">
-                          <FiArrowLeft className="w-4 h-4 rotate-180" />
-                        </button>
-                      </div>
-                    ))}
+                    {/* Status Badge */}
+                    <span
+                      className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                        student.status === 'present'
+                          ? 'bg-success-light/15 text-success'
+                          : 'bg-danger-light/15 text-danger'
+                      }`}>
+                      {student.status}
+                    </span>
                   </div>
-                </div>
-              )}
+                ))}
+              </div>
+              <Button
+                variant="link"
+                onClick={() =>
+                  navigate(`/${ROLES.LECTURER}/sessions/${'abc123'}/students`)
+                }
+                size="sm"
+                className="place-self-center mt-2">
+                View Full List
+              </Button>
             </div>
           </div>
 
@@ -380,6 +427,7 @@ const SessionInfoPage = () => {
           <div className="space-y-6">
             {/* Attendance Card */}
             <div className="card">
+              {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-t-primary">Attendance</h3>
                 <div className="flex items-center space-x-2">
@@ -387,6 +435,7 @@ const SessionInfoPage = () => {
                 </div>
               </div>
 
+              {/* Summary Section */}
               <div className="space-y-4">
                 <div className="text-center">
                   <div className="text-3xl font-bold gradient-text mb-1">
@@ -395,12 +444,14 @@ const SessionInfoPage = () => {
                   <p className="text-slate-400 text-sm">Attendance Rate</p>
                 </div>
 
+                {/* Progress Bar */}
                 <div className="w-full bg-slate-700 rounded-full h-3">
                   <div
                     className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500"
                     style={{ width: `${getAttendancePercentage()}%` }}></div>
                 </div>
 
+                {/* Numbers */}
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-400">
                     Present: {sessionData.attendance.present}
@@ -410,7 +461,8 @@ const SessionInfoPage = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 pt-3 border-t border-white/10">
+                {/* Present / Absent Cards */}
+                <div className="grid grid-cols-2 gap-3 pt-3 border-t border-bg-glass-md">
                   <div className="text-center">
                     <div className="text-lg font-semibold text-green-400">
                       {sessionData.attendance.present}
@@ -427,6 +479,8 @@ const SessionInfoPage = () => {
                 </div>
               </div>
             </div>
+
+            <SessionMaterialsList materials={sessionData.materials} />
 
             {/* Session ID Card */}
             <div className="card">

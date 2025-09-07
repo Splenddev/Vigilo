@@ -39,6 +39,7 @@ import ViewAttendancePage from '../features/student/ViewAttendancePage';
 import ProtectedRoutes from './ProtectedRoute';
 import { ROLES } from '../utils/roles';
 import SessionInfoPage from '../features/lecturer/SessionInfo';
+import SessionStudentsPage from '../features/lecturer/SessionStudentsList';
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
           { path: 'sessions', element: <SessionList /> },
           { path: 'sessions/new', element: <CreateSession /> },
           { path: 'sessions/:sessionId/info', element: <SessionInfoPage /> },
+          {
+            path: 'sessions/:sessionId/students',
+            element: <SessionStudentsPage />,
+          },
           { path: 'students', element: <StudentsList /> },
           { path: 'students/:studentId', element: <StudentInfo /> },
           { path: 'groups', element: <Groups /> },

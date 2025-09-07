@@ -8,7 +8,6 @@ import { fadeIn } from '../../utils/animationVariants';
 import { toggleSidebar } from '../../hooks/useSidebar';
 import { useAuth } from '../../hooks/useAuth';
 import { useAuthStore } from '../../stores/authStore';
-import Theme from './ThemeToggler';
 import { catenateName } from '../../utils/helpers';
 import NotificationPanel from './NotificationPanel';
 import { mockNotifications } from '../../utils/data';
@@ -42,7 +41,6 @@ const Navbar = () => {
             </button>
             <h1 className="gradient-logo text-3xl">Vigilo</h1>
           </div>
-          <Theme />
           <NotificationPanel notifications={mockNotifications} />
 
           {/* Profile Dropdown */}

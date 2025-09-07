@@ -33,6 +33,8 @@ const Button = ({
       'btn-danger-light font-semibold text-red-600 hover:text-red-700 active:text-red-800',
     outline:
       'font-semibold border rounded-xl border-gray-400 text-t-primary hover:bg-t-muted active:bg-gray-200',
+    info: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 font-semibold rounded-xl',
+    link: 'text-blue-500 hover:underline active:text-blue-700 bg-transparent p-0',
   };
 
   return (
