@@ -1,29 +1,75 @@
-import { LuEye, LuDownload, LuTrash2 } from 'react-icons/lu';
+import { LuEye, LuDownload, LuDoorClosed, LuPause } from 'react-icons/lu';
 import { FiEdit3 } from 'react-icons/fi';
 
-export const sessionListDropdown = [
-  {
-    key: 'view',
-    icon: LuEye,
-    label: 'view details',
-  },
-  {
-    key: 'edit',
-    icon: FiEdit3,
-    label: 'edit session',
-  },
-  {
-    key: 'export',
-    icon: LuDownload,
-    label: 'export data',
-  },
-  {
-    key: 'delete',
-    icon: LuTrash2,
-    label: 'delete',
-    variant: 'danger',
-  },
-];
+import { FiPlayCircle, FiCheckCircle } from 'react-icons/fi';
+
+import { LuPlay } from 'react-icons/lu';
+
+export const getSessionListDropdown = (status) => {
+  const base = [{ key: 'view', icon: LuEye, label: 'View details' }];
+
+  switch (status) {
+    case 'scheduled':
+      return [
+        ...base,
+        { key: 'edit', icon: FiEdit3, label: 'Edit session' },
+        {
+          key: 'start',
+          icon: FiPlayCircle,
+          label: 'Start session',
+          variant: 'success',
+        },
+      ];
+
+    case 'ongoing':
+      return [
+        ...base,
+        {
+          key: 'end',
+          icon: LuDoorClosed,
+          label: 'End session',
+          variant: 'danger',
+        },
+        {
+          key: 'pause',
+          label: 'Pause session',
+          variant: 'warning',
+          icon: LuPause,
+        },
+      ];
+
+    case 'paused':
+      return [
+        ...base,
+        {
+          key: 'resume',
+          icon: LuPlay,
+          label: 'Resume session',
+          variant: 'success',
+        },
+        {
+          key: 'end',
+          icon: LuDoorClosed,
+          label: 'End session',
+          variant: 'danger',
+        },
+        {
+          key: 'export',
+          icon: LuDownload,
+          label: 'Export data',
+        },
+      ];
+
+    case 'completed':
+      return [
+        ...base,
+        { key: 'export', icon: LuDownload, label: 'Export data' },
+      ];
+
+    default:
+      return base;
+  }
+};
 
 import { FiDownload, FiXCircle, FiShare2 } from 'react-icons/fi';
 

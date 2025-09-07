@@ -24,6 +24,80 @@ import {
 import Badge from '../../components/atoms/Badge';
 import { badges } from '../attendance/assets/assets';
 
+const mockStudents = [
+  {
+    id: 1,
+    name: 'Jane Doe',
+    matricNumber: 'BIO/19/001',
+    status: 'present',
+    checkInTime: '10:05 AM',
+    remarks: 'On time',
+    email: 'jane.doe@university.edu',
+  },
+  {
+    id: 2,
+    name: 'John Smith',
+    matricNumber: 'BIO/19/002',
+    status: 'late',
+    checkInTime: '10:20 AM',
+    remarks: 'Traffic delay',
+    email: 'john.smith@university.edu',
+  },
+  {
+    id: 3,
+    name: 'Mary Johnson',
+    matricNumber: 'BIO/19/003',
+    status: 'absent',
+    checkInTime: null,
+    remarks: 'No plea submitted',
+    email: 'mary.johnson@university.edu',
+  },
+  {
+    id: 4,
+    name: 'David Brown',
+    matricNumber: 'BIO/19/004',
+    status: 'present',
+    checkInTime: '10:02 AM',
+    remarks: 'Excellent attendance record',
+    email: 'david.brown@university.edu',
+  },
+  {
+    id: 5,
+    name: 'Emily Davis',
+    matricNumber: 'BIO/19/005',
+    status: 'present',
+    checkInTime: '10:10 AM',
+    remarks: 'Consistent',
+    email: 'emily.davis@university.edu',
+  },
+  {
+    id: 6,
+    name: 'Michael Wilson',
+    matricNumber: 'BIO/19/006',
+    status: 'late',
+    checkInTime: '10:25 AM',
+    remarks: 'Medical appointment',
+    email: 'michael.wilson@university.edu',
+  },
+  {
+    id: 7,
+    name: 'Sarah Connor',
+    matricNumber: 'BIO/19/007',
+    status: 'present',
+    checkInTime: '09:58 AM',
+    remarks: 'Early arrival',
+    email: 'sarah.connor@university.edu',
+  },
+  {
+    id: 8,
+    name: 'Alex Rodriguez',
+    matricNumber: 'BIO/19/008',
+    status: 'absent',
+    checkInTime: null,
+    remarks: 'Sick leave submitted',
+    email: 'alex.rodriguez@university.edu',
+  },
+];
 // Mock Data
 const mockSession = {
   id: 'abc123',
@@ -34,99 +108,9 @@ const mockSession = {
   startTime: '10:00 AM',
   endTime: '12:00 PM',
   location: 'Science Lab 201',
-  totalEnrolled: 150,
+  status: 'completed',
+  totalEnrolled: mockStudents.length,
 };
-
-const mockStudents = [
-  {
-    id: 1,
-    name: 'Jane Doe',
-    matricNumber: 'BIO/19/001',
-    status: 'present',
-    checkInTime: '10:05 AM',
-    remarks: 'On time',
-    email: 'jane.doe@university.edu',
-    attendanceRate: 95,
-    streak: 12,
-  },
-  {
-    id: 2,
-    name: 'John Smith',
-    matricNumber: 'BIO/19/002',
-    status: 'late',
-    checkInTime: '10:20 AM',
-    remarks: 'Traffic delay',
-    email: 'john.smith@university.edu',
-    attendanceRate: 87,
-    streak: 0,
-  },
-  {
-    id: 3,
-    name: 'Mary Johnson',
-    matricNumber: 'BIO/19/003',
-    status: 'absent',
-    checkInTime: null,
-    remarks: 'No plea submitted',
-    email: 'mary.johnson@university.edu',
-    attendanceRate: 72,
-    streak: 0,
-  },
-  {
-    id: 4,
-    name: 'David Brown',
-    matricNumber: 'BIO/19/004',
-    status: 'present',
-    checkInTime: '10:02 AM',
-    remarks: 'Excellent attendance record',
-    email: 'david.brown@university.edu',
-    attendanceRate: 98,
-    streak: 25,
-  },
-  {
-    id: 5,
-    name: 'Emily Davis',
-    matricNumber: 'BIO/19/005',
-    status: 'present',
-    checkInTime: '10:10 AM',
-    remarks: 'Consistent',
-    email: 'emily.davis@university.edu',
-    attendanceRate: 91,
-    streak: 8,
-  },
-  {
-    id: 6,
-    name: 'Michael Wilson',
-    matricNumber: 'BIO/19/006',
-    status: 'late',
-    checkInTime: '10:25 AM',
-    remarks: 'Medical appointment',
-    email: 'michael.wilson@university.edu',
-    attendanceRate: 83,
-    streak: 0,
-  },
-  {
-    id: 7,
-    name: 'Sarah Connor',
-    matricNumber: 'BIO/19/007',
-    status: 'present',
-    checkInTime: '09:58 AM',
-    remarks: 'Early arrival',
-    email: 'sarah.connor@university.edu',
-    attendanceRate: 94,
-    streak: 15,
-  },
-  {
-    id: 8,
-    name: 'Alex Rodriguez',
-    matricNumber: 'BIO/19/008',
-    status: 'absent',
-    checkInTime: null,
-    remarks: 'Sick leave submitted',
-    email: 'alex.rodriguez@university.edu',
-    attendanceRate: 89,
-    streak: 0,
-  },
-];
 
 // Attendance Statistics Component
 const AttendanceStats = ({ students }) => {
@@ -437,6 +421,16 @@ export default function SessionStudentsPage() {
                 <FiMapPin className="w-4 h-4 text-cyan-400" />
                 <span>{sessionInfo.location}</span>
               </div>
+              <span
+                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                  sessionInfo.status === 'completed'
+                    ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                    : sessionInfo.status === 'ongoing'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+                }`}>
+                {sessionInfo.status}
+              </span>
             </div>
           </div>
 
@@ -473,13 +467,14 @@ export default function SessionStudentsPage() {
           <div className="flex items-center gap-2 text-sm">
             <FiUsers className="w-4 h-4 text-green-400" />
             <span className="text-t-tertiary">
-              {filteredAndSortedStudents.length} attending
+              {students.filter((s) => s.status !== 'absent').length} attend
+              {sessionInfo.status === 'completed' ? 'ed' : 'ing'}
             </span>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <FiBarChart className="w-4 h-4 text-purple-400" />
             <span className="text-t-tertiary">
-              {sessionInfo.totalEnrolled} enrolled
+              {sessionInfo.totalEnrolled} students in group
             </span>
           </div>
         </div>

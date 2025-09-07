@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaFileExport, FaSortDown, FaSortUp } from 'react-icons/fa';
 import { FiEdit3, FiMoreVertical } from 'react-icons/fi';
 import {
   LuSearch,
@@ -17,19 +16,23 @@ import {
   LuTimer,
   LuX,
   LuFileOutput,
+  LuPause,
+  LuCircleStop,
+  LuDoorClosed,
 } from 'react-icons/lu';
 import Button from '../../components/atoms/Button';
 import IconText from '../../components/atoms/IconText';
 import InfoRow from '../../components/molecules/InfoRow';
-import { formatDate, toggleState } from '../../utils/helpers';
+import { formatDate } from '../../utils/helpers';
 import { getSessionTypeColor } from '../../hooks/useAttendance';
 import LabelCheckbox from '../../components/atoms/LabelCheckbox';
 import AdvancedFilters from '../../components/modal/AdvancedFilters';
 import { createMockSessions } from '../../utils/data';
 import DropdownPortal from '../../components/containers/DropdownPortal';
 import Dropdown from '../../components/atoms/Dropdown';
-import { sessionListDropdown } from './assets/assets';
+import { getSessionListDropdown } from './assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { useToggleState } from '../../hooks/useToggleState';
 // Mock data
 const mockSessions = createMockSessions(50);
 
@@ -49,7 +52,10 @@ const SessionList = () => {
 
   const [showFilters, setShowFilters] = useState(false);
   const [selectedSessions, setSelectedSessions] = useState([]);
-  const [showActions, setShowActions] = useState({});
+
+  const [openMenu, toggle] = useToggleState([], { exclusive: true });
+
+  // const [showActions, setShowActions] = useState({});
 
   useEffect(() => {
     setSessions(mockSessions);
@@ -195,6 +201,7 @@ const SessionList = () => {
       navigate(`${sessionId}/info`);
     }
     // setShowActions((prev) => ({ ...prev, [sessionId]: false }));
+    toggle(sessionId);
   };
 
   const getUniqueFilter = () => {
@@ -360,6 +367,7 @@ const SessionList = () => {
           <tbody className="divide-y divide-white/10">
             {filteredSessions.map((session, index) => {
               const attendanceRate = getAttendanceRate(session.attendance);
+              const dropdownMenu = getSessionListDropdown(session.status);
               return (
                 <tr
                   key={`session-${session.id}-${index}`}
@@ -448,19 +456,21 @@ const SessionList = () => {
                     <div className="relative">
                       <button
                         ref={(el) => (actionRefs[session.id] = el)}
-                        onClick={() => toggleState(session.id, setShowActions)}
+                        onClick={() => {
+                          toggle(session.id);
+                        }}
                         className="p-1 rounded-lg hover:bg-white/10 text-t-secondary hover:text-t-primary transition-colors duration-200">
                         <FiMoreVertical className="w-4 h-4" />
                       </button>
 
-                      {showActions[session.id] && (
+                      {openMenu.includes(session.id) && (
                         <DropdownPortal
                           anchorRef={{ current: actionRefs[session.id] }}
-                          onClose={() =>
-                            toggleState(session.id, setShowActions)
-                          }>
+                          onClose={() => {
+                            toggle(session.id);
+                          }}>
                           <div className="py-1">
-                            {sessionListDropdown.map(
+                            {dropdownMenu.map(
                               ({ icon, label, key, variant }) => (
                                 <Dropdown
                                   icon={icon}

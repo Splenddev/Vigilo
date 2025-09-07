@@ -2,7 +2,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   LuX,
-  LuUsers,
   LuCalendar,
   LuSettings,
   LuCircleHelp,
@@ -10,7 +9,7 @@ import {
   LuClipboardPlus,
 } from 'react-icons/lu';
 import { FiHome, FiUsers, FiBook } from 'react-icons/fi';
-import { HiOutlineClipboardList, HiOutlineUserGroup } from 'react-icons/hi';
+import { HiOutlineUserGroup } from 'react-icons/hi';
 import { useSidebar } from '../../hooks/useSidebar';
 import Anchor from '../atoms/Anchor';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -151,10 +150,12 @@ const Sidebar = () => {
                     {user.email || ''}
                   </p>
                 </div>
-                <ThemeToggler />
               </div>
             </div>
             {/* Floating Action Button (FAB) */}
+            <div className="absolute bottom-20 right-16">
+              <ThemeToggler />
+            </div>
             <div className="absolute bottom-20 right-4 max-w-3/4">
               <AnimatePresence>
                 {openNew && (

@@ -77,8 +77,9 @@ const ThemeToggler = ({ mode = 'toggle' }) => {
     <Button
       onClick={toggleTheme}
       icon={Icon}
-      size="sm"
-      className="relative overflow-hidden mr-2"
+      // variant="custom"
+      size="normal"
+      className="w-10 h-10 rounded-full justify-center"
     />
   );
 };

@@ -152,7 +152,7 @@ const catenateName = (name = '') => {
   return result.toUpperCase();
 };
 
-const toggleState = (key, setState) => {
+const toggleState = (key, setState, exclusive = false) => {
   setState((prev) => {
     if (typeof prev === 'boolean') {
       // single toggle (e.g. isOpen)
@@ -160,14 +160,28 @@ const toggleState = (key, setState) => {
     }
 
     if (Array.isArray(prev)) {
-      // array of keys/ids
+      if (exclusive) {
+        // allow only one active
+        return prev.includes(key) ? [] : [key];
+      }
+      // multiple active allowed
       return prev.includes(key)
         ? prev.filter((id) => id !== key)
         : [...prev, key];
     }
 
-    if (typeof prev === 'object' && prev !== null) {
-      // object map {id: boolean}
+    if (typeof prev === 'object') {
+      if (exclusive) {
+        // turn off all others, toggle only this one
+        return Object.keys(prev).reduce(
+          (acc, id) => ({
+            ...acc,
+            [id]: id === key ? !prev[key] : false,
+          }),
+          {}
+        );
+      }
+      // independent toggles
       return {
         ...prev,
         [key]: !prev[key],
