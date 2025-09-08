@@ -12,6 +12,7 @@ import {
   LuX,
 } from 'react-icons/lu';
 import Header from '../../components/molecules/Header';
+import Select from '../../components/molecules/Select';
 
 export default function CreateSession() {
   const [formData, setFormData] = useState({
@@ -28,12 +29,12 @@ export default function CreateSession() {
   const [errors, setErrors] = useState({});
 
   const sessionTypes = [
-    'lecture',
-    'tutorial',
-    'laboratory',
-    'seminar',
-    'workshop',
-    'exam',
+    { value: 'Lecture', label: 'Lecture' },
+    { value: 'Tutorial', label: 'Tutorial' },
+    { value: 'Laboratory', label: 'Laboratory' },
+    { value: 'Seminar', label: 'Seminar' },
+    { value: 'Workshop', label: 'Workshop' },
+    { value: 'Exam', label: 'Exam' },
   ];
 
   const handleInputChange = (field, value) => {
@@ -90,7 +91,8 @@ export default function CreateSession() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (validateForm()) {
       // Generate a unique ID for the session
       const sessionData = {
@@ -132,29 +134,31 @@ export default function CreateSession() {
       <div>
         {/* Header */}
         <div className="text-center mb-5 animate-fade-in-up">
-          <h1 className="text-2xl text-white mb-4 gradient-text">
+          <h1 className="text-2xl text-t-primary mb-4 gradient-text">
             Create New Attendance Session
           </h1>
-          <p className="text-body text-gray-300">
+          <p className="text-body text-t-tertiary">
             Set up a new attendance tracking session for your course
           </p>
         </div>
 
         {/* Main Form */}
-        <div className="space-y-8">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Course Information */}
             <div className="card-hover animate-fade-in-up">
               <div className="flex items-center gap-3 mb-6">
                 <LuBookOpen className="w-6 h-6 text-purple-400" />
-                <h2 className="text-heading-md text-white">
+                <h2 className="text-heading-md text-t-primary">
                   Course Information
                 </h2>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-body-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-body-sm font-medium text-t-tertiary mb-2">
                     Course Name *
                   </label>
                   <input
@@ -177,26 +181,15 @@ export default function CreateSession() {
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-body-sm font-medium text-gray-300 mb-2">
-                    Session Type *
-                  </label>
-                  <select
-                    value={formData.sessionType}
-                    onChange={(e) =>
-                      handleInputChange('sessionType', e.target.value)
-                    }
-                    className="w-full">
-                    {sessionTypes.map((type) => (
-                      <option
-                        key={type}
-                        value={type}
-                        className="bg-slate-800 text-white">
-                        {type.charAt(0).toUpperCase() + type.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <Select
+                  label="Session Type"
+                  required
+                  value={formData.sessionType}
+                  onChange={(e) =>
+                    handleInputChange('sessionType', e.target.value)
+                  }
+                  options={sessionTypes}
+                />
               </div>
             </div>
 
@@ -204,13 +197,15 @@ export default function CreateSession() {
             <div className="card-hover animate-fade-in-up">
               <div className="flex items-center gap-3 mb-6">
                 <LuCalendar className="w-6 h-6 text-cyan-400" />
-                <h2 className="text-heading-md text-white">Session Details</h2>
+                <h2 className="text-heading-md text-t-primary">
+                  Session Details
+                </h2>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-body-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-body-sm font-medium text-t-tertiary mb-2">
                       Date *
                     </label>
                     <input
@@ -233,7 +228,7 @@ export default function CreateSession() {
                   </div>
 
                   <div>
-                    <label className="block text-body-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-body-sm font-medium text-t-tertiary mb-2">
                       Time *
                     </label>
                     <div className="relative">
@@ -260,7 +255,7 @@ export default function CreateSession() {
                 </div>
 
                 <div>
-                  <label className="block text-body-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-body-sm font-medium text-t-tertiary mb-2">
                     Duration (minutes) *
                   </label>
                   <div className="relative">
@@ -300,13 +295,13 @@ export default function CreateSession() {
             <div className="card-hover animate-fade-in-up">
               <div className="flex items-center gap-3 mb-6">
                 <LuMapPin className="w-6 h-6 text-purple-400" />
-                <h2 className="text-heading-md text-white">Location</h2>
+                <h2 className="text-heading-md text-t-primary">Location</h2>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-body-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-body-sm font-medium text-t-tertiary mb-2">
                       Building *
                     </label>
                     <input
@@ -330,7 +325,7 @@ export default function CreateSession() {
                   </div>
 
                   <div>
-                    <label className="block text-body-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-body-sm font-medium text-t-tertiary mb-2">
                       Room *
                     </label>
                     <input
@@ -362,7 +357,7 @@ export default function CreateSession() {
             <div className="flex flex-row not-lg:flex-col gap-4">
               <div className="flex items-center flex-1 gap-2">
                 <LuUsers className="w-5 h-5 text-cyan-400" />
-                <p className="text-body-sm text-gray-300">
+                <p className="text-body-sm text-t-tertiary">
                   Once created, you can start tracking attendance for this
                   session
                 </p>
@@ -383,7 +378,7 @@ export default function CreateSession() {
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

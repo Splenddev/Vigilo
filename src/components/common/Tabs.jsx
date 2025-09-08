@@ -3,26 +3,24 @@ import clsx from 'clsx';
 
 const VARIANTS = {
   underline: {
-    wrapper: 'border-b border-slate-200 dark:border-slate-700',
+    wrapper: 'border-b border-border-secondary',
     tab: 'px-4 py-2 text-sm font-medium transition-all relative',
     active:
-      'text-blue-600 dark:text-blue-400 after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-blue-600 dark:after:bg-blue-400',
-    inactive:
-      'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
+      'text-primary after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary',
+    inactive: 'text-t-muted hover:text-t-accent',
   },
   pills: {
     wrapper: 'flex gap-2',
     tab: 'px-3 py-1.5 rounded-full text-sm font-medium transition-all',
-    active: 'bg-blue-600 text-white shadow',
+    active: 'bg-primary text-gray-50 shadow',
     inactive:
-      'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600',
+      'bg-bg-tertiary text-t-secondary hover:bg-bg-secondary hover:text-t-primary',
   },
   solid: {
-    wrapper: 'flex gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1',
+    wrapper: 'flex gap-1 bg-bg-secondary rounded-lg p-1',
     tab: 'px-3 py-1.5 rounded-md text-sm font-medium transition-all',
-    active: 'bg-white text-slate-900 shadow dark:bg-slate-700 dark:text-white',
-    inactive:
-      'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white',
+    active: 'bg-bg-primary text-t-primary shadow',
+    inactive: 'text-t-muted hover:text-t-accent',
   },
 };
 
@@ -50,7 +48,7 @@ export default function Tabs({
       <div
         role="tablist"
         className={clsx(
-          'flex items-center overflow-x-auto no-scrollbar',
+          'flex items-center overflow-x-auto no-scrollbar p-2',
           styles.wrapper
         )}>
         {tabs.map(({ key, label, icon: Icon }) => {

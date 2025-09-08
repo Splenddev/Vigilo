@@ -152,10 +152,6 @@ const Sidebar = () => {
                 </div>
               </div>
             </div>
-            {/* Floating Action Button (FAB) */}
-            <div className="absolute bottom-20 right-16">
-              <ThemeToggler />
-            </div>
             <div className="absolute bottom-20 right-4 max-w-3/4">
               <AnimatePresence>
                 {openNew && (

@@ -21,10 +21,12 @@ import {
   LuCalendarDays,
 } from 'react-icons/lu';
 import { fadeInUpChild } from '../utils/animationVariants';
+import { useAuth } from '../hooks/useAuth';
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const [activeRole, setActiveRole] = useState('student');
+  const { user } = useAuth();
+  const activeRole = user.role;
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
 
@@ -109,11 +111,7 @@ const UserProfile = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen p-4 md:p-8"
-      style={{
-        background:
-          'linear-gradient(to bottom right, #0f172a, #581c87, #0f172a)',
-      }}>
+      className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <motion.div
@@ -124,43 +122,13 @@ const UserProfile = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 px-4 py-2 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition-all">
+              className="flex items-center gap-2 px-4 py-2 bg-bg-glass-sm text-gray-300 hover:text-t-white hover:bg-bg-glass-md rounded-xl transition-all">
               <LuArrowLeft className="w-4 h-4" />
               Back
             </button>
             <h1 className="text-2xl font-bold gradient-text">Profile</h1>
           </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex gap-2">
-              <button className="p-3 bg-white/5 border border-white/20 rounded-xl hover:bg-white/10">
-                <LuBell className="w-5 h-5 text-gray-300" />
-              </button>
-              <button className="p-3 bg-white/5 border border-white/20 rounded-xl hover:bg-white/10">
-                <LuSettings className="w-5 h-5 text-gray-300" />
-              </button>
-            </div>
-          </div>
         </motion.div>
-        <div className="flex place-self-end bg-white/5 backdrop-blur-sm border border-white/20 rounded-xl p-1">
-          {['student', 'lecturer'].map((role) => (
-            <button
-              key={role}
-              onClick={() => setActiveRole(role)}
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
-                activeRole === role
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
-                  : 'text-gray-300 hover:text-white hover:bg-white/10'
-              }`}>
-              {role === 'student' ? (
-                <LuGraduationCap className="w-4 h-4 inline-block mr-2" />
-              ) : (
-                <LuUser className="w-4 h-4 inline-block mr-2" />
-              )}
-              {role === 'student' ? 'Student View' : 'Lecturer View'}
-            </button>
-          ))}
-        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Card */}
           <AnimatePresence mode="wait">
@@ -170,11 +138,11 @@ const UserProfile = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.4 }}
-              className="bg-white/5 border border-white/20 rounded-2xl p-6 mb-3 h-full">
+              className="bg-bg-glass-sm border border-white/20 rounded-2xl p-6 mb-3 h-full">
               <div className="text-center flex flex-col h-full">
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 2 }}
-                  className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white shadow-xl">
+                  className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-t-white shadow-xl">
                   {currentData.avatar}
                 </motion.div>
 
@@ -186,18 +154,18 @@ const UserProfile = () => {
                         name={field}
                         defaultValue={currentData[field]}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 rounded-lg bg-bg-glass-md text-t-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       />
                     ))}
                     <button
                       onClick={handleSave}
-                      className="w-full mt-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-3 rounded-xl shadow-lg hover:scale-105 transition">
+                      className="w-full mt-3 bg-gradient-to-r from-purple-500 to-pink-500 text-t-white px-4 py-3 rounded-xl shadow-lg hover:scale-105 transition">
                       Save Changes
                     </button>
                   </div>
                 ) : (
                   <>
-                    <h2 className="text-2xl font-bold text-white mb-1">
+                    <h2 className="text-2xl font-bold text-t-white mb-1">
                       {currentData.name}
                     </h2>
                     <p className="text-purple-400 mb-2">{currentData.role}</p>
@@ -232,7 +200,7 @@ const UserProfile = () => {
 
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="w-full mt-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-3 rounded-xl hover:scale-105 transform transition-all duration-200 shadow-lg">
+                      className="w-full mt-auto bg-gradient-to-r from-purple-500 to-pink-500 text-t-white px-4 py-3 rounded-xl hover:scale-105 transform transition-all duration-200 shadow-lg">
                       <FiEdit className="w-4 h-4 inline-block mr-2" />
                       Edit Profile
                     </button>
@@ -255,10 +223,10 @@ const UserProfile = () => {
                   key={i}
                   variants={fadeInUpChild}
                   whileHover={{ scale: 1.05 }}
-                  className="bg-white/5 border border-white/20 rounded-2xl p-4">
+                  className="bg-bg-glass-sm border border-white/20 rounded-2xl p-4">
                   <div className="flex items-center justify-between mb-2">
                     <stat.icon className="w-6 h-6 text-purple-400" />
-                    <span className="text-2xl font-bold text-white">
+                    <span className="text-2xl font-bold text-t-white">
                       {stat.value}
                     </span>
                   </div>
@@ -272,8 +240,8 @@ const UserProfile = () => {
               initial="hidden"
               animate="visible"
               variants={fadeInUpChild}
-              className="bg-white/5 border border-white/20 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+              className="bg-bg-glass-sm border border-white/20 rounded-2xl p-6">
+              <h3 className="text-xl font-semibold text-t-white mb-4 flex items-center">
                 <LuClock className="w-5 h-5 mr-2 text-purple-400" />
                 Recent Activity
               </h3>
@@ -284,7 +252,7 @@ const UserProfile = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-start space-x-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200">
+                    className="flex items-start space-x-3 p-3 bg-bg-glass-sm rounded-lg hover:bg-bg-glass-md transition-all duration-200">
                     <div className="w-2 h-2 rounded-full bg-purple-400 mt-2 flex-shrink-0"></div>
                     <p className="text-gray-300 text-sm leading-relaxed">
                       {activity}
@@ -299,8 +267,8 @@ const UserProfile = () => {
               initial="hidden"
               animate="visible"
               variants={fadeInUpChild}
-              className="bg-white/5 border border-white/20 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+              className="bg-bg-glass-sm border border-white/20 rounded-2xl p-6">
+              <h3 className="text-xl font-semibold text-t-white mb-4 flex items-center">
                 <LuStar className="w-5 h-5 mr-2 text-purple-400" />
                 {activeRole === 'student' ? 'Skills' : 'Areas of Expertise'}
               </h3>

@@ -22,6 +22,7 @@ import {
 import { cardVariants, containerVariants } from '../../utils/animationVariants';
 import { FiBarChart2, FiTrendingUp } from 'react-icons/fi';
 import IconText from '../../components/atoms/IconText';
+import Tabs from '../../components/common/Tabs';
 
 // Sample data (you would normally get this from props or API)
 const studentsData = generateStudentData(100);
@@ -140,9 +141,8 @@ const StudentInfo = () => {
               <img
                 src={student.avatar}
                 alt={student.name}
-                className="w-24 h-24 rounded-2xl border-4 border-white/20 shadow-2xl"
+                className="w-24 h-24 rounded-2xl border-4 border-white/20 shadow-lg"
               />
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-400 rounded-full border-2 border-slate-900 animate-pulse" />
             </motion.div>
 
             <div className="flex-1 space-y-2">
@@ -187,25 +187,16 @@ const StudentInfo = () => {
           </div>
         </motion.div>
 
-        {/* Navigation Tabs */}
-        <motion.div
-          variants={cardVariants}
-          className="flex gap-2 mb-5 p-2 bg-bg-glass-xs backdrop-blur-sm rounded-2xl border border-bg-glass-md">
-          {['overview', 'attendance', 'groups'].map((tab) => (
-            <motion.button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex-1 ${
-                activeTab === tab
-                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
-                  : 'text-gray-400 hover:border-primary hover:bg-white/5'
-              }`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}>
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </motion.button>
-          ))}
-        </motion.div>
+        <Tabs
+          tabs={[
+            { key: 'overview', label: 'Overview' },
+            { key: 'attendance', label: 'Attendance' },
+            { key: 'groups', label: 'Groups' },
+          ]}
+          variant="pills"
+          defaultActive={activeTab}
+          onChange={(tab) => setActiveTab(tab)}
+        />
 
         {/* Tab Content */}
         <motion.div
@@ -282,21 +273,6 @@ const StudentInfo = () => {
                       </p>
                     </div>
                   </div>
-
-                  <div className="relative">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span>Attendance Progress</span>
-                      <span>{student.attendance.rate}%</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-3">
-                      <motion.div
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${student.attendance.rate}%` }}
-                        transition={{ duration: 1.5, ease: 'easeOut' }}
-                      />
-                    </div>
-                  </div>
                 </div>
               </motion.div>
 
@@ -334,7 +310,7 @@ const StudentInfo = () => {
               {/* Filters */}
               <motion.div
                 variants={cardVariants}
-                className="card">
+                className="glass p-4 rounded-2xl">
                 <div className="flex flex-col md:flex-row gap-4">
                   <div className="flex-1 relative">
                     <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
