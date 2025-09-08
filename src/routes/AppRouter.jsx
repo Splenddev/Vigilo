@@ -40,6 +40,8 @@ import ProtectedRoutes from './ProtectedRoute';
 import { ROLES } from '../utils/roles';
 import SessionInfoPage from '../features/lecturer/SessionInfo';
 import SessionStudentsPage from '../features/lecturer/SessionStudentsList';
+import StudentGroupsDashboard from '../features/student/StudentGroups';
+import StudentGroupInfo from '../features/student/StudentGroupInfo';
 
 const router = createBrowserRouter([
   {
@@ -108,6 +110,14 @@ const router = createBrowserRouter([
           { path: 'attendance', element: <AttendancePage /> },
           { path: 'attendance/:id', element: <MarkAttendance /> },
           { path: 'attendance/:id/info', element: <ViewAttendancePage /> },
+          {
+            path: 'groups',
+            element: <StudentGroupsDashboard />,
+          },
+          {
+            path: 'groups/:id/info',
+            element: <StudentGroupInfo />,
+          },
         ],
       },
 
