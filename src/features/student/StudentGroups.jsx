@@ -11,7 +11,6 @@ import {
   FaFilter,
   FaTrophy,
   FaFire,
-  FaTarget,
   FaStar,
 } from 'react-icons/fa';
 import {
@@ -26,6 +25,7 @@ import {
   LuActivity,
 } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FiTarget } from 'react-icons/fi';
 
 // Mock student groups data
 const mockStudentGroups = [
@@ -219,7 +219,7 @@ const OverviewStats = ({ groups }) => {
       <motion.div
         variants={itemVariants}
         className="bg-gradient-to-br from-yellow-600/20 to-orange-800/20 backdrop-blur-sm border border-yellow-500/30 rounded-xl p-4 text-center">
-        <FaTarget className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+        <FiTarget className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
         <div className="text-2xl font-bold text-white">
           {stats.avgAttendance}%
         </div>
