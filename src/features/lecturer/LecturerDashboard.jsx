@@ -18,42 +18,12 @@ import {
   scaleIn,
   slideUp,
 } from '../../utils/animationVariants';
-
-// Mock data for demonstration
-const recentSessions = [
-  {
-    id: 1,
-    course: { name: 'Advanced React Development' },
-    date: '2024-01-12',
-    time: '05:00 AM - 07:30 AM',
-    attendance: { present: 28, total: 32 },
-  },
-  {
-    id: 3,
-    course: { name: 'UI/UX Design Fundamentals' },
-    date: '2025-08-26',
-    time: '9:00 AM - 10:30 AM',
-    attendance: { present: 30, total: 35 },
-  },
-  {
-    id: 2,
-    course: { name: 'Database Design Principles' },
-    date: '2025-08-28',
-    time: '2:00 PM - 3:30 PM',
-    attendance: { present: 24, total: 26 },
-  },
-  {
-    id: 4,
-    course: { name: 'Machine Learning Basics' },
-    date: '2024-01-10',
-    time: '3:00 PM - 4:30 PM',
-    attendance: { present: 22, total: 28 },
-  },
-];
-
-// Variants
+import { createMockSessions } from '../../utils/data';
+import StatList from '../../components/molecules/StatList';
+import { ROLES } from '../../utils/roles';
 
 const LecturerDashboard = () => {
+  const recentSessions = createMockSessions(10);
   const now = new Date();
 
   const getStatus = (session) => {
@@ -79,9 +49,32 @@ const LecturerDashboard = () => {
     groupedSessions[status].push({ ...session, status });
   });
 
-  const handleStartSession = () => {
-    navigate('/lecturer/sessions/new');
+  const handleStartSession = (type = '') => {
+    type && type === 'quick-session'
+      ? navigate(`/${ROLES.LECTURER}/sessions/new`, { state: { type } })
+      : navigate(`/${ROLES.LECTURER}/sessions/new`);
   };
+
+  const stats = [
+    {
+      label: 'Total Sessions',
+      value: '24',
+      icon: LuBookOpen,
+      iconColor: 'purple',
+    },
+    {
+      label: 'Avg. Attendance',
+      value: '87%',
+      icon: LuTrendingUp,
+      iconColor: 'emerald',
+    },
+    {
+      label: 'Students',
+      value: '156',
+      icon: LuUsers,
+      iconColor: 'blue',
+    },
+  ];
 
   return (
     <motion.div
@@ -121,21 +114,28 @@ const LecturerDashboard = () => {
                 session management system
               </motion.p>
 
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}>
+              <div className="flex items-center justify-center flex-col gap-2">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={handleStartSession}
+                    className="group"
+                    size="lg">
+                    <motion.div
+                      animate={{ rotate: [0, -20, 0] }}
+                      transition={{ repeat: Infinity, duration: 2 }}>
+                      <LuPlay className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </motion.div>
+                    Start a course-based Session
+                  </Button>
+                </motion.div>
                 <Button
-                  onClick={handleStartSession}
-                  className="group inline-flex"
-                  size="lg">
-                  <motion.div
-                    animate={{ rotate: [0, -20, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}>
-                    <LuPlay className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </motion.div>
-                  Start New Session
-                </Button>
-              </motion.div>
+                  text="Quick Session"
+                  variant="outline"
+                  onClick={() => handleStartSession('quick-session')}
+                />
+              </div>
             </div>
           </div>
         </motion.div>
@@ -143,54 +143,12 @@ const LecturerDashboard = () => {
 
       {/* Quick Stats */}
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12"
+        className="gap-4 sm:gap-6 mb-8 sm:mb-12"
         variants={containerVariants}>
-        {[
-          {
-            label: 'Total Sessions',
-            value: '24',
-            icon: <LuBookOpen />,
-            bg: 'bg-[var(--color-primary-purple-soft)]',
-            iconColor: 'text-[var(--color-primary)]',
-          },
-          {
-            label: 'Avg. Attendance',
-            value: '87%',
-            icon: <LuTrendingUp />,
-            bg: 'bg-[var(--color-success-light)]/20',
-            iconColor: 'text-[var(--color-success)]',
-          },
-          {
-            label: 'Students',
-            value: '156',
-            icon: <LuUsers />,
-            bg: 'bg-[var(--color-primary-cyan-soft)]',
-            iconColor: 'text-[var(--color-accent)]',
-          },
-        ].map((stat, i) => (
-          <motion.div
-            key={i}
-            custom={i}
-            variants={itemVariants}
-            whileHover={{ y: -4, scale: 1.02 }}
-            className="card hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs sm:text-sm font-medium text-[var(--color-text-tertiary)] uppercase tracking-wide">
-                  {stat.label}
-                </p>
-                <p className="text-xl sm:text-2xl font-bold text-t-primary mt-1">
-                  {stat.value}
-                </p>
-              </div>
-              <div className={`${stat.bg} p-2 sm:p-3 rounded-lg`}>
-                <span className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.iconColor}`}>
-                  {stat.icon}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+        <StatList
+          stats={stats}
+          variant="light"
+        />
       </motion.div>
 
       {/* Recent Sessions */}
@@ -226,7 +184,7 @@ const LecturerDashboard = () => {
         className="bg-[var(--color-bg-tertiary)] border border-[var(--color-border-accent)] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
         <div className="flex flex-row items-start gap-3 sm:gap-4">
           <motion.div
-            className="bg-[var(--color-warning-light)]/20 p-2 sm:p-3 rounded-lg shrink-0"
+            className="bg-warning-light/20 p-2 sm:p-3 rounded-lg shrink-0"
             animate={{ rotate: [0, -15, 15, 0] }}
             transition={{ repeat: Infinity, duration: 3 }}>
             <LuPin className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-warning)]" />

@@ -25,7 +25,7 @@ const LabelCheckbox = ({ name = '', onChange, checked, children, ...rest }) => {
 
       {/* Label text with links */}
       {children && (
-        <span className="ml-2 text-sm text-gray-300">{children}</span>
+        <span className="ml-2 text-sm text-t-secondary">{children}</span>
       )}
     </label>
   );

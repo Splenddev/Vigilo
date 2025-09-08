@@ -22,6 +22,8 @@ import { departments, faculties } from '../utils/facultiesDepartments';
 import Select from '../components/molecules/Select';
 import { useAuth } from '../hooks/useAuth';
 import { useErrorModal, useSuccessModal } from '../hooks/useStatusModal';
+import { FiUser, FiUserCheck } from 'react-icons/fi';
+import { LuGraduationCap } from 'react-icons/lu';
 
 const Auth = () => {
   const { register, login, user, loading, error: authError } = useAuth();
@@ -176,12 +178,6 @@ const Auth = () => {
       console.error('Auth error:', err);
     }
   };
-  // Social auth handlers (mock)
-
-  const handleSocialAuth = (provider) => {
-    console.log(`${provider} authentication attempted`);
-    alert(`${provider} authentication (This is a demo)`);
-  };
 
   const switchMode = () => {
     setIsLogin(!isLogin);
@@ -198,6 +194,11 @@ const Auth = () => {
     setErrors({});
     setPasswordStrength(0);
   };
+
+  if (user) {
+    navigate(`/${user.role}/dashboard`);
+    return;
+  }
 
   return (
     <div className="relative flex items-center justify-center p-4 w-full min-h-screen">
@@ -227,10 +228,10 @@ const Auth = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mb-4">
             <FaGraduationCap className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-t-primary mb-2">
             {isLogin ? 'Welcome Back' : 'Join Vigilo'}
           </h1>
-          <p className="text-gray-300">
+          <p className="text-t-tertiary">
             {isLogin
               ? 'Sign in to your account to continue'
               : 'Create your account to get started'}
@@ -238,7 +239,7 @@ const Auth = () => {
         </div>
 
         {/* Auth Form */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
+        <div className="card">
           <div className="space-y-6">
             {!isLogin && (
               <>
@@ -251,7 +252,7 @@ const Auth = () => {
                     placeholder="John"
                     onChange={handleInputChange}
                     error={errors.firstName}
-                    icon={FaUser}
+                    icon={FiUser}
                     required
                     helperText="Your legal first name as it appears on school records."
                   />
@@ -265,7 +266,7 @@ const Auth = () => {
                     placeholder="Doe"
                     onChange={handleInputChange}
                     error={errors.lastName}
-                    icon={FaUser}
+                    icon={FiUser}
                   />
                   <Select
                     name="faculty"
@@ -323,12 +324,12 @@ const Auth = () => {
 
                 {/* User Type */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-t-secondary mb-2">
                     I am a
                   </label>
                   <div className="grid grid-cols-2 gap-4">
                     <RadioCard
-                      icon={FaGraduationCap}
+                      icon={LuGraduationCap}
                       label="Student"
                       value="student"
                       selectedValue={formData.role}
@@ -337,7 +338,7 @@ const Auth = () => {
                     />
 
                     <RadioCard
-                      icon={FaUserTie}
+                      icon={FiUserCheck}
                       label="Lecturer"
                       value="lecturer"
                       selectedValue={formData.role}
@@ -383,40 +384,38 @@ const Auth = () => {
             )}
 
             {/* Remember Me / Terms */}
-            <div className="space-y-3">
-              {isLogin ? (
-                <LabelCheckbox
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleInputChange}>
-                  Remember me
-                </LabelCheckbox>
-              ) : (
-                <LabelCheckbox
-                  name="agreeToTerms"
-                  onChange={handleInputChange}
-                  checked={formData.agreeToTerms}>
-                  I agree to the{' '}
-                  <a
-                    href="#"
-                    className="text-purple-400 hover:text-purple-300 underline">
-                    Terms of Service
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href="#"
-                    className="text-purple-400 hover:text-purple-300 underline">
-                    Privacy Policy
-                  </a>
-                </LabelCheckbox>
-              )}
-              {errors.agreeToTerms && (
-                <p className="text-red-400 text-sm flex items-center">
-                  <FaExclamationCircle className="w-3 h-3 mr-1" />
-                  {errors.agreeToTerms}
-                </p>
-              )}
-            </div>
+            {isLogin ? (
+              <LabelCheckbox
+                name="rememberMe"
+                checked={formData.rememberMe}
+                onChange={handleInputChange}>
+                Remember me
+              </LabelCheckbox>
+            ) : (
+              <LabelCheckbox
+                name="agreeToTerms"
+                onChange={handleInputChange}
+                checked={formData.agreeToTerms}>
+                I agree to the{' '}
+                <a
+                  href="#"
+                  className="text-purple-400 hover:text-purple-300 underline">
+                  Terms of Service
+                </a>{' '}
+                and{' '}
+                <a
+                  href="#"
+                  className="text-purple-400 hover:text-purple-300 underline">
+                  Privacy Policy
+                </a>
+              </LabelCheckbox>
+            )}
+            {errors.agreeToTerms && (
+              <p className="text-red-400 text-sm flex items-center">
+                <FaExclamationCircle className="w-3 h-3 mr-1" />
+                {errors.agreeToTerms}
+              </p>
+            )}
 
             {/* Submit Button */}
             <button
@@ -455,33 +454,6 @@ const Auth = () => {
                 </a>
               </div>
             )}
-          </div>
-
-          {/* Divider */}
-          <div className="my-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/20"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-slate-900 px-4 text-gray-400">
-                  Or continue with
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Social Login */}
-          <div className="flex">
-            <button
-              onClick={() => {
-                handleSocialAuth('Google');
-                console.log('user:', user);
-              }}
-              className="flex items-center justify-center px-4 py-3 border border-white/20 rounded-xl bg-white/5 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-200 transform hover:scale-[1.02] w-full">
-              <FaGoogle className="w-5 h-5 mr-2 text-red-400" />
-              Google
-            </button>
           </div>
 
           {/* Switch Mode */}

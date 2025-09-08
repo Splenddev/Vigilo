@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FiCheckCircle,
-  FiXCircle,
-  FiClock,
   FiBook,
   FiSearch,
   FiFilter,
@@ -12,9 +9,7 @@ import {
   FiUsers,
   FiBarChart,
   FiChevronDown,
-  FiChevronUp,
 } from 'react-icons/fi';
-import Badge from '../../components/atoms/Badge';
 import Select from '../../components/molecules/Select';
 import AttendanceStats from './components/AttendanceStats';
 import { generateMockStudentsRecord } from '../../utils/dataGenerate';

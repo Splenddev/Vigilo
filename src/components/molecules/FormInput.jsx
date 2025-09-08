@@ -40,11 +40,11 @@ const FormInput = ({
     w-full rounded-xl text-t-primary transition-all border 
     placeholder-gray-400 
     focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent
-    ${error ? 'border-red-500' : 'border-white/20'}
+    ${error ? 'border-red-500' : 'border-bg-glass-md'}
     ${
       disabled
         ? 'bg-gray-800/40 text-gray-500 placeholder-gray-500 border-gray-600 cursor-not-allowed opacity-60 focus:ring-0 focus:border-gray-600'
-        : 'bg-white/5'
+        : 'bg-bg-glass-xs'
     }
     ${inputClassName}
   `;
@@ -55,7 +55,9 @@ const FormInput = ({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-gray-300 mb-2 capitalize">
+          className={`block text-sm font-medium ${
+            !disabled ? 'text-t-secondary' : 'text-gray-300'
+          } mb-2 capitalize`}>
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -65,7 +67,7 @@ const FormInput = ({
         {Icon && (
           <Icon
             aria-hidden="true"
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-4 h-4"
           />
         )}
 

@@ -160,7 +160,7 @@ const StatCard = ({
   if (layout === 'list') {
     return (
       <div
-        className={`flex relative items-center gap-3 px-3 rounded-xl py-2 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
+        className={`flex relative items-center gap-3 px-5 rounded-xl py-4 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
         {parts.icon && <div className="flex-shrink-0">{parts.icon}</div>}
         <div className="flex-1">
           {parts.value}

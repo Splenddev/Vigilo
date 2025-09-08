@@ -1,5 +1,14 @@
 import { LuEye, LuDownload, LuDoorClosed, LuPause } from 'react-icons/lu';
-import { FiEdit3 } from 'react-icons/fi';
+import { FiLock, FiEdit3 } from 'react-icons/fi';
+import {
+  HiOutlineUserCircle,
+  HiOutlineExclamationCircle,
+  HiOutlineMenu,
+} from 'react-icons/hi';
+import { FaUsersCog, FaUserShield } from 'react-icons/fa';
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import { MdOutlineAssignment } from 'react-icons/md';
 
 import { FiPlayCircle, FiCheckCircle } from 'react-icons/fi';
 
@@ -130,6 +139,57 @@ export const studentsFilters = ({ dpts, lvls }) => {
     },
   ];
 };
+
+export const settingsSections = [
+  {
+    id: 'general',
+    label: 'General Settings',
+    icon: HiOutlineUserCircle,
+    color: 'text-purple-400',
+  },
+  {
+    id: 'privacy',
+    label: 'Privacy & Security',
+    icon: FiLock,
+    color: 'text-cyan-400',
+  },
+  {
+    id: 'groups',
+    label: 'Group Settings',
+    icon: FaUsersCog,
+    color: 'text-pink-400',
+  },
+  {
+    id: 'attendance',
+    label: 'Attendance Settings',
+    icon: AiOutlineCalendar,
+    color: 'text-green-400',
+  },
+  {
+    id: 'notifications',
+    label: 'Notifications',
+    icon: IoNotificationsOutline,
+    color: 'text-yellow-400',
+  },
+  {
+    id: 'assignments',
+    label: 'Assignments & Media',
+    icon: MdOutlineAssignment,
+    color: 'text-blue-400',
+  },
+  {
+    id: 'roles',
+    label: 'Roles & Collaboration',
+    icon: FaUserShield,
+    color: 'text-indigo-400',
+  },
+  {
+    id: 'danger',
+    label: 'Danger Zone',
+    icon: HiOutlineExclamationCircle,
+    color: 'text-red-400',
+  },
+];
 
 export const badges = {
   present: 'success',

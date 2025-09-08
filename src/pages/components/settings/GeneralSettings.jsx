@@ -7,7 +7,6 @@ import Form from '../../../components/molecules/Form';
 
 const GeneralSettings = ({ user }) => {
   const { firstName, lastName, email } = user || {};
-  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     firstName: firstName || 'John',
     lastName: lastName || 'Doe',
@@ -86,14 +85,14 @@ const GeneralSettings = ({ user }) => {
         onChange={onChange}
         title="Profile Information"
       />
-      <Form
+      {/* <Form
         title="Profile Picture"
         formInputsData={[
           { name: `${firstName} ${lastName}`, component: 'image' },
         ]}
         mode="upload"
         className="flex items-center gap-6"
-      />
+      /> */}
 
       <motion.div
         variants={fadeInUpChild}

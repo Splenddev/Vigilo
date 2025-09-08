@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import FormInput from './FormInput';
 import Button from '../atoms/Button';
 import {
   getPasswordStrengthColor,
   getPasswordStrengthText,
 } from '../../utils/helpers';
+import { FiLock } from 'react-icons/fi';
 
 const PasswordInput = ({
   label = 'Password',
@@ -38,14 +39,14 @@ const PasswordInput = ({
         onChange={onChange}
         placeholder={placeholder}
         error={error}
-        icon={FaLock}
+        icon={FiLock}
         wrapperChildren={
           <Button
             type="button"
             variant="custom"
             size="none"
             func={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-t-primary transition-colors">
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-t-tertiary hover:text-t-primary transition-colors">
             {showPassword ? (
               <FaEyeSlash className="w-4 h-4" />
             ) : (
@@ -60,7 +61,7 @@ const PasswordInput = ({
       {renderStrengthMeter && (
         <div className="mt-2">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-gray-400">Password Strength</span>
+            <span className="text-xs text-t-tertiary">Password Strength</span>
             <span
               className={`text-xs ${getPasswordStrengthColor(
                 passwordStrength
@@ -84,7 +85,7 @@ const PasswordInput = ({
       {shouldMatch.length > 0 && value && (
         <div className="mt-2">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-gray-400">Validation</span>
+            <span className="text-xs text-t-tertiary">Validation</span>
             <span
               className={`text-xs ${
                 matches ? 'text-green-400' : 'text-red-400'
@@ -108,7 +109,7 @@ const PasswordInput = ({
       {notMatch.length > 0 && value && (
         <div className="mt-2">
           <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-gray-400">Validation</span>
+            <span className="text-xs text-t-tertiary">Validation</span>
             <span
               className={`text-xs ${
                 failsNotMatch ? 'text-red-400' : 'text-green-400'

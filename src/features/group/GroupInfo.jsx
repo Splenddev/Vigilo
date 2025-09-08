@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  FaArrowLeft,
-  FaGraduationCap,
-  FaCalendar,
-  FaBook,
-  FaUsers,
-  FaCheckCircle,
-} from 'react-icons/fa';
+import { FaArrowLeft, FaBook } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { groups } from '../../utils/data';
 import {

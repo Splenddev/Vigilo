@@ -98,29 +98,28 @@ const Form = ({
           />
         )}
       </h3>
-      <form>
+      <form onSubmit={handleSave}>
         <div className={`${className}`}>
           {formInputsData.map((f) => renderInputType(f))}
         </div>
-        {isEditing ||
-          (mode === 'upload' && avatar && (
-            <div className="flex items-center justify-end gap-5 py-5">
-              <Button
-                icon={LuX}
-                text="Cancel"
-                variant="secondary"
-                className="text-t-secondary"
-                type="button"
-                onClick={handleCancel}
-              />
-              <Button
-                icon={LuSave}
-                text="Save Changes"
-                type="button"
-                onClick={handleSave}
-              />
-            </div>
-          ))}
+        {isEditing && (
+          <div className="flex flex-col items-end gap-2 py-5">
+            <Button
+              icon={LuX}
+              text="Cancel"
+              variant="dangerLight"
+              size="sm"
+              type="button"
+              onClick={handleCancel}
+            />
+            <Button
+              icon={LuSave}
+              text="Save Changes"
+              type="submit"
+              size="sm"
+            />
+          </div>
+        )}
       </form>
     </motion.div>
   );
