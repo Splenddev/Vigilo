@@ -34,6 +34,8 @@ import {
 import { StatGroup } from '../../components/containers/StatGroup';
 import StatList from '../../components/molecules/StatList';
 import { FiCalendar, FiCheckCircle, FiUsers } from 'react-icons/fi';
+import GroupOverview from './compoents/GroupOverview';
+import Tabs from '../../components/common/Tabs';
 
 const GroupInfo = () => {
   const { groupId } = useParams();
@@ -168,73 +170,29 @@ const GroupInfo = () => {
           </div>
 
           {/* Stats */}
-          <StatList stats={stats} />
+          <StatList
+            variant="light"
+            stats={stats}
+          />
         </div>
       </motion.div>
 
       {/* Tabs */}
-      <div className="mb-6 flex gap-3 border-b border-slate-600 overflow-x-auto">
-        {[
+      <Tabs
+        tabs={[
           { key: 'overview', label: 'Overview', icon: LuBookText },
           { key: 'students', label: 'Students', icon: LuUsers },
           { key: 'sessions', label: 'Sessions', icon: LuClipboardList },
           { key: 'settings', label: 'Settings', icon: LuSettings },
-        ].map((tab, i) => {
-          const Icon = tab.icon;
-          return (
-            <motion.button
-              key={tab.key}
-              whileHover="hover"
-              whileTap="tap"
-              variants={hoverEffect}
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-t-lg font-medium outline-0 transition-all ${
-                activeTab === tab.key
-                  ? 'bg-slate-700 text-t-primary'
-                  : 'text-gray-400 hover:text-t-primary'
-              }`}>
-              <Icon className="w-4 h-4" />
-              {tab.label}
-            </motion.button>
-          );
-        })}
-      </div>
+        ]}
+        defaultActive={activeTab}
+        variant="pills"
+        onChange={(k) => setActiveTab(k)}
+      />
 
       {/* Tab Content */}
       <AnimatePresence mode="wait">
-        {activeTab === 'overview' && (
-          <motion.div
-            key="overview"
-            className="card rounded-2xl shadow-xl border border-slate-200 p-6"
-            variants={fadeIn}
-            initial="hidden"
-            animate="visible"
-            exit="exit">
-            <h2 className="text-xl font-bold mb-4">Course Details</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <InfoRow
-                icon={FaGraduationCap}
-                label="Department"
-                className="glass p-4 rounded-xl">
-                <span className="text-gray-300">{group.department}</span>
-              </InfoRow>
-              <InfoRow
-                icon={LuSchool}
-                label="Faculty"
-                className="glass p-4 rounded-xl">
-                <span className="text-gray-300">{group.faculty}</span>
-              </InfoRow>
-              <InfoRow
-                icon={LuCalendar}
-                label="Academic Year"
-                className="glass p-4 rounded-xl">
-                <span className="text-gray-300">
-                  {group.academicYear.start} - {group.academicYear.end}
-                </span>
-              </InfoRow>
-            </div>
-          </motion.div>
-        )}
+        {activeTab === 'overview' && <GroupOverview />}
 
         {activeTab === 'students' && (
           <motion.div

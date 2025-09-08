@@ -16,6 +16,8 @@
   --text-body-sm: 0.875rem/1.25rem;
   --text-body-xs: 0.75rem/1rem;
 
+  --breakpoint-xs:30rem
+
   /* Core theme colors (tokens Tailwind will map into utilities) */
   --color-primary-purple: #7c3aed;
   --color-primary-purple-light: #a855f7;

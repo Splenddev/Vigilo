@@ -443,10 +443,12 @@ const SessionList = () => {
                     <span
                       className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         session.status === 'completed'
-                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                          ? 'bg-green-500/10 text-green-300 border border-green-500/30'
                           : session.status === 'ongoing'
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                          : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+                          ? 'bg-cyan-500/10 text-cyan-300 border border-cyan-500/30'
+                          : session.status === 'paused'
+                          ? 'bg-red-500/10 text-red-300 border border-red-500/30'
+                          : 'bg-yellow-500/10 text-yellow-300 border border-yellow-500/30'
                       }`}>
                       {session.status}
                     </span>

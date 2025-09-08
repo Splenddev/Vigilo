@@ -10,7 +10,7 @@ const Select = ({
   onChange,
   placeholder = '',
   size = 'md', // sm | md | lg
-  variant = 'outline', // solid | outline | ghost
+  variant = 'glass',
   status = 'default', // default | success | warning | danger
   helperText,
   errorText,
@@ -28,11 +28,10 @@ const Select = ({
 
   const variantClasses = {
     solid:
-      'bg-[var(--color-primary-purple-soft)] border border-[var(--color-border-accent)] text-gray-900 focus:ring-2 focus:ring-[var(--color-primary)]',
-    outline:
-      'border border-gray-300 bg-transparent text-gray-100 focus:ring-2 focus:ring-[var(--color-primary)] glass',
-    ghost:
-      'bg-transparent border-none text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-[var(--color-primary)]',
+      'bg-[var(--color-primary-purple-soft)] border border-[var(--color-border-accent)] text-gray-900',
+    glass:
+      'bg-bg-glass-sm border border-bg-glass-lg rounded-lg  text-t-primary',
+    ghost: 'bg-transparent border-none text-gray-800 hover:bg-gray-100',
   };
 
   const statusClasses = {
@@ -45,7 +44,7 @@ const Select = ({
   return (
     <div className={clsx('flex flex-col gap-2', fullWidth && 'w-full')}>
       {label && (
-        <label className="text-sm font-medium text-gray-300">
+        <label className="text-xs font-medium text-t-tertiary">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -83,8 +82,10 @@ const Select = ({
       </select>
       {errorText ? (
         <p className="text-sm text-red-400 flex items-center">
-          <FaExclamationCircle aria-hidden="true"
-            className="w-4 h-4 shrink-0 mr-2"/>
+          <FaExclamationCircle
+            aria-hidden="true"
+            className="w-4 h-4 shrink-0 mr-2"
+          />
           {errorText}
         </p>
       ) : (

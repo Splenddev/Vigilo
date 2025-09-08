@@ -416,7 +416,7 @@ const instructors = [
 ];
 
 const sessionTypes = ['lecture', 'lab', 'seminar', 'workshop'];
-const statuses = ['scheduled', 'ongoing', 'completed'];
+const statuses = ['scheduled', 'ongoing', 'completed', 'paused'];
 
 function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];

@@ -32,7 +32,8 @@ const InfoRow = ({
   labelClassName = '',
   iconSize = 'text-xl',
   textColor = 'text-t-secondary',
-  direction = 'col', // col | row
+  direction = 'col',
+  iconPosition = 'left',
 }) => {
   // Map align to Tailwind class
   const alignClass =
@@ -47,10 +48,12 @@ const InfoRow = ({
 
   return (
     <div className={`flex gap-3 text-sm ${className} ${alignClass}`}>
-      <IconRenderer
-        icon={icon}
-        className={`${iconSize} shrink-0 ${textColor} ${iconClassName}`}
-      />
+      {iconPosition === 'left' && (
+        <IconRenderer
+          icon={icon}
+          className={`${iconSize} shrink-0 ${textColor} ${iconClassName}`}
+        />
+      )}
 
       <div className={`flex ${directionClass}`}>
         <span className={`${labelClassName}`}>{label}</span>
@@ -69,6 +72,13 @@ const InfoRow = ({
           {subLabel}
         </p>
       </div>
+
+      {iconPosition === 'right' && (
+        <IconRenderer
+          icon={icon}
+          className={`${iconSize} shrink-0 ${textColor} ${iconClassName}`}
+        />
+      )}
     </div>
   );
 };
