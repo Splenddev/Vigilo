@@ -1,25 +1,6 @@
 import { FaRegQuestionCircle } from 'react-icons/fa';
 import React from 'react';
-
-// Utility: safely render an icon component, function, or element
-const IconRenderer = ({ icon: Icon, className = '' }) => {
-  if (!Icon) return null;
-
-  if (typeof Icon === 'function') {
-    const element = Icon({ className });
-    return React.isValidElement(element) ? (
-      element
-    ) : (
-      <Icon className={className} />
-    );
-  }
-
-  if (React.isValidElement(Icon)) {
-    return React.cloneElement(Icon);
-  }
-
-  return null;
-};
+import IconRenderer from '../atoms/IconRenderer';
 
 const InfoRow = ({
   label,

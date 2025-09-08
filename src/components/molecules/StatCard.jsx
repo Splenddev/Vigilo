@@ -1,3 +1,7 @@
+import React from 'react';
+import { FiTrendingUp, FiTrendingDown } from 'react-icons/fi';
+import IconRenderer from '../atoms/IconRenderer';
+
 const COLOR_MAP = {
   blue: {
     text: 'text-blue-500',
@@ -29,11 +33,10 @@ const COLOR_MAP = {
   },
 };
 
-// Base variant styles (excluding color overrides)
 const VARIANTS = {
   light: {
     wrapper: 'bg-white border border-slate-200 shadow-sm hover:shadow-md',
-    value: 'text-slate-800',
+    value: 'text-t-primary',
     label: 'text-t-tertiary',
     icon: 'text-slate-600',
   },
@@ -44,31 +47,57 @@ const VARIANTS = {
     icon: 'text-slate-300',
   },
   glass: {
-    wrapper: 'glass-strong',
+    wrapper: 'glass',
     value: 'text-t-primary',
-    label: 'text-t-primary font-semibold',
+    label: 'text-slate-400 font-semibold',
     icon: 'text-t-tertiary',
   },
+};
+
+const ICON_SIZES = {
+  sm: 'w-5 h-5',
+  md: 'w-7 h-7',
+  lg: 'w-9 h-9',
+};
+
+const DIRECTION_PRESETS = {
+  default: 'icon-value-label-subtitle-trend',
+  compact: 'icon-value-label-trend',
+  reverse: 'trend-subtitle-label-value-icon',
+  minimal: 'value-label-trend',
+  iconTop: 'icon-value-label-trend-subtitle',
+  valueOnly: 'value',
 };
 
 const StatCard = ({
   icon,
   value,
   label,
+  trend,
+  subtitle,
   className = '',
   variant = 'glass',
   iconColor,
-  layout = 'card', // 'card' | 'list' | 'grid' | 'inline'
+  layout = 'card',
+  iconSize = 'md',
+  direction,
+  trendPosition = 'inline',
+  preset = 'default',
+  positiveColor = 'text-emerald-500',
+  negativeColor = 'text-red-500',
+  positiveIcon: PositiveIcon = FiTrendingUp,
+  negativeIcon: NegativeIcon = FiTrendingDown,
+  formatTrend = (t) => `${Math.abs(t)}%`,
 }) => {
-  const Icon = icon;
+  const baseDirection =
+    direction || DIRECTION_PRESETS[preset] || DIRECTION_PRESETS.default;
+
   const styles = VARIANTS[variant] || VARIANTS.glass;
 
-  // Resolve color map
   const color =
     typeof iconColor === 'string' && COLOR_MAP[iconColor]
       ? COLOR_MAP[iconColor]
       : null;
-
   const colorClasses = {
     text: color ? color.text : styles.icon,
     bg:
@@ -85,38 +114,63 @@ const StatCard = ({
         : '',
   };
 
-  const renderContent = () => (
-    <>
-      {icon &&
-        (typeof icon === 'function' ? (
-          <Icon className={`w-8 h-8 ${colorClasses.text}`} />
-        ) : (
-          <div className={colorClasses.text}>{icon}</div>
-        ))}
-      <div className={`font-bold ${styles.value}`}>{value}</div>
-      <div className={`text-sm ${styles.label}`}>{label}</div>
-    </>
-  );
+  const iconClasses = ICON_SIZES[iconSize] || iconSize;
+
+  const renderIcon = () =>
+    icon ? (
+      <IconRenderer
+        icon={icon}
+        className={`${iconClasses} ${colorClasses.text}`}
+      />
+    ) : null;
+
+  const renderTrend = () => {
+    if (typeof trend !== 'number') return null;
+    const positive = trend > 0;
+    const TrendIcon = positive ? PositiveIcon : NegativeIcon;
+    return (
+      <div
+        className={`flex items-center text-sm font-medium ${
+          positive ? positiveColor : negativeColor
+        }`}>
+        <TrendIcon className="mr-1" />
+        {formatTrend(trend)}
+      </div>
+    );
+  };
+
+  const parts = {
+    icon: renderIcon(),
+    value: <div className={`font-bold ${styles.value}`}>{value}</div>,
+    label: <div className={`text-sm ${styles.label}`}>{label}</div>,
+    subtitle: subtitle && (
+      <div className="text-xs text-t-secondary">{subtitle}</div>
+    ),
+    trend:
+      trendPosition === 'inline' && baseDirection.includes('trend')
+        ? renderTrend()
+        : null,
+  };
+
+  const renderContent = () =>
+    baseDirection
+      .split('-')
+      .map((key, i) => <React.Fragment key={i}>{parts[key]}</React.Fragment>);
 
   if (layout === 'list') {
     return (
       <div
-        className={`flex items-center gap-3 px-3 rounded-xl py-2 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
-        {icon && (
-          <div className="flex-shrink-0">
-            {typeof icon === 'function' ? (
-              <Icon className={`w-5 h-5 ${colorClasses.text}`} />
-            ) : (
-              <div className={colorClasses.text}>{icon}</div>
-            )}
-          </div>
-        )}
+        className={`flex relative items-center gap-3 px-3 rounded-xl py-2 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
+        {parts.icon && <div className="flex-shrink-0">{parts.icon}</div>}
         <div className="flex-1">
-          <div className={`text-base font-semibold ${colorClasses.text}`}>
-            {value}
-          </div>
-          <div className={`text-xs ${styles.label}`}>{label}</div>
+          {parts.value}
+          {parts.label}
+          {parts.subtitle}
         </div>
+        {trendPosition === 'inline' ? parts.trend : null}
+        {trendPosition === 'absolute' && (
+          <div className="absolute top-3 right-4">{renderTrend()}</div>
+        )}
       </div>
     );
   }
@@ -124,25 +178,22 @@ const StatCard = ({
   if (layout === 'inline') {
     return (
       <div
-        className={`flex items-center gap-2 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
-        {icon &&
-          (typeof icon === 'function' ? (
-            <Icon className={`w-4 h-4 ${colorClasses.text}`} />
-          ) : (
-            <div className={colorClasses.text}>{icon}</div>
-          ))}
-        <span className={`font-semibold ${styles.value}`}>{value}</span>
-        <span className={`text-xs ${styles.label}`}>{label}</span>
+        className={`flex relative items-center gap-2 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
+        {renderContent()}
+        {trendPosition === 'absolute' && (
+          <div className="absolute top-3 right-4">{renderTrend()}</div>
+        )}
       </div>
     );
   }
 
-  // default "card" (grid-friendly)
   return (
     <div
-      className={`rounded-2xl p-4 text-center transition-all duration-300 
-                  ${styles.wrapper} ${colorClasses.bg} ${colorClasses.border} ${className}`}>
+      className={`rounded-2xl p-4 transition-all flex h-full gap-2 relative flex-col duration-300 ${styles.wrapper} ${colorClasses.bg} ${colorClasses.border} ${className}`}>
       {renderContent()}
+      {trendPosition === 'absolute' && (
+        <div className="absolute top-3 right-4">{renderTrend()}</div>
+      )}
     </div>
   );
 };

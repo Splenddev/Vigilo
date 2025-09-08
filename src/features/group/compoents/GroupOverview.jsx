@@ -21,6 +21,9 @@ import {
   LuTrophy,
   LuAlarmClock,
 } from 'react-icons/lu';
+import StatCard from '../../../components/molecules/StatCard';
+import { shortenDept } from '../../../utils/helpers';
+import StudentHighlightCard from '../../../components/cards/StudentHighlightCard';
 
 const InfoCard = ({
   icon: Icon,
@@ -53,27 +56,6 @@ const InfoCard = ({
     <div className="text-sm text-gray-400 mb-1">{label}</div>
     <div className="text-lg font-semibold text-white">{value}</div>
     {subtitle && <div className="text-xs text-gray-500 mt-1">{subtitle}</div>}
-  </motion.div>
-);
-
-const StudentCard = ({ student, type, icon: Icon, bgGradient }) => (
-  <motion.div
-    className={`glass p-4 rounded-xl relative overflow-hidden ${bgGradient}`}
-    whileHover={{ scale: 1.03, y: -3 }}
-    transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-    <div className="absolute top-2 right-2">
-      <Icon className="text-white/70 text-lg" />
-    </div>
-    <div className="pr-8">
-      <div className="text-xs text-white/70 uppercase tracking-wide mb-1">
-        {type}
-      </div>
-      <div className="text-white font-semibold text-sm mb-1">
-        {student.name}
-      </div>
-      <div className="text-white/80 text-xs">{student.id}</div>
-      <div className="text-white/60 text-xs mt-2">{student.stat}</div>
-    </div>
   </motion.div>
 );
 
@@ -192,22 +174,33 @@ const GroupOverview = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <InfoCard
+          <StatCard
+            iconColor="blue"
             icon={LuGraduationCap}
             label="Department"
-            value={group.department}
+            direction="icon-label-value"
+            value={shortenDept(group.department)}
+            iconSize="sm"
           />
-          <InfoCard
+          <StatCard
+            iconColor="blue"
+            direction="icon-label-value"
+            iconSize="sm"
             icon={LuSchool}
             label="Faculty"
             value={group.faculty}
           />
-          <InfoCard
+          <StatCard
+            iconColor="blue"
+            direction="icon-label-value"
+            iconSize="sm"
             icon={LuCalendar}
             label="Academic Year"
             value={`${group.academicYear.start}-${group.academicYear.end}`}
           />
-          <InfoCard
+          <StatCard
+            iconColor="blue"
+            iconSize="sm"
             icon={FiUsers}
             label="Total Students"
             value={group.totalStudents}
@@ -218,12 +211,14 @@ const GroupOverview = () => {
 
       {/* Statistics Grid */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
         variants={staggerChildren}>
         <motion.div variants={fadeIn}>
-          <InfoCard
+          <StatCard
             icon={FiTarget}
             label="Course Progress"
+            iconColor="purple"
+            trendPosition="absolute"
             value={`${group.completedSessions}/${group.totalSessions}`}
             subtitle="sessions completed"
             trend={12}
@@ -231,7 +226,9 @@ const GroupOverview = () => {
         </motion.div>
 
         <motion.div variants={fadeIn}>
-          <InfoCard
+          <StatCard
+            iconColor="purple"
+            trendPosition="absolute"
             icon={FiActivity}
             label="Attendance Rate"
             value={`${group.averageAttendance}%`}
@@ -241,7 +238,8 @@ const GroupOverview = () => {
         </motion.div>
 
         <motion.div variants={fadeIn}>
-          <InfoCard
+          <StatCard
+            iconColor="purple"
             icon={FiClock}
             label="Next Session"
             value="Tomorrow"
@@ -250,7 +248,9 @@ const GroupOverview = () => {
         </motion.div>
 
         <motion.div variants={fadeIn}>
-          <InfoCard
+          <StatCard
+            iconColor="purple"
+            trendPosition="absolute"
             icon={FiBookOpen}
             label="Assignments"
             value="3 Pending"
@@ -269,26 +269,23 @@ const GroupOverview = () => {
           Student Highlights
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <StudentCard
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+          <StudentHighlightCard
             student={stats.topAttendee}
             type="Top Performer"
             icon={LuTrophy}
-            bgGradient="bg-gradient-to-br from-green-500/20 to-emerald-600/20"
           />
 
-          <StudentCard
+          <StudentHighlightCard
             student={stats.topAbsentee}
             type="Needs Attention"
             icon={LuAlarmClock}
-            bgGradient="bg-gradient-to-br from-red-500/20 to-pink-600/20"
           />
 
-          <StudentCard
+          <StudentHighlightCard
             student={stats.recentJoiner}
             type="New Member"
             icon={LuUserCheck}
-            bgGradient="bg-gradient-to-br from-blue-500/20 to-cyan-600/20"
           />
         </div>
 
