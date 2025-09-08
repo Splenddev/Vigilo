@@ -20,11 +20,10 @@ import {
   LuTrendingUp,
   LuTrendingDown,
   LuUsers,
-  LuPieChart,
   LuActivity,
 } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiBarChart2, FiTarget } from 'react-icons/fi';
+import { FiBarChart2, FiPieChart, FiTarget } from 'react-icons/fi';
 
 // Mock student groups data
 const mockStudentGroups = [
@@ -466,7 +465,7 @@ const StudentGroupsDashboard = () => {
                     ? 'bg-blue-600 text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}>
-                <LuPieChart className="w-4 h-4" />
+                <FiPieChart className="w-4 h-4" />
               </button>
             </div>
           </div>
