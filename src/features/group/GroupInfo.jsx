@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaArrowLeft, FaBook } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import { groups } from '../../utils/data';
+import { dummyGroupSettings, groups } from '../../utils/data';
 import {
   LuBookText,
   LuCalendar,
@@ -12,9 +12,6 @@ import {
   LuGraduationCap,
 } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import StatCard from '../../components/molecules/StatCard';
-import InfoRow from '../../components/molecules/InfoRow';
 import {
   fadeIn,
   slideUp,
@@ -24,11 +21,14 @@ import {
   hoverEffect,
   rippleEffect,
 } from '../../utils/animationVariants';
-import { StatGroup } from '../../components/containers/StatGroup';
 import StatList from '../../components/molecules/StatList';
-import { FiCalendar, FiCheckCircle, FiUsers } from 'react-icons/fi';
-import GroupOverview from './compoents/GroupOverview';
+import { FiCalendar, FiCheckCircle, FiSearch, FiUsers } from 'react-icons/fi';
+import GroupOverview from './components/GroupOverview';
 import Tabs from '../../components/common/Tabs';
+import EmptyState from '../../components/common/EmptyState';
+import SessionCard from './components/SessionCard';
+import GroupSettings from './components/GroupSettings';
+import StudentCard from './components/StudentCard';
 
 const GroupInfo = () => {
   const { groupId } = useParams();
@@ -39,19 +39,11 @@ const GroupInfo = () => {
 
   if (!group) {
     return (
-      <motion.div
-        className="min-h-screen flex items-center justify-center"
-        variants={fadeIn}
-        initial="hidden"
-        animate="visible">
-        <div className="glass rounded-2xl shadow-xl p-6 sm:p-8 text-center w-full max-w-md">
-          <div className="text-4xl sm:text-6xl mb-4">🔍</div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-50 mb-2">
-            Group Not Found
-          </h2>
-          <p className="text-sm sm:text-base text-gray-300 mb-4">
-            The group "{groupId}" could not be found.
-          </p>
+      <EmptyState
+        title="Group not found"
+        message={`The group "${groupId}" could not be found.`}
+        icon={FiSearch}
+        action={
           <motion.button
             whileHover="hover"
             whileTap="tap"
@@ -60,8 +52,8 @@ const GroupInfo = () => {
             onClick={() => navigate('/lecturer/groups')}>
             Back to Groups
           </motion.button>
-        </div>
-      </motion.div>
+        }
+      />
     );
   }
 
@@ -205,10 +197,8 @@ const GroupInfo = () => {
                 <motion.li
                   key={s.id}
                   custom={i}
-                  variants={itemVariants}
-                  className="glass-strong p-3 rounded-lg flex justify-between">
-                  <span>{s.name}</span>
-                  <span className="text-gray-400 text-sm">{s.level}</span>
+                  variants={itemVariants}>
+                  <StudentCard student={s} />
                 </motion.li>
               ))}
             </motion.ul>
@@ -229,15 +219,11 @@ const GroupInfo = () => {
               initial="collapsed"
               animate="expanded"
               className="space-y-2">
-              {group.sessions.map((s, i) => (
-                <motion.li
+              {group.sessions.map((s) => (
+                <SessionCard
                   key={s.sessionId}
-                  custom={i}
-                  variants={itemVariants}
-                  className="glass-strong p-3 rounded-lg flex justify-between">
-                  <span>{s.date}</span>
-                  <span className="text-gray-400 text-sm">{s.status}</span>
-                </motion.li>
+                  session={s}
+                />
               ))}
             </motion.ul>
           </motion.div>
@@ -251,8 +237,7 @@ const GroupInfo = () => {
             initial="hidden"
             animate="visible"
             exit="exit">
-            <h2 className="text-xl font-bold mb-4">Settings</h2>
-            <p className="text-gray-400">Settings content goes here…</p>
+            <GroupSettings settings={dummyGroupSettings} />
           </motion.div>
         )}
       </AnimatePresence>

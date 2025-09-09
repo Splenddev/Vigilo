@@ -31,6 +31,48 @@ const COLOR_MAP = {
     borderLight: 'border-orange-400/20',
     borderDark: 'border-orange-700',
   },
+  red: {
+    text: 'text-red-500',
+    bgLight: 'bg-red-400/10',
+    bgDark: 'bg-red-900/30',
+    borderLight: 'border-red-400/20',
+    borderDark: 'border-red-700',
+  },
+  yellow: {
+    text: 'text-yellow-500',
+    bgLight: 'bg-yellow-400/10',
+    bgDark: 'bg-yellow-900/30',
+    borderLight: 'border-yellow-400/20',
+    borderDark: 'border-yellow-700',
+  },
+  indigo: {
+    text: 'text-indigo-500',
+    bgLight: 'bg-indigo-400/10',
+    bgDark: 'bg-indigo-900/30',
+    borderLight: 'border-indigo-400/20',
+    borderDark: 'border-indigo-700',
+  },
+  pink: {
+    text: 'text-pink-500',
+    bgLight: 'bg-pink-400/10',
+    bgDark: 'bg-pink-900/30',
+    borderLight: 'border-pink-400/20',
+    borderDark: 'border-pink-700',
+  },
+  teal: {
+    text: 'text-teal-500',
+    bgLight: 'bg-teal-400/10',
+    bgDark: 'bg-teal-900/30',
+    borderLight: 'border-teal-400/20',
+    borderDark: 'border-teal-700',
+  },
+  gray: {
+    text: 'text-gray-600',
+    bgLight: 'bg-gray-400/10',
+    bgDark: 'bg-gray-900/30',
+    borderLight: 'border-gray-400/20',
+    borderDark: 'border-gray-700',
+  },
 };
 
 const VARIANTS = {

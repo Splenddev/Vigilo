@@ -62,10 +62,7 @@ const Navbar = () => {
                   exit="exit"
                   className="absolute right-0 mt-2 w-48 glass-strong rounded-lg shadow-xl border border-white/20 z-50 overflow-hidden">
                   <div className="flex flex-col decoration-0 bg-bg-tertiary overflow-hidden p-2">
-                    {[
-                      { text: 'Courses', to: `/${user.role}/courses` },
-                      { text: 'Profile', to: '/profile' },
-                    ].map((link) => (
+                    {[{ text: 'Profile', to: '/profile' }].map((link) => (
                       <Anchor
                         key={link.text}
                         size="sm"

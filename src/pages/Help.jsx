@@ -29,23 +29,13 @@ import {
   LuX,
 } from 'react-icons/lu';
 import { FiHome, FiEdit3 } from 'react-icons/fi';
+import { containerVariants } from '../utils/animationVariants';
 
 const HelpPage = () => {
   const [activeSection, setActiveSection] = useState('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedFAQ, setExpandedFAQ] = useState(null);
   const [activeRole, setActiveRole] = useState('lecturer');
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        staggerChildren: 0.1,
-      },
-    },
-  };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -1151,10 +1141,10 @@ const HelpPage = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+      className="min-h-screen "
       variants={containerVariants}
-      initial="hidden"
-      animate="visible">
+      initial="collapsed"
+      animate="expanded">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.header

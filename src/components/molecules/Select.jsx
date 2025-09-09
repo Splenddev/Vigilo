@@ -73,10 +73,10 @@ const Select = ({
         )}
         {options.map((opt, i) => (
           <option
-            className="text-gray-700"
+            className="capitalize text-gray-700"
             key={i}
             value={opt.value}>
-            {opt.label}
+            {opt.label ?? opt.value}
           </option>
         ))}
       </select>

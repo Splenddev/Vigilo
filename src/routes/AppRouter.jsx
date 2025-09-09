@@ -27,7 +27,6 @@ import StudentInfo from '../features/lecturer/StudentInfo';
 import Groups from '../features/group/Group';
 import CreateGroup from '../features/group/CreateGroup';
 import GroupInfo from '../features/group/GroupInfo';
-import CourseList from '../features/courses/CourseList';
 
 // Student features
 import StudentDashboard from '../features/student/StudentDashboard';
@@ -84,7 +83,6 @@ const router = createBrowserRouter([
           { path: 'groups', element: <Groups /> },
           { path: 'groups/new', element: <CreateGroup /> },
           { path: 'groups/:groupId/info', element: <GroupInfo /> },
-          { path: 'courses', element: <CourseList /> },
         ],
       },
 

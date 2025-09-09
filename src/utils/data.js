@@ -169,6 +169,70 @@ const groups = [
   },
 ];
 
+export const dummyGroupSettings = {
+  id: 'grp1',
+  name: 'Biochemistry – 400 Level',
+  description:
+    'This group is for all final year Biochemistry students. Attendance, schedules, and assignments will be managed here.',
+  createdAt: '2025-01-15T10:30:00Z',
+  updatedAt: '2025-09-01T15:20:00Z',
+
+  general: {
+    groupName: 'Biochemistry – 400 Level',
+    description: 'Final year Biochemistry class group for attendance & media.',
+    visibility: 'public', // public | private | code
+    allowFileUploads: true,
+  },
+
+  privacy: {
+    joinPolicy: 'invite_only', // invite_only | roster_only | open | code
+    groupCode: 'BIOCHEM400',
+    allowStudentsViewRoster: false,
+    allowStudentMessaging: true,
+  },
+
+  attendance: {
+    geoRestriction: true,
+    maxDistanceMeters: 100,
+    autoCloseMinutes: 15,
+    pleaWindowDays: 3,
+    lateThresholdMinutes: 10,
+  },
+
+  notifications: {
+    enableClassReminders: true,
+    enableAbsenceAlerts: true,
+    pushNotifications: true,
+    emailNotifications: false,
+  },
+
+  assignments: {
+    allowVirtualSubmissions: true,
+    allowLateSubmissions: false,
+    gradingEnabled: true,
+    maxFileSizeMB: 25,
+  },
+
+  roles: {
+    classRep: {
+      id: 'rep1',
+      name: 'John Doe',
+      email: 'j.doe@univ.edu',
+    },
+    assistants: [
+      { id: 'asst1', name: 'Mary Smith', email: 'mary.smith@univ.edu' },
+      { id: 'asst2', name: 'James Lee', email: 'j.lee@univ.edu' },
+    ],
+  },
+
+  dangerZone: {
+    allowDeleteGroup: true,
+    allowTransferOwnership: true,
+    deletionWarning:
+      'Deleting this group will permanently remove attendance history, schedules, and uploaded files.',
+  },
+};
+
 const generateStudentData = (length = 50) => {
   const nigerianNames = [
     'Adebayo Ogundimu',
