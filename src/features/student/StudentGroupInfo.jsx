@@ -240,6 +240,7 @@ const StudentGroupInfo = () => {
             value={attendance.present}
             iconColor="emerald"
             trend={5}
+            trendPosition="absolute"
           />
           <StatCard
             icon={FiAlertTriangle}
