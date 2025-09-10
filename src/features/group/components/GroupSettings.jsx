@@ -417,12 +417,7 @@ export default function GroupSettingsPage() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--gradient-bg-primary)',
-        padding: '24px',
-      }}>
+    <div>
       <div
         style={{
           maxWidth: '800px',
