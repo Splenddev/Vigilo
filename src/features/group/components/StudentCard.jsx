@@ -20,7 +20,7 @@ const StudentCard = ({ student }) => {
     <div className="card-hover animate-fade-in-up">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold gradient-text flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-t-primary flex items-center gap-2">
           <LuUser className="text-cyan-400" />
           {name}
         </h3>
@@ -30,7 +30,7 @@ const StudentCard = ({ student }) => {
       </div>
 
       {/* Details */}
-      <div className="space-y-2 text-sm text-t-secondary">
+      <div className="grid grid-cols-3 gap-2 text-sm text-t-secondary">
         <div className="flex items-center gap-2">
           <LuHash className="text-purple-400" />
           <span>{matricNo}</span>

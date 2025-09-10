@@ -195,13 +195,30 @@ export const dummyGroupSettings = {
     geoRestriction: true,
     maxDistanceMeters: 100,
     autoCloseMinutes: 15,
-    pleaWindowDays: 3,
-    lateThresholdMinutes: 10,
+  },
+
+  checkInVerification: {
+    primary: {
+      type: 'geo_fence', // geo_fence | beacon | wifi
+      enabled: true,
+      details: {
+        maxDistanceMeters: 100,
+        requiredAccuracy: 'high', // high | medium | low
+      },
+    },
+    secondary: {
+      type: 'qr_code', // qr_code | session_code | token | face_id
+      enabled: true,
+      options: {
+        qrRefreshIntervalSec: 60, // if QR is rotating
+        sessionCodeLength: 6, // if using numeric code
+        allowFallback: true, // fallback if QR fails
+      },
+    },
   },
 
   notifications: {
     enableClassReminders: true,
-    enableAbsenceAlerts: true,
     pushNotifications: true,
     emailNotifications: false,
   },
@@ -223,13 +240,6 @@ export const dummyGroupSettings = {
       { id: 'asst1', name: 'Mary Smith', email: 'mary.smith@univ.edu' },
       { id: 'asst2', name: 'James Lee', email: 'j.lee@univ.edu' },
     ],
-  },
-
-  dangerZone: {
-    allowDeleteGroup: true,
-    allowTransferOwnership: true,
-    deletionWarning:
-      'Deleting this group will permanently remove attendance history, schedules, and uploaded files.',
   },
 };
 
