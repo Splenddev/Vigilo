@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { FaSpinner } from 'react-icons/fa';
 
 const Button = ({
   children,
@@ -9,10 +10,12 @@ const Button = ({
   iconPosition = 'left',
   func = () => {},
   text = '',
+  loading = false,
+  disabled = false,
   ...props
 }) => {
   const baseClasses =
-    'flex cursor-pointer items-center gap-2 transition-all duration-200';
+    'flex items-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const sizeClasses = {
     sm: 'text-body-xs px-2.5 py-1.5 rounded-xl',
@@ -46,11 +49,18 @@ const Button = ({
         className
       )}
       onClick={func}
+      disabled={loading || disabled}
       {...props}>
-      {Icon && iconPosition === 'left' && <Icon className="w-5 h-5" />}
-      {text && text}
-      {children}
-      {Icon && iconPosition === 'right' && <Icon className="w-5 h-5" />}
+      {loading ? (
+        <FaSpinner className="w-5 h-5 animate-spin" />
+      ) : (
+        <>
+          {Icon && iconPosition === 'left' && <Icon className="w-5 h-5" />}
+          {text && text}
+          {children}
+          {Icon && iconPosition === 'right' && <Icon className="w-5 h-5" />}
+        </>
+      )}
     </button>
   );
 };

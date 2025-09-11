@@ -13,10 +13,8 @@ const notify = () => {
   for (const cb of listeners) cb(modal);
 };
 
-export const showError = (message, status) => {
-  modal = { type: 'error', message, status };
-  console.log(message);
-  console.log(status);
+export const showError = ({ message, status, action = null }) => {
+  modal = { type: 'error', message, status, action };
   notify();
 };
 

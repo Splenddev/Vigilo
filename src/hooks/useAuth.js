@@ -9,6 +9,11 @@ export const useAuth = () => {
     return res;
   };
 
+  const createAdmin = async (credentials) => {
+    const res = await store.admin(credentials);
+    return res;
+  };
+
   const login = async (credentials) => {
     return store.login(credentials);
   };
@@ -35,6 +40,7 @@ export const useAuth = () => {
     error: store.error,
 
     // ---- Actions ----
+    createAdmin,
     register,
     login,
     logout,

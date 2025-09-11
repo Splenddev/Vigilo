@@ -10,9 +10,9 @@ const useGroupStore = create((set, get) => ({
   createGroup: async (payload) => {
     set({ loading: true, error: null });
     try {
-      const res = await api.post('/groups', payload);
+      const res = await api.post('/groups/create', payload);
       set((state) => ({ groups: [...state.groups, res.data.group] }));
-      return res.data.group;
+      return res.data;
     } catch (err) {
       set({ error: err.response?.data?.message || err.message });
       throw err;

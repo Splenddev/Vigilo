@@ -41,6 +41,7 @@ import SessionInfoPage from '../features/lecturer/SessionInfo';
 import SessionStudentsPage from '../features/lecturer/SessionStudentsList';
 import StudentGroupsDashboard from '../features/student/StudentGroups';
 import StudentGroupInfo from '../features/student/StudentGroupInfo';
+import CreateSchool from '../admin/CreateSchool';
 
 const router = createBrowserRouter([
   {
@@ -117,6 +118,15 @@ const router = createBrowserRouter([
             element: <StudentGroupInfo />,
           },
         ],
+      },
+
+      {
+        path: 'super_admin',
+        element: (
+          <ProtectedRoutes allowedRoles={[ROLES.ADMIN]}>
+            <CreateSchool />
+          </ProtectedRoutes>
+        ),
       },
 
       // Common authenticated routes

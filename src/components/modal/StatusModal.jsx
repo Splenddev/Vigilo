@@ -368,6 +368,15 @@ const StatusModal = () => {
                   <LuRefreshCw className="w-5 h-5" />
                 </motion.button>
               )}
+              {modal.action && (
+                <motion.button
+                  className="p-3 rounded-xl btn-ghost"
+                  onClick={modal.action}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.9 }}>
+                  Proceed
+                </motion.button>
+              )}
 
               {/* External link action */}
               {modal.externalLink && (

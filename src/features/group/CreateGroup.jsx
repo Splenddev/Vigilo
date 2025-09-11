@@ -8,6 +8,7 @@ import FormInput from '../../components/molecules/FormInput';
 import Button from '../../components/atoms/Button';
 import TextArea from '../../components/atoms/TextArea';
 import { useCreateGroup } from '../../hooks/useGroups';
+import { useAuth } from '../../hooks/useAuth';
 
 const CreateGroup = () => {
   const navigate = useNavigate();
@@ -20,7 +21,9 @@ const CreateGroup = () => {
     description: '',
   });
 
-  const { createGroup } = useCreateGroup();
+  const {user}=useAuth()
+
+  const { createGroup, loading } = useCreateGroup();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,9 +38,8 @@ const CreateGroup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Group created:', formData);
-    await createGroup;
-    // TODO: call backend API here
-    navigate('/lecturer/groups');
+    const res = await createGroup({ ...formData, schoolId: user.schoolId });
+    if (res.success) navigate('/lecturer/groups');
   };
 
   return (
@@ -189,7 +191,11 @@ const CreateGroup = () => {
             onClick={() => navigate(-1)}>
             Cancel
           </Button>
-          <Button type="submit">Create Group</Button>
+          <Button
+            type="submit"
+            loading={loading}>
+            Create Group
+          </Button>
         </div>
       </form>
     </div>

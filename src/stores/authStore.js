@@ -55,6 +55,20 @@ export const useAuthStore = create(
         }
       },
 
+      admin: async (credentials) => {
+        try {
+          set({ loading: true, error: null });
+          const res = await api.post('/admin/add', credentials);
+          return res.data;
+        } catch (err) {
+          const message = err.response?.data?.message || 'Registration failed';
+          set({ error: message });
+          throw err;
+        } finally {
+          set({ loading: false });
+        }
+      },
+
       login: async (credentials) => {
         try {
           set({ loading: true, error: null });
@@ -175,4 +189,4 @@ setInterval(async () => {
   }
   const ok = await checkApiHealth();
   useAuthStore.getState().setNetworkStatus(ok ? 'online' : 'server-down');
-}, 15000);
+}, 20000);

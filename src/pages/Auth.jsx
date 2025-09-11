@@ -14,7 +14,7 @@ import FormInput from '../components/molecules/FormInput';
 import RadioCard from '../components/molecules/RadioCard';
 import PasswordInput from '../components/molecules/PasswordInput';
 import { checkPasswordStrength } from '../utils/helpers';
-import { emailRegex } from '../utils/regex';
+import { emailRegex, matricNoRegex } from '../utils/regex';
 import LabelCheckbox from '../components/atoms/LabelCheckbox';
 import { useNavigate } from 'react-router-dom';
 import EmailVerificationModal from '../components/modal/EmailVerificationModal';
@@ -24,6 +24,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useErrorModal, useSuccessModal } from '../hooks/useStatusModal';
 import { FiUser, FiUserCheck } from 'react-icons/fi';
 import { LuGraduationCap } from 'react-icons/lu';
+import SchoolCardList from '../admin/SchoolCardList';
 
 const Auth = () => {
   const { register, login, user, loading, error: authError } = useAuth();
@@ -39,8 +40,10 @@ const Auth = () => {
     lastName: '',
     email: '',
     password: '',
+    matricNumber: '',
     confirmPassword: '',
     role: 'lecturer',
+    schoolId: '',
     department: '',
     faculty: '',
     rememberMe: false,
@@ -61,14 +64,14 @@ const Auth = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Email validation
+    // Email validation (all roles)
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
 
-    // Password validation
+    // Password validation (all roles)
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (!isLogin && formData.password.length < 8) {
@@ -76,7 +79,7 @@ const Auth = () => {
     }
 
     if (!isLogin) {
-      // Name validation for signup
+      // Shared for both student/lecturer/admin → basic identity
       if (!formData.firstName?.trim()) {
         newErrors.firstName = 'First name is required';
       }
@@ -84,16 +87,42 @@ const Auth = () => {
         newErrors.lastName = 'Last name is required';
       }
 
-      if (!formData.department) {
-        newErrors.department = 'Department is required';
+      if (formData.role === 'student') {
+        // Student-specific validation
+        if (!matricNoRegex.test(formData.matricNumber)) {
+          newErrors.matricNumber = 'Please enter a valid matric number';
+        }
+        if (!formData.department) {
+          newErrors.department = 'Department is required';
+        }
+        if (!formData.faculty) {
+          newErrors.faculty = 'Faculty is required';
+        }
+        if (!formData.level) {
+          newErrors.level = 'Level is required';
+        }
       }
 
-      if (!formData.faculty) {
-        newErrors.faculty = 'Faculty is required';
+      if (formData.role === 'lecturer') {
+        // Lecturer-specific validation
+        if (!formData.department) {
+          newErrors.department = 'Department is required';
+        }
+        if (!formData.faculty) {
+          newErrors.faculty = 'Faculty is required';
+        }
+        // (No matric or level for lecturers)
       }
 
-      if (formData.role === 'student' && !formData.level) {
-        newErrors.level = 'Level is required';
+      if (formData.role !== 'admin') {
+        if (!formData.schoolId) {
+          newErrors.schoolId = 'Please select a school';
+        }
+      }
+      if (formData.role === 'admin') {
+        // Admin-specific validation
+        // Only needs firstName, lastName, email, password → already covered above
+        // So no extra checks here
       }
 
       // Confirm password validation
@@ -171,10 +200,14 @@ const Auth = () => {
         }
       }
     } catch (err) {
-      showError(
-        err.response?.data?.error || err.message || 'Something went wrong',
-        err.status
-      );
+      showError({
+        message:
+          err.response?.data?.error || err.message || 'Something went wrong',
+        status: err.status,
+        action: () => {
+          err.status === 403 && setIsModalOpen(true);
+        },
+      });
       console.error('Auth error:', err);
     }
   };
@@ -268,57 +301,88 @@ const Auth = () => {
                     error={errors.lastName}
                     icon={FiUser}
                   />
-                  <Select
-                    name="faculty"
-                    label="Faculty"
-                    value={formData.faculty}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Select Faculty"
-                    options={faculties.map((faculty) => ({
-                      value: faculty,
-                      label: faculty,
-                    }))}
-                    errorText={errors.faculty}
-                  />
-                  {/* Department */}
-                  <Select
-                    errorText={errors.department}
-                    name="department"
-                    label="Department"
-                    value={formData.department}
-                    onChange={handleInputChange}
-                    required
-                    placeholder={`Select ${
-                      formData.faculty ? 'Department' : 'a faculty first'
-                    }`}
-                    options={
-                      formData.faculty
-                        ? departments[formData.faculty]?.map((dept) => ({
-                            value: dept.toLowerCase(),
-                            label: dept,
-                          }))
-                        : []
+
+                  {formData.role !== 'admin' && (
+                    <>
+                      <FormInput
+                        helperText="Your matric number as it appears on school records."
+                        required
+                        label="Matric number"
+                        name="matricNumber"
+                        value={formData.matricNumber}
+                        placeholder="25/57BC/1234"
+                        onChange={handleInputChange}
+                        error={errors.matricNumber}
+                        icon={FiUser}
+                      />
+                      <Select
+                        name="faculty"
+                        label="Faculty"
+                        value={formData.faculty}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Select Faculty"
+                        options={faculties.map((faculty) => ({
+                          value: faculty,
+                          label: faculty,
+                        }))}
+                        errorText={errors.faculty}
+                      />
+                      {/* Department */}
+                      <Select
+                        errorText={errors.department}
+                        name="department"
+                        label="Department"
+                        value={formData.department}
+                        onChange={handleInputChange}
+                        required
+                        placeholder={`Select ${
+                          formData.faculty ? 'Department' : 'a faculty first'
+                        }`}
+                        options={
+                          formData.faculty
+                            ? departments[formData.faculty]?.map((dept) => ({
+                                value: dept.toLowerCase(),
+                                label: dept,
+                              }))
+                            : []
+                        }
+                        disabled={!formData.faculty}
+                      />
+                      {/* Level */}
+                      {formData.role === 'student' && (
+                        <Select
+                          label="Level"
+                          options={[
+                            { value: 100, label: '100 Level' },
+                            { value: 200, label: '200 Level' },
+                            { value: 300, label: '300 Level' },
+                            { value: 400, label: '400 Level' },
+                            { value: 500, label: '500 Level' },
+                          ]}
+                          name="level"
+                          placeholder="Select level"
+                          value={formData.level}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
+
+                <div>
+                  <label>I attend</label>
+                  <SchoolCardList
+                    onAction={(schoolId) =>
+                      setFormData((p) => ({ ...p, schoolId }))
                     }
-                    disabled={!formData.faculty}
                   />
-                  {/* Level */}
-                  {formData.role === 'student' && (
-                    <Select
-                      label="Level"
-                      options={[
-                        { value: 100, label: '100 Level' },
-                        { value: 200, label: '200 Level' },
-                        { value: 300, label: '300 Level' },
-                        { value: 400, label: '400 Level' },
-                        { value: 500, label: '500 Level' },
-                      ]}
-                      name="level"
-                      placeholder="Select level"
-                      value={formData.level}
-                      onChange={handleInputChange}
-                      required
-                    />
+                  {errors.schoolId && (
+                    <p className="text-red-400 text-md flex items-center mt-2">
+                      <FaExclamationCircle className="w-3 h-3 mr-1" />
+                      {errors.schoolId}
+                    </p>
                   )}
                 </div>
 
@@ -336,7 +400,6 @@ const Auth = () => {
                       onChange={handleInputChange}
                       name="role"
                     />
-
                     <RadioCard
                       icon={FiUserCheck}
                       label="Lecturer"
@@ -411,7 +474,7 @@ const Auth = () => {
               </LabelCheckbox>
             )}
             {errors.agreeToTerms && (
-              <p className="text-red-400 text-sm flex items-center">
+              <p className="text-red-400 text-md flex items-center">
                 <FaExclamationCircle className="w-3 h-3 mr-1" />
                 {errors.agreeToTerms}
               </p>
