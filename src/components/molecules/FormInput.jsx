@@ -38,12 +38,12 @@ const FormInput = ({
 
   const commonClasses = `
     w-full rounded-xl text-t-primary transition-all border 
-    placeholder-gray-400 
+    placeholder-slate-400 
     focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent
     ${error ? 'border-red-500' : 'border-bg-glass-md'}
     ${
       disabled
-        ? 'bg-gray-800/40 text-gray-500 placeholder-gray-500 border-gray-600 cursor-not-allowed opacity-60 focus:ring-0 focus:border-gray-600'
+        ? 'bg-bg-glass-lg placeholder-gray-500 border-gray-600 cursor-not-allowed opacity-60 focus:ring-0 focus:border-gray-600'
         : 'bg-bg-glass-xs'
     }
     ${inputClassName}
@@ -55,8 +55,8 @@ const FormInput = ({
       {label && (
         <label
           htmlFor={name}
-          className={`block text-sm font-medium ${
-            !disabled ? 'text-t-secondary' : 'text-gray-300'
+          className={`flex gap-1 text-sm font-medium ${
+            !disabled ? 'text-t-secondary' : 'text-t-primary'
           } mb-2 capitalize`}>
           {label} {required && <span className="text-red-500">*</span>}
         </label>

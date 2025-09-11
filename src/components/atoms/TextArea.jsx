@@ -140,7 +140,7 @@ const TextArea = forwardRef(
 
     return (
       <motion.div
-        className={`min-w-full ${className} bg-white/8 p-4 rounded-xl`}
+        className={`min-w-full ${className} glass p-4 rounded-xl`}
         variants={containerVariants}
         initial="initial"
         animate="animate">

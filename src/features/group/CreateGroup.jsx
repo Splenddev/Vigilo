@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LuLock } from 'react-icons/lu';
-import {
-  HiOutlineBookOpen,
-  HiOutlineInformationCircle,
-  HiOutlineLockOpen,
-} from 'react-icons/hi';
+import { HiOutlineBookOpen, HiOutlineInformationCircle } from 'react-icons/hi';
 import Select from '../../components/molecules/Select';
 import { faculties, departments } from '../../utils/facultiesDepartments';
 import { generateGroupNameSuggestions } from '../../utils/helpers';
 import FormInput from '../../components/molecules/FormInput';
 import Button from '../../components/atoms/Button';
 import TextArea from '../../components/atoms/TextArea';
+import { useCreateGroup } from '../../hooks/useGroups';
 
 const CreateGroup = () => {
   const navigate = useNavigate();
@@ -22,9 +18,9 @@ const CreateGroup = () => {
     department: '',
     level: '',
     description: '',
-    privacy: 'public',
-    policy: 'strict',
   });
+
+  const { createGroup } = useCreateGroup();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,10 +32,11 @@ const CreateGroup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Group created:', formData);
-    // TODO: connect to backend API
+    await createGroup;
+    // TODO: call backend API here
     navigate('/lecturer/groups');
   };
 
@@ -63,7 +60,10 @@ const CreateGroup = () => {
           label="Course Code"
           onChange={handleChange}
           name="courseCode"
-          value={formData.courseCode}></FormInput>
+          value={formData.courseCode}
+          required
+        />
+
         {/* Faculty */}
         <Select
           name="faculty"
@@ -77,6 +77,7 @@ const CreateGroup = () => {
             label: faculty,
           }))}
         />
+
         {/* Department */}
         <Select
           name="department"
@@ -90,13 +91,14 @@ const CreateGroup = () => {
           options={
             formData.faculty
               ? departments[formData.faculty]?.map((dept) => ({
-                  value: dept.toLowerCase(),
+                  value: dept,
                   label: dept,
                 }))
               : []
           }
           disabled={!formData.faculty}
         />
+
         {/* Level */}
         <Select
           label="Level"
@@ -106,6 +108,7 @@ const CreateGroup = () => {
             { value: '300', label: '300 Level' },
             { value: '400', label: '400 Level' },
             { value: '500', label: '500 Level' },
+            { value: '600', label: '600 Level' },
           ]}
           name="level"
           placeholder="Select level"
@@ -113,6 +116,7 @@ const CreateGroup = () => {
           onChange={handleChange}
           required
         />
+
         {/* Group Name */}
         <div className="col-span-1 md:col-span-2">
           <FormInput
@@ -125,9 +129,8 @@ const CreateGroup = () => {
                 </span>
               </div>
             }
-            disabled
             value={formData.name}
-            placeholder="e.g. BCH303 - Faculty of Pure and Applied Sciences Biochemistry 300 Level"
+            placeholder="e.g. BCH303 - Biochemistry 300 Level"
             onChange={handleChange}
             required
             name="name"
@@ -136,12 +139,12 @@ const CreateGroup = () => {
 
           {/* Suggestions Box */}
           {generateGroupNameSuggestions(formData).length > 0 && (
-            <div className="mt-3 p-4 rounded-xl bg-gray-800/50 border border-gray-700 ">
-              <h4 className="text-sm font-medium text-gray-200 mb-2 flex items-center gap-2">
-                <HiOutlineBookOpen className="w-4 h-4 text-blue-400" />
+            <div className="mt-3 p-4 rounded-xl bg-bg-glass-md border border-slate-400 ">
+              <h4 className="text-sm font-medium text-t-tertiary mb-2 flex items-center gap-2">
+                <HiOutlineBookOpen className="w-6 h-6 text-blue-400" />
                 Suggested Group Names
               </h4>
-              <p className="text-xs text-gray-400 mb-3">
+              <p className="text-xs text-t-secondary mb-3">
                 Based on the course code, faculty, department, and level you
                 selected. Click a suggestion to use it directly.
               </p>
@@ -164,9 +167,10 @@ const CreateGroup = () => {
             </div>
           )}
         </div>
+
         {/* Description */}
         <TextArea
-          label="Description (Controlled)"
+          label="Group Description"
           name="description"
           value={formData.description}
           className="col-span-1 md:col-span-2"
@@ -174,22 +178,9 @@ const CreateGroup = () => {
           placeholder="Type description..."
           showClear
           onClear={() => setFormData((p) => ({ ...p, description: '' }))}
-          // maxLength={200}
+          maxLength={300}
         />
-        {/* Attendance Policy */}
-        <div>
-          <Select
-            label="Attendance Policy"
-            options={[
-              { value: 'strict', label: 'Strict (No late marking)' },
-              { value: 'lenient', label: 'Lenient (Grace period allowed)' },
-              { value: 'manual', label: 'Manual approval' },
-            ]}
-            name="policy"
-            value={formData.policy}
-            onChange={handleChange}
-          />
-        </div>
+
         {/* Action Buttons */}
         <div className="col-span-1 md:col-span-2 flex justify-end gap-4 pt-4">
           <Button
