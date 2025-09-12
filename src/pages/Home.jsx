@@ -34,6 +34,8 @@ const Home = () => {
       navigate('/student/dashboard');
     } else if (user.role === ROLES.LECTURER) {
       navigate('/lecturer/dashboard');
+    } else if (user.role === ROLES.ADMIN) {
+      navigate('/super_admin');
     }
   };
 

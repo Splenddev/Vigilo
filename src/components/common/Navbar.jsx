@@ -11,11 +11,14 @@ import { useAuthStore } from '../../stores/authStore';
 import { catenateName } from '../../utils/helpers';
 import NotificationPanel from './NotificationPanel';
 import { mockNotifications } from '../../utils/data';
+import { useConfirmationModal } from '../../hooks/useConfirmationModal';
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const networkStatus = useAuthStore((s) => s.networkStatus);
+
+  const { openModal, closeModal } = useConfirmationModal();
 
   const { user, logout, loading } = useAuth();
 
@@ -24,6 +27,16 @@ const Navbar = () => {
   const fullName = firstName + ' ' + lastName;
 
   const avatar = user.avatar || catenateName(fullName);
+
+  function handleLogout() {
+    openModal({
+      title: 'Log out',
+      message: 'Are you sure you want to log out of your account',
+      confirmText: 'Logout',
+      onConfirm: logout,
+      onCancel: closeModal,
+    });
+  }
 
   return (
     <nav
@@ -77,7 +90,7 @@ const Navbar = () => {
                     ))}
                     <Button
                       variant="dangerLight"
-                      func={logout}>
+                      func={handleLogout}>
                       Logout
                     </Button>
                   </div>

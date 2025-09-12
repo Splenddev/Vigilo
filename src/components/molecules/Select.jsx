@@ -75,8 +75,8 @@ const Select = ({
           <option
             className="capitalize text-gray-700"
             key={i}
-            value={opt.value}>
-            {opt.label ?? opt.value}
+            value={opt.value??opt}>
+            {opt.label ?? opt.value??opt}
           </option>
         ))}
       </select>

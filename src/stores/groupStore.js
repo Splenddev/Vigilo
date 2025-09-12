@@ -25,8 +25,8 @@ const useGroupStore = create((set, get) => ({
   fetchGroups: async () => {
     set({ loading: true, error: null });
     try {
-      const res = await api.get('/groups');
-      set({ groups: res.data });
+      const { data } = await api.get('/groups');
+      set({ groups: data.groups });
     } catch (err) {
       set({ error: err.response?.data?.message || err.message });
     } finally {
@@ -52,7 +52,7 @@ const useGroupStore = create((set, get) => ({
         ),
       }));
 
-      return res.data.roster;
+      return res.data;
     } catch (err) {
       set({ error: err.response?.data?.message || err.message });
       throw err;
