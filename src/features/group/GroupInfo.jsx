@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaBook } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import { dummyGroupSettings, groups } from '../../utils/data';
+import { dummyGroupSettings } from '../../utils/data';
 import {
   LuBookText,
   LuCalendar,
@@ -29,13 +29,22 @@ import EmptyState from '../../components/common/EmptyState';
 import SessionCard from './components/SessionCard';
 import GroupSettings from './components/GroupSettings';
 import StudentCard from './components/StudentCard';
+import { useGroups } from '../../hooks/useGroups';
 
 const GroupInfo = () => {
   const { groupId } = useParams();
   const navigate = useNavigate();
-  const group = groups.find((g) => g.groupId === groupId);
+  const { groups, loading, fetchGroups } = useGroups();
+  const group = groups.find((g) => g._id === groupId);
+
+  useEffect(() => {
+    fetchGroups();
+  }, []);
 
   const [activeTab, setActiveTab] = useState('overview');
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   if (!group) {
     return (
@@ -58,15 +67,14 @@ const GroupInfo = () => {
   }
 
   // Stats
-  const totalStudents = group.students.length;
-  const completedSessions = group.sessions.filter(
-    (s) => s.status === 'completed'
-  ).length;
+  const totalStudents = group.studentsRosterId?.students?.length || 0;
+  const completedSessions =
+    group.sessions?.filter((s) => s.status === 'completed')?.length || 0;
   const avgAttendance =
     completedSessions > 0
       ? Math.round(
           group.sessions
-            .filter((s) => s.status === 'completed')
+            ?.filter((s) => s.status === 'completed')
             .reduce((acc, s) => acc + s.attendance.present, 0) /
             completedSessions
         )
@@ -78,26 +86,26 @@ const GroupInfo = () => {
       label: 'New Students',
       value: `+ ${totalStudents}`,
       variant: 'light',
-      iconColor: 'blue', // mapped in COLOR_MAP
+      iconColor: 'blue',
     },
     {
       icon: FiCalendar,
       label: 'Recent Sessions',
-      value: `+ ${group.sessions.length}`,
+      value: `+ ${group.sessions?.length || 0}`,
       variant: 'glass',
       iconColor: 'purple',
     },
     {
       icon: FiCheckCircle,
       label: 'Completed sessions',
-      value: completedSessions,
+      value: completedSessions || 0,
       variant: 'dark',
       iconColor: 'emerald',
     },
     {
       icon: LuGraduationCap,
       label: 'Avg. Attendance',
-      value: `${avgAttendance}%`,
+      value: `${avgAttendance || 0}%`,
       variant: 'light',
       iconColor: 'orange',
     },
@@ -138,15 +146,15 @@ const GroupInfo = () => {
             initial="hidden"
             animate="visible">
             <FaBook className="w-4 h-4" />
-            <span className="font-bold text-sm">{group.courseId}</span>
+            <span className="font-bold text-sm">{group.courseCode}</span>
           </motion.div>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 mt-2 gap-4">
             <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeIn}>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
-                {group.groupName}
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">
+                {group.name}
               </h1>
               <p className="text-sm sm:text-base text-t-secondary">
                 {group.description}

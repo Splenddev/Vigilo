@@ -32,8 +32,9 @@ function validateRow(mapped) {
 }
 
 export default function RosterUploadModal({
+  isOpen,
   groupId,
-  schoolId = null,
+  onAction = null,
   onClose,
 }) {
   const [file, setFile] = useState(null);
@@ -55,7 +56,7 @@ export default function RosterUploadModal({
   const [serverError, setServerError] = useState(null);
   const fileInputRef = useRef(null);
 
-  const { createRoster: uploadRoster } = useRoster();
+  const { createRoster } = useRoster();
 
   // --- Helpers ---
   const reset = () => {
@@ -246,9 +247,11 @@ export default function RosterUploadModal({
     }
 
     try {
-      const res = await uploadRoster({ groupId, students: payload, schoolId });
+      const res = await createRoster({ groupId, students: payload, file });
       if (res.success) {
         setUploading(false);
+        onAction && onAction();
+        reset();
         onClose();
       }
     } catch (err) {
@@ -260,7 +263,7 @@ export default function RosterUploadModal({
     }
   };
 
-  useBodyScrollLock();
+  useBodyScrollLock(isOpen);
 
   // Render helpers
   const columns = useMemo(() => headers, [headers]);
@@ -509,7 +512,7 @@ export default function RosterUploadModal({
               <button
                 disabled={uploading || rawRows.length === 0}
                 onClick={handleUpload}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold ${
+                className={`px-4 py-2 rounded-lg text-sm text-white font-semibold ${
                   uploading ? 'bg-gray-600' : 'bg-blue-600 hover:bg-blue-700'
                 }`}>
                 {uploading ? 'Uploading…' : 'Upload roster'}
@@ -519,7 +522,7 @@ export default function RosterUploadModal({
                 onClick={() => {
                   reset();
                 }}
-                className="px-4 py-2 rounded-lg text-sm border border-white/10">
+                className="px-4 py-2 rounded-lg text-sm border border-bg-glass-sm">
                 Reset
               </button>
             </div>

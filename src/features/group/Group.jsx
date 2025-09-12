@@ -19,8 +19,8 @@ import Button from '../../components/atoms/Button';
 import RosterUploadModal from './components/RoosterUploadModal';
 import { useAuth } from '../../hooks/useAuth';
 
-const GroupCard = ({ group, index, user }) => {
-  const totalStudents = group.students?.length || 0;
+const GroupCard = ({ group, index, user, fetchGroups }) => {
+  const totalStudents = group.studentsRosterId?.students?.length || 0;
   const totalSessions = group.sessions?.length || 0;
   const completedSessions =
     group.sessions?.filter((s) => s.status === 'completed')?.length || 0;
@@ -115,6 +115,8 @@ const GroupCard = ({ group, index, user }) => {
           groupId={group._id}
           schoolId={user.schoolId}
           onClose={() => setShowRosterModal(false)}
+          onAction={() => fetchGroups()}
+          isOpen={showRosterModal}
         />
       )}
     </>
@@ -166,6 +168,7 @@ export default function Groups() {
                 key={group.courseCode}
                 group={group}
                 index={index}
+                fetchGroups={fetchGroups}
                 user={user}
               />
             ))}

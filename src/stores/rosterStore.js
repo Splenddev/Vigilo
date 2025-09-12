@@ -65,7 +65,7 @@ const rosterStore = create(
     },
 
     // 🔹 Create roster (with CSV upload)
-    createRoster: async (formData) => {
+    createRoster: async ({ groupId, students, file }) => {
       set(
         produce((state) => {
           state.loading = true;
@@ -73,19 +73,25 @@ const rosterStore = create(
         })
       );
       try {
-        const { data } = await api.post(
-          API_URL,
-          { formData },
-          {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          }
-        );
+        // Build form data
+        const formData = new FormData();
+        formData.append('groupId', groupId);
+        formData.append('students', JSON.stringify(students)); // stringify student objects
+        formData.append('roster', file); // roster CSV file
+
+        const { data } = await api.post(API_URL, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
         set(
           produce((state) => {
-            state.rosters.push(data);
+            state.rosters.push(data.roster);
             state.loading = false;
           })
         );
+
         return data;
       } catch (err) {
         set(
