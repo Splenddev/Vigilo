@@ -14,7 +14,7 @@ export const PageLoader = ({ loading = true, fullscreen = false, text }) => {
           : 'w-full h-full'
       )}>
       <div className="flex flex-col items-center space-y-4">
-        <FiLoader className="w-10 h-10 text-color-primary animate-spin animate-pulse-glow" />
+        <FiLoader className="w-10 h-10 text-t-primary animate-spin" />
         {text && <p className="text-t-secondary text-body-sm">{text}</p>}
       </div>
     </div>

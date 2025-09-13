@@ -129,16 +129,15 @@ export default function Groups() {
   const navigate = useNavigate();
   const { groups, fetchGroups, loading: grpLoading, error } = useGroups();
   const { user } = useAuth();
-  const { loading } = useLoader(grpLoading);
 
   useEffect(() => {
     fetchGroups();
   }, []);
 
-  if (loading) {
+  if (grpLoading) {
     return (
       <PageLoader
-        loading={loading}
+        loading={grpLoading}
         fullscreen
         text="Loading data..."
       />

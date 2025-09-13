@@ -277,7 +277,7 @@ export default function RosterUploadModal({
         onClick={onClose}
       />
 
-      <div className="relative z-10 max-w-4xl max-h-[90vh] w-full bg-bg-glass-xs backdrop-blur-md rounded-2xl border border-bg-glass-md shadow-2xl overflow-y-auto">
+      <div className="relative z-10 max-w-4xl sm:max-h-[90vh] max-h-[75vh] w-full bg-bg-glass-xs backdrop-blur-md rounded-2xl border border-bg-glass-md shadow-2xl overflow-y-auto">
         {/* header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-bg-glass-lg">
           <div className="flex  items-center gap-3">
