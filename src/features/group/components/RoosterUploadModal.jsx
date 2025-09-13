@@ -273,21 +273,29 @@ export default function RosterUploadModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
       {/* backdrop */}
       <div
-        className="absolute inset-0 glass-strong backdrop-blur-md"
+        className="absolute inset-0 bg-bg-primary/90 backdrop-blur-md"
         onClick={onClose}
       />
 
-      <div className="relative z-10 max-w-4xl max-h-[90vh] w-full bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl overflow-y-auto">
+      <div className="relative z-10 max-w-4xl max-h-[90vh] w-full bg-bg-glass-xs backdrop-blur-md rounded-2xl border border-bg-glass-md shadow-2xl overflow-y-auto">
         {/* header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <LuUpload className="w-6 h-6 text-blue-400" />
-            <h3 className="text-lg font-semibold">Upload Student Roster</h3>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-bg-glass-lg">
+          <div className="flex  items-center gap-3">
+            <LuUpload className="w-6 h-6 text-blue-400 shrink-0" />
+            <div className="flex  flex-col">
+              <h3 className="text-lg font-semibold">Upload Student Roster</h3>
+              <p className="text-sm text-gray-400">
+                Attach the official class roster (CSV format) for this group.
+                The roster ensures only listed students can join the group,
+                receive attendance codes, and access class materials.
+              </p>
+            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-md hover:bg-white/5">
-            <LuX className="w-5 h-5 text-gray-300" />
+            className="p-2 rounded-md hover:bg-bg-glass-lg transition-colors"
+            aria-label="Close upload dialog">
+            <LuX className="w-5 h-5 text-t-tertiary" />
           </button>
         </div>
 
@@ -295,13 +303,13 @@ export default function RosterUploadModal({
           {/* Step 1: file input */}
           <div className="grid md:grid-cols-3 gap-4">
             <div className="md:col-span-1">
-              <label className="text-sm font-medium text-gray-300">
+              <label className="text-sm font-medium text-t-tertiary">
                 CSV File
               </label>
               <div
                 onClick={() => fileInputRef.current?.click()}
                 className="mt-2 cursor-pointer rounded-lg border-2 border-dashed border-gray-700 p-4 flex flex-col items-center justify-center text-center hover:border-blue-400 transition">
-                <p className="text-sm text-gray-300 mb-2">
+                <p className="text-sm text-t-tertiary mb-2">
                   {file ? file.name : 'Click or drop file here'}
                 </p>
                 <div className="flex gap-2">
@@ -340,7 +348,7 @@ export default function RosterUploadModal({
 
             {/* mapping UI */}
             <div className="md:col-span-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className="text-sm font-medium text-t-tertiary">
                 Map CSV Columns
               </label>
               <div className="mt-2 grid grid-cols-2 gap-3">
@@ -420,15 +428,15 @@ export default function RosterUploadModal({
                     a.click();
                     URL.revokeObjectURL(url);
                   }}
-                  className="text-xs text-gray-300 hover:underline">
+                  className="text-xs text-t-tertiary hover:underline">
                   Download preview
                 </button>
               </div>
             </div>
 
-            <div className="overflow-x-auto rounded border border-white/5">
+            <div className="overflow-x-auto rounded border border-bg-glass-xs">
               <table className="min-w-full text-sm">
-                <thead className="bg-white/3">
+                <thead className="bg-bg-glass-xs text-t-primary">
                   <tr>
                     <th className="p-2 text-left">#</th>
                     <th className="p-2 text-left">Matric</th>
@@ -490,7 +498,7 @@ export default function RosterUploadModal({
 
           {/* summary & actions */}
           <div className="flex items-center justify-between gap-4">
-            <div className="text-xs text-gray-300">
+            <div className="text-xs text-t-tertiary">
               <p>
                 Rows parsed: <strong>{rawRows.length}</strong>
               </p>

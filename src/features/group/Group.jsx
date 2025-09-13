@@ -18,6 +18,8 @@ import { useEffect, useState } from 'react';
 import Button from '../../components/atoms/Button';
 import RosterUploadModal from './components/RoosterUploadModal';
 import { useAuth } from '../../hooks/useAuth';
+import { PageLoader } from '../../components/PageLoader';
+import useLoader from '../../hooks/useLoader';
 
 const GroupCard = ({ group, index, user, fetchGroups }) => {
   const totalStudents = group.studentsRosterId?.students?.length || 0;
@@ -125,15 +127,22 @@ const GroupCard = ({ group, index, user, fetchGroups }) => {
 
 export default function Groups() {
   const navigate = useNavigate();
-  const { groups, fetchGroups, loading, error } = useGroups();
+  const { groups, fetchGroups, loading: grpLoading, error } = useGroups();
   const { user } = useAuth();
+  const { loading } = useLoader(grpLoading);
 
   useEffect(() => {
     fetchGroups();
   }, []);
 
   if (loading) {
-    return <p>Loading groups...</p>;
+    return (
+      <PageLoader
+        loading={loading}
+        fullscreen
+        text="Loading data..."
+      />
+    );
   }
   if (error) {
     return (
