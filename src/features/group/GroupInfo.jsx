@@ -30,12 +30,16 @@ import SessionCard from './components/SessionCard';
 import GroupSettings from './components/GroupSettings';
 import StudentCard from './components/StudentCard';
 import { useGroups } from '../../hooks/useGroups';
+import useLoader from '../../hooks/useLoader';
+import { PageLoader } from '../../components/PageLoader';
 
 const GroupInfo = () => {
   const { groupId } = useParams();
   const navigate = useNavigate();
-  const { groups, loading, fetchGroups } = useGroups();
+  const { groups, loading: grpLoading, fetchGroups } = useGroups();
   const group = groups.find((g) => g._id === groupId);
+
+  const { loading } = useLoader(grpLoading);
 
   useEffect(() => {
     fetchGroups();
@@ -43,7 +47,13 @@ const GroupInfo = () => {
 
   const [activeTab, setActiveTab] = useState('overview');
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <PageLoader
+        loading={loading}
+        fullscreen
+        text="Loading data..."
+      />
+    );
   }
 
   if (!group) {
