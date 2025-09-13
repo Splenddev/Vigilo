@@ -30,9 +30,6 @@ api.interceptors.response.use(
     } else {
       setOnline(true);
 
-      if (error.response.status === 401) {
-        logout();
-      }
     }
 
     return Promise.reject(error);
