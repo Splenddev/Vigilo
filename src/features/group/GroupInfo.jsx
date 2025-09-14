@@ -205,21 +205,102 @@ const GroupInfo = () => {
             initial="hidden"
             animate="visible"
             exit="exit">
-            <h2 className="text-xl font-bold mb-4">Students</h2>
-            <motion.ul
-              variants={containerVariants}
-              initial="collapsed"
-              animate="expanded"
-              className="space-y-2">
-              {group.students.map((s, i) => (
-                <motion.li
-                  key={s.id}
-                  custom={i}
-                  variants={itemVariants}>
-                  <StudentCard student={s} />
-                </motion.li>
-              ))}
-            </motion.ul>
+            {/* Header */}
+            <div className="mb-6">
+              <h2 className="text-xl font-bold">Student Roster & Enrollment</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Students are added to this group by{' '}
+                <strong>roster upload</strong>,<strong> email invites</strong>,
+                or <strong>group search</strong> (if privacy allows). Accounts
+                matching the roster are joined automatically once students sign
+                up.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="p-3 rounded-lg bg-blue-50 border border-blue-100">
+                <p className="text-sm text-gray-500">
+                  Students Roster Uploaded
+                </p>
+                <p className="text-lg font-semibold">
+                  {group.studentsRosterId?.students?.length || 0}
+                </p>
+              </div>
+              <div className="p-3 rounded-lg bg-green-50 border border-green-100">
+                <p className="text-sm text-gray-500">Joined Students</p>
+                <p className="text-lg font-semibold">
+                  {group.joinedCount || 0}
+                </p>
+              </div>
+              <div className="p-3 rounded-lg bg-yellow-50 border border-yellow-100">
+                <p className="text-sm text-gray-500">Pending Matches</p>
+                <p className="text-lg font-semibold">
+                  {(group.studentsRosterId?.students?.length || 0) -
+                    (group.joinedCount || 0)}
+                </p>
+              </div>
+              <div className="p-3 rounded-lg bg-purple-50 border border-purple-100">
+                <p className="text-sm text-gray-500">Invited</p>
+                <p className="text-lg font-semibold">
+                  {group.invitedCount || 0}
+                </p>
+              </div>
+            </div>
+
+            {/* Roster preview */}
+            {!group.studentsRosterId?.students?.length ? (
+              <div className="p-4 text-center border border-dashed border-gray-300 rounded-lg bg-gray-50">
+                <p className="text-gray-600 font-medium">
+                  No roster has been uploaded yet.
+                </p>
+                <p className="text-gray-400 text-sm mt-1">
+                  Upload a student roster file to begin managing students in
+                  this group.
+                </p>
+              </div>
+            ) : (
+              <>
+                <motion.ul
+                  variants={containerVariants}
+                  initial="collapsed"
+                  animate="expanded"
+                  className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {group.studentsRosterId.students.slice(0, 20).map((s, i) => (
+                    <motion.li
+                      key={s.id}
+                      custom={i}
+                      variants={itemVariants}>
+                      <StudentCard
+                        student={s}
+                        showStatus
+                      />
+                    </motion.li>
+                  ))}
+                </motion.ul>
+
+                {group.studentsRosterId.students.length > 20 && (
+                  <div className="mt-4 text-center">
+                    <button className="text-blue-500 hover:underline text-sm">
+                      View all students
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Actions */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              <button className="px-4 py-2 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                Upload New Roster
+              </button>
+              <button className="px-4 py-2 text-sm rounded-md border border-gray-300 hover:bg-gray-50">
+                Export Summary
+              </button>
+              <button className="px-4 py-2 text-sm rounded-md border border-gray-300 hover:bg-gray-50">
+                Invite Students
+              </button>
+            </div>
           </motion.div>
         )}
 

@@ -42,7 +42,7 @@ const ConfirmationModal = () => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-white/10 rounded-t-2xl p-6 z-50">
+            className="fixed bottom-0 left-0 right-0 bg-bg-primary border-t border-bg-glass-md rounded-t-2xl p-6 z-50">
             <div className="max-w-md mx-auto">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 mx-auto rounded-full bg-red-500/20 flex items-center justify-center mb-4">
@@ -60,7 +60,7 @@ const ConfirmationModal = () => {
                     closeModal();
                     onCancel?.();
                   }}
-                  className="flex-1 btn-ghost px-6 py-3 rounded-xl">
+                  className="flex-1 btn-ghost text-white px-6 py-3 rounded-xl">
                   {cancelText}
                 </button>
                 <button

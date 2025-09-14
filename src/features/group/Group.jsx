@@ -39,13 +39,12 @@ const GroupCard = ({ group, index, user, fetchGroups }) => {
   return (
     <>
       <motion.div
-        className="card-hover bg-gradient-to-br overflow-hidden rounded-2xl relative"
+        className="card-hover overflow-hidden relative"
         custom={index}
         initial="hidden"
         animate="visible"
         variants={cardVariants}>
         <div>
-          {/* 🔔 Needs Attention Banner */}
           {needsRoster && (
             <div className="absolute top-0 left-0 w-full bg-red-500/90 text-white text-sm font-medium px-4 py-2 flex items-center justify-between gap-2 z-10">
               <div className="flex items-center gap-2">
@@ -62,7 +61,10 @@ const GroupCard = ({ group, index, user, fetchGroups }) => {
           )}
 
           {/* Header */}
-          <div className="flex items-start justify-between mb-4 pt-10">
+          <div
+            className={`flex items-start justify-between mb-4 ${
+              needsRoster ? 'pt-10' : 'pt-0'
+            }`}>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
                 <LuGraduationCap className="w-6 h-6 text-purple-400" />
