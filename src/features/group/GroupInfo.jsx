@@ -32,14 +32,13 @@ import StudentCard from './components/StudentCard';
 import { useGroups } from '../../hooks/useGroups';
 import useLoader from '../../hooks/useLoader';
 import { PageLoader } from '../../components/PageLoader';
+import ErrorState from '../../components/common/ErrorState';
 
 const GroupInfo = () => {
   const { groupId } = useParams();
   const navigate = useNavigate();
-  const { groups, loading: grpLoading, fetchGroups } = useGroups();
+  const { groups, loading, fetchGroups, error } = useGroups();
   const group = groups.find((g) => g._id === groupId);
-
-  const { loading } = useLoader(grpLoading);
 
   useEffect(() => {
     fetchGroups();
@@ -52,6 +51,17 @@ const GroupInfo = () => {
         loading={loading}
         fullscreen
         text="Loading data..."
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <ErrorState
+        title="Failed to load groups"
+        message={error}
+        onRetry={fetchGroups}
+        retryLabel="Try again"
       />
     );
   }

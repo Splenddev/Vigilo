@@ -19,7 +19,7 @@ import Button from '../../components/atoms/Button';
 import RosterUploadModal from './components/RoosterUploadModal';
 import { useAuth } from '../../hooks/useAuth';
 import { PageLoader } from '../../components/PageLoader';
-import useLoader from '../../hooks/useLoader';
+import ErrorState from '../../components/common/ErrorState';
 
 const GroupCard = ({ group, index, user, fetchGroups }) => {
   const totalStudents = group.studentsRosterId?.students?.length || 0;
@@ -147,10 +147,12 @@ export default function Groups() {
   }
   if (error) {
     return (
-      <div>
-        {error}
-        <Button onClick={fetchGroups}>retry</Button>
-      </div>
+      <ErrorState
+        title="Failed to load groups"
+        message={error}
+        onRetry={fetchGroups}
+        retryLabel="Try again"
+      />
     );
   }
 
