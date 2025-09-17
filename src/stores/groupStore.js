@@ -34,6 +34,19 @@ const useGroupStore = create((set, get) => ({
     }
   },
 
+  autoAssign: async () => {
+    set({ loading: true, error: null });
+    try {
+      const { data } = await api.post('/groups/assign');
+      return data
+    } catch (err) {
+      set({ error: err.response?.data?.message || err.message });
+    } finally {
+      set({ loading: false });
+    }
+
+  },
+
   // Upload roster for a group
   uploadRoster: async (groupId, rosterData, schoolId) => {
     set({ loading: true, error: null });

@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import Button from '../../components/atoms/Button';
 import RosterUploadModal from './components/RoosterUploadModal';
 import { useAuth } from '../../hooks/useAuth';
-import { PageLoader } from '../../components/PageLoader';
+import { PageLoader } from '../../components/loaders/PageLoader';
 import ErrorState from '../../components/common/ErrorState';
 
 const GroupCard = ({ group, index, user, fetchGroups }) => {
@@ -62,9 +62,8 @@ const GroupCard = ({ group, index, user, fetchGroups }) => {
 
           {/* Header */}
           <div
-            className={`flex items-start justify-between mb-4 ${
-              needsRoster ? 'pt-10' : 'pt-0'
-            }`}>
+            className={`flex items-start justify-between mb-4 ${needsRoster ? 'pt-10' : 'pt-0'
+              }`}>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
                 <LuGraduationCap className="w-6 h-6 text-purple-400" />
@@ -143,6 +142,7 @@ export default function Groups() {
         fullscreen
         text="Loading data..."
       />
+
     );
   }
   if (error) {

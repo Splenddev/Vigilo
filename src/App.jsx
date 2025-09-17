@@ -11,6 +11,7 @@ const App = () => {
       <div className="fixed bottom-3 right-3 z-100">
         <ThemeToggler />
       </div>
+      
       <ScrollToTop />
       <NetworkBanner />
       <StatusModal />

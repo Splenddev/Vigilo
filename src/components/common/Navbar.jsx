@@ -40,9 +40,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`glass sticky ${
-        networkStatus === 'online' ? 'top-0' : 'sm:top-13 top-16'
-      } z-40 w-full border-b border-white/10`}>
+      className={`glass sticky ${networkStatus === 'online' ? 'top-0' : 'sm:top-13 top-16'
+        } z-40 w-full border-b border-white/10`}>
       <div className="px-2 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center h-16 w-full">
           {/* Logo + Menu */}
@@ -82,9 +81,8 @@ const Navbar = () => {
                         variant="light"
                         href={link.to}
                         func={link.func}
-                        className={`px-4 py-2 rounded-none text-t-primary hover:bg-bg-glass-md transition-all   duration-200 ${
-                          link.style || ''
-                        }`}>
+                        className={`px-4 py-2 rounded-none text-t-primary hover:bg-bg-glass-md transition-all   duration-200 ${link.style || ''
+                          }`}>
                         {link.text}
                       </Anchor>
                     ))}
@@ -98,6 +96,7 @@ const Navbar = () => {
               )}
             </AnimatePresence>
           </div>
+
         </div>
       </div>
     </nav>

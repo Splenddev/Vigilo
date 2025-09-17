@@ -1,5 +1,4 @@
 import { FaRegQuestionCircle } from 'react-icons/fa';
-import React from 'react';
 import IconRenderer from '../atoms/IconRenderer';
 
 const InfoRow = ({

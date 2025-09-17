@@ -14,3 +14,8 @@ export const useUploadRoster = () => {
   const { uploadRoster, loading, error } = useGroupStore();
   return { uploadRoster, loading, error };
 };
+
+export const useGroupAssign = () => {
+  const { autoAssign, loading, error } = useGroupStore();
+  return { autoAssign, loading, error };
+};
