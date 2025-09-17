@@ -4,6 +4,8 @@ export const useSuccessModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [responseData, setResponseData] = useState(null);
   const openSuccessModal = useCallback((response) => {
+    console.log(response);
+    console.log('testing');
     setResponseData(response);
     setIsOpen(true);
   }, []);

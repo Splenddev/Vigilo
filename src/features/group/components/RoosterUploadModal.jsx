@@ -15,17 +15,7 @@ import Select from '../../../components/molecules/Select';
 import { inferHeadersQuick } from '../../../utils/inferHeadersQuick';
 import useRoster from '../../../hooks/useRoster';
 import { useBodyScrollLock } from '../../../hooks/useBodyScrollLock';
-import { useSuccessModal } from '../../../hooks/useSuccessModal';
-
-const DEFAULT_FIELD_OPTIONS = [
-  { key: '', label: '— select column —' },
-  { key: 'firstName', label: 'First Name' },
-  { key: 'lastName', label: 'Last Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'matricNumber', label: 'Matric Number' },
-  { key: 'department', label: 'Department' },
-  { key: 'level', label: 'Level' },
-];
+import { useGlobalSuccessModal } from '../../../context/SuccessModalProvider';
 
 function validateRow(mapped) {
   const problems = [];
@@ -68,7 +58,7 @@ export default function RosterUploadModal({
   const fileInputRef = useRef(null);
 
   const { createRoster } = useRoster();
-  const { openSuccessModal } = useSuccessModal();
+  const { openSuccessModal } = useGlobalSuccessModal();
 
   const reset = () => {
     setCurrentStep(1);
@@ -254,7 +244,6 @@ export default function RosterUploadModal({
     try {
       const res = await createRoster({ groupId, students: payload, file });
       if (res.success) {
-        setUploading(false);
         onAction && onAction();
         reset();
         openSuccessModal(res);
@@ -265,6 +254,7 @@ export default function RosterUploadModal({
       setServerError(
         err.response?.data?.message || err.message || 'Upload failed'
       );
+    } finally {
       setUploading(false);
     }
   };
