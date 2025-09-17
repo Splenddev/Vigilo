@@ -92,11 +92,11 @@ const GroupInfo = () => {
   const avgAttendance =
     completedSessions > 0
       ? Math.round(
-        group.sessions
-          ?.filter((s) => s.status === 'completed')
-          .reduce((acc, s) => acc + s.attendance.present, 0) /
-        completedSessions
-      )
+          group.sessions
+            ?.filter((s) => s.status === 'completed')
+            .reduce((acc, s) => acc + s.attendance.present, 0) /
+            completedSessions
+        )
       : 0;
 
   const stats = [
@@ -217,56 +217,60 @@ const GroupInfo = () => {
             {/* Header */}
             <div className="mb-6">
               <h2 className="text-xl font-bold">Student Roster & Enrollment</h2>
-              <p className="text-sm text-gray-500 mt-1">
-                This list shows <strong>students extracted from the uploaded roster</strong>.
-                When a lecturer uploads a roster for this group, the system automatically
-                cross-checks each entry against registered student accounts in the school.
+              <p className="text-sm text-t-secondary mt-1">
+                This list shows{' '}
+                <strong>students extracted from the uploaded roster</strong>.
+                When a lecturer uploads a roster for this group, the system
+                automatically cross-checks each entry against registered student
+                accounts in the school.
+                <br />
+                <br />✅ If a student’s <strong>matric number</strong> or{' '}
+                <strong>email</strong> matches, the student is automatically
+                enrolled in the group once they create or log into their
+                account.
+                <br />
+                ✅ If there’s no immediate match, the student remains on the
+                roster until they register, at which point the system links them
+                automatically.
+                <br />✅ Lecturers can also send <strong>
+                  email invites
+                </strong>{' '}
+                or allow students to join through <strong>group search</strong>{' '}
+                (depending on privacy settings).
                 <br />
                 <br />
-                ✅ If a student’s <strong>matric number</strong> or <strong>email</strong> matches,
-                the student is automatically enrolled in the group once they create or log into
-                their account.
-                <br />
-                ✅ If there’s no immediate match, the student remains on the roster until they
-                register, at which point the system links them automatically.
-                <br />
-                ✅ Lecturers can also send <strong>email invites</strong> or allow students to join
-                through <strong>group search</strong> (depending on privacy settings).
-                <br />
-                <br />
-                This ensures that every student in the roster is correctly assigned to their
-                respective group with minimal manual intervention, while still allowing
-                flexibility for invites and self-joining where appropriate.
+                This ensures that every student in the roster is correctly
+                assigned to their respective group with minimal manual
+                intervention, while still allowing flexibility for invites and
+                self-joining where appropriate.
               </p>
             </div>
-
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div className="p-3 rounded-lg bg-blue-50 border border-blue-100">
-                <p className="text-sm text-gray-500">
-                  Students In Roster
-                </p>
-                <p className="text-lg font-semibold">
+                <p className="text-sm text-gray-500">Students In Roster</p>
+                <p className="text-lg font-semibold text-slate-700">
                   {group.studentsRosterId?.students?.length || 0}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-green-50 border border-green-100">
                 <p className="text-sm text-gray-500">Joined Students</p>
-                <p className="text-lg font-semibold">
-                  {group.studentsRosterId?.students?.filter(s => s.hasJoined)?.length || 0}
+                <p className="text-lg font-semibold text-slate-700">
+                  {group.studentsRosterId?.students?.filter((s) => s.hasJoined)
+                    ?.length || 0}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-yellow-50 border border-yellow-100">
                 <p className="text-sm text-gray-500">Pending Matches</p>
-                <p className="text-lg font-semibold">
+                <p className="text-lg font-semibold text-slate-700">
                   {(group.studentsRosterId?.students?.length || 0) -
                     (group.joinedCount || 0)}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-purple-50 border border-purple-100">
                 <p className="text-sm text-gray-500">Invited</p>
-                <p className="text-lg font-semibold">
+                <p className="text-lg font-semibold text-slate-700">
                   {group.invitedCount || 0}
                 </p>
               </div>
