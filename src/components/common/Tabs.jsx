@@ -43,8 +43,7 @@ export default function Tabs({
   };
 
   return (
-    <div className={clsx('w-full', className)}>
-      {/* Tab List */}
+    <div className={clsx('w-full sticky top-17 z-1', className)}>
       <div
         role="tablist"
         className={clsx(

@@ -38,6 +38,7 @@ const Button = ({
       'font-semibold border rounded-xl border-gray-400 text-t-primary hover:bg-t-muted active:bg-gray-200',
     info: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 font-semibold rounded-xl',
     link: 'text-blue-500 hover:underline active:text-blue-700 bg-transparent p-0',
+    transparent: 'hover:bg-gray-50 text-t-primary hover:text-gray-500',
   };
 
   return (

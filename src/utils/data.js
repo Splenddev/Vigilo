@@ -1,3 +1,118 @@
+const initialNotifications = [
+  {
+    id: 1,
+    type: 'assignment_created',
+    category: 'academic',
+    title: 'New Assignment Posted',
+    message:
+      'React Components Assignment has been posted for CS301. Due date: December 15, 2024',
+    time: '2 minutes ago',
+    sender: { name: 'Dr. Sarah Wilson', profilePicture: null },
+    groupId: { name: 'CS301 - Web Development', code: 'CS301' },
+    metadata: {
+      priority: 'high',
+      actionType: 'navigate',
+      actionData: { route: '/assignments/675a1b2c3d4e5f6789012345' },
+      color: 'blue',
+      icon: 'assignment',
+    },
+    recipients: [{ isRead: false, isArchived: false }],
+  },
+  {
+    id: 2,
+    type: 'lecture_cancelled',
+    category: 'academic',
+    title: 'Lecture Cancelled',
+    message:
+      "Tomorrow's Database Systems lecture has been cancelled due to technical issues.",
+    time: '15 minutes ago',
+    sender: { name: 'Prof. Michael Chen', profilePicture: null },
+    groupId: { name: 'CS302 - Database Systems', code: 'CS302' },
+    metadata: {
+      priority: 'urgent',
+      actionType: 'none',
+      color: 'red',
+      icon: 'alert',
+    },
+    recipients: [{ isRead: false, isArchived: false }],
+  },
+  {
+    id: 3,
+    type: 'grade_published',
+    category: 'academic',
+    title: 'Grade Published',
+    message:
+      'Your grade for Midterm Exam has been published. Click to view details.',
+    time: '1 hour ago',
+    sender: { name: 'Dr. Emma Rodriguez', profilePicture: null },
+    groupId: { name: 'MATH201 - Calculus II', code: 'MATH201' },
+    metadata: {
+      priority: 'normal',
+      actionType: 'navigate',
+      actionData: { route: '/grades/midterm-exam' },
+      color: 'green',
+      icon: 'grade',
+    },
+    recipients: [{ isRead: true, isArchived: false }],
+  },
+  {
+    id: 4,
+    type: 'attendance_reminder',
+    category: 'academic',
+    title: 'Attendance Reminder',
+    message:
+      "Don't forget to mark your attendance for today's Physics lab session.",
+    time: '2 hours ago',
+    sender: { name: 'System', profilePicture: null },
+    groupId: { name: 'PHYS201 - Physics Lab', code: 'PHYS201' },
+    metadata: {
+      priority: 'normal',
+      actionType: 'mark_attendance',
+      actionData: { route: '/attendance/mark' },
+      color: 'yellow',
+      icon: 'clock',
+    },
+    recipients: [{ isRead: false, isArchived: false }],
+  },
+  {
+    id: 5,
+    type: 'group_invitation',
+    category: 'social',
+    title: 'Group Invitation',
+    message:
+      'Alex Johnson invited you to join the "Study Group - Final Prep" group.',
+    time: '1 day ago',
+    sender: { name: 'Alex Johnson', profilePicture: null },
+    groupId: null,
+    metadata: {
+      priority: 'normal',
+      actionType: 'approve',
+      actionData: { entityId: 'group_123' },
+      color: 'purple',
+      icon: 'users',
+    },
+    recipients: [{ isRead: true, isArchived: false }],
+  },
+  {
+    id: 6,
+    type: 'system_maintenance',
+    category: 'system',
+    title: 'System Maintenance',
+    message:
+      'Scheduled maintenance will occur tonight from 2:00 AM to 4:00 AM EST.',
+    time: '3 hours ago',
+    sender: { name: 'System Administrator', profilePicture: null },
+    groupId: null,
+    metadata: {
+      priority: 'low',
+      actionType: 'none',
+      color: 'gray',
+      icon: 'settings',
+    },
+    recipients: [{ isRead: false, isArchived: false }],
+  },
+];
+
 const groups = [
   {
     groupName: 'Class of Biochemistry – 300 Level',
@@ -539,41 +654,10 @@ function createMockSessions(count = 10) {
   return Array.from({ length: count }, (_, i) => createSession(i + 1));
 }
 
-const mockNotifications = [
-  {
-    id: 1,
-    type: 'session_starting',
-    message: 'CSC 201 attendance starts in 5 minutes',
-    time: '2 min ago',
-    unread: true,
-  },
-  {
-    id: 2,
-    type: 'invite',
-    message: 'New group invite from Prof. Wilson',
-    time: '1 hour ago',
-    unread: true,
-  },
-  {
-    id: 3,
-    type: 'warning',
-    message: 'Your device location doesn’t match lecture hall',
-    time: '3 hours ago',
-    unread: false,
-  },
-  // {
-  //   id: 4,
-  //   type: 'reminder',
-  //   message: 'Don’t forget to mark CSC 305 attendance',
-  //   time: 'Yesterday',
-  //   unread: false,
-  // },
-];
-
 export {
   groups,
   generateStudentData,
   createMockSessions,
   createSession,
-  mockNotifications,
+  initialNotifications,
 };
