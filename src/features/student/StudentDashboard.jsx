@@ -16,6 +16,7 @@ import Button from '../../components/atoms/Button';
 import { useNavigate } from 'react-router-dom';
 import { useGroupAssign, useGroups } from '../../hooks/useGroups';
 import InlineLoader from '../../components/loaders/InlineLoader';
+import { ROLES } from '../../utils/roles';
 
 const mockGroups = [
   {
@@ -81,30 +82,35 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const { user } = useAuth();
   const { autoAssign, loading, error } = useGroupAssign();
-  const { fetchGroups, loading: grpLoading, error: grpError, groups } = useGroups();
+  const {
+    fetchGroups,
+    loading: grpLoading,
+    error: grpError,
+    groups,
+  } = useGroups();
 
   useEffect(() => {
-    fetchGroups()
-  }, [])
+    fetchGroups();
+  }, []);
 
   const handleGroupAssignment = async () => {
     try {
       // Show a loading state if you have one
-      console.log("Checking rosters for matric match...");
+      console.log('Checking rosters for matric match...');
 
       const res = await autoAssign();
 
       if (res.success) {
         alert(res.message || `You have been successfully assigned to groups`);
+        fetchGroups();
       } else {
-        alert(data.message || "No matching group found.");
+        alert(data.message || 'No matching group found.');
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong while assigning group.");
+      alert('Something went wrong while assigning group.');
     }
   };
-
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -145,7 +151,6 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
 
   const attendanceRate = attendanceData?.attendanceRate || null;
 
-
   const getStatusText = (status) => {
     switch (status) {
       case 'active':
@@ -168,15 +173,17 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
   const nav = useNavigate();
 
   const handleMarkAttendance = () => {
-    nav('/student/attendance/:id');
+    nav(`/${ROLES.STUDENT}/attendance/:id`);
   };
 
   const handleViewGroup = (groupId) => {
-    alert(`Opening group details for group ${groupId}`);
+    nav(`/${ROLES.STUDENT}/groups/${groupId}/info`);
   };
 
   const hasActiveSessions = mockActiveSessions.length > 0;
-  const joinedGroups = (groups || mockGroups).filter((group) => group.status === 'active');
+  const joinedGroups = (groups || mockGroups).filter(
+    (group) => group.status === 'active'
+  );
 
   const networkStatus = 'online';
 
@@ -203,8 +210,9 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                     hasActiveSessions ? 'text-green-400' : 'text-t-tertiary'
                   }>
                   {hasActiveSessions
-                    ? `${mockActiveSessions.length} Active Session${mockActiveSessions.length !== 1 ? 's' : ''
-                    }`
+                    ? `${mockActiveSessions.length} Active Session${
+                        mockActiveSessions.length !== 1 ? 's' : ''
+                      }`
                     : 'All sessions complete today'}
                 </span>
               </div>
@@ -255,10 +263,11 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                     onClick={() => handleMarkAttendance(session.id)}
                     disabled={!session.canJoin}
                     text="Mark Attendance"
-                    className={` whitespace-nowrap  place-self-end ${!session.canJoin
-                      ? 'opacity-50 cursor-not-allowed'
-                      : 'animate-pulse-glow'
-                      }`}
+                    className={` whitespace-nowrap  place-self-end ${
+                      !session.canJoin
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'animate-pulse-glow'
+                    }`}
                   />
                 </div>
               ))}
@@ -284,14 +293,15 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
         <div className="space-y-4 ">
           <h2 className="text-heading-lg text-t-secondary">Your Groups</h2>
 
-          {grpLoading ? <InlineLoader /> : joinedGroups.length > 0 ? (
+          {grpLoading ? (
+            <InlineLoader />
+          ) : joinedGroups.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {joinedGroups.map((group) => (
                 <div
                   key={group._id}
                   className="card-hover cursor-pointer p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-md"
-                  onClick={() => onClick?.(group._id)}
-                >
+                  onClick={() => handleViewGroup(group._id)}>
                   {/* Header with status and course icon */}
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -313,8 +323,9 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                         {group.courseCode}
                       </span>
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(group.level)}`}
-                      >
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(
+                          group.level
+                        )}`}>
                         L{group.level}
                       </span>
                     </div>
@@ -328,7 +339,11 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                     <div className="flex items-center gap-2 mb-3">
                       <FiUsers className="text-gray-400 w-4 h-4" />
                       <span className="text-body-sm text-t-tertiary">
-                        Lecturer: {group.createdBy.name || group.createdBy.firstName + ' ' + group.createdBy.lastName}
+                        Lecturer:{' '}
+                        {group.createdBy.name ||
+                          group.createdBy.firstName +
+                            ' ' +
+                            group.createdBy.lastName}
                       </span>
                     </div>
                   )}
@@ -338,7 +353,8 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                     <div className="flex items-center gap-2 mb-3">
                       <FiUsers className="text-gray-400 w-4 h-4" />
                       <span className="text-body-sm text-t-tertiary">
-                        {group.members.length} student{group.members.length !== 1 ? 's' : ''}
+                        {group.members.length} student
+                        {group.members.length !== 1 ? 's' : ''}
                       </span>
                     </div>
                   )}
@@ -360,13 +376,13 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                             Your Attendance
                           </span>
                           <span
-                            className={`text-body-sm font-semibold ml-2 ${attendanceRate >= 90
-                              ? 'text-green-400'
-                              : attendanceRate >= 70
+                            className={`text-body-sm font-semibold ml-2 ${
+                              attendanceRate >= 90
+                                ? 'text-green-400'
+                                : attendanceRate >= 70
                                 ? 'text-yellow-400'
                                 : 'text-red-400'
-                              }`}
-                          >
+                            }`}>
                             {attendanceRate}%
                           </span>
                         </div>
@@ -391,9 +407,9 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                 No groups yet
               </h3>
               <p className="text-body-sm text-t-tertiary max-w-md mx-auto">
-                You haven’t been assigned to any class groups yet.
-                Click the button below to proceed with automatic group assignment.
-                We’ll check your matric number against your school’s rosters and
+                You haven’t been assigned to any class groups yet. Click the
+                button below to proceed with automatic group assignment. We’ll
+                check your matric number against your school’s rosters and
                 assign you to the right group if a match is found.
               </p>
 
@@ -404,14 +420,14 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
               />
             </div>
           )}
-
         </div>
       </div>
 
       {/* Recent Attendance History */}
       <div
-        className={`glass p-4 md:p-6 lg:w-90 sticky ${networkStatus === 'online' ? 'top-0' : 'sm:top-13 top-16'
-          }`}>
+        className={`glass p-4 md:p-6 lg:w-90 sticky ${
+          networkStatus === 'online' ? 'top-0' : 'sm:top-13 top-16'
+        }`}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-heading-lg text-t-secondary">Recent Activity</h2>
           <button

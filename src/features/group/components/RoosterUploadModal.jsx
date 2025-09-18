@@ -1,17 +1,7 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Papa from 'papaparse';
-import {
-  LuX,
-  LuUpload,
-  LuDownload,
-  LuTrash2,
-  LuCheck,
-  LuCircleAlert,
-  LuFileText,
-  LuZap,
-} from 'react-icons/lu';
+import { LuX, LuUpload, LuCircleAlert } from 'react-icons/lu';
 import { emailRegex, matricNoRegex } from '../../../utils/regex';
-import Select from '../../../components/molecules/Select';
 import { inferHeadersQuick } from '../../../utils/inferHeadersQuick';
 import useRoster from '../../../hooks/useRoster';
 import { useBodyScrollLock } from '../../../hooks/useBodyScrollLock';
@@ -22,6 +12,7 @@ import {
   renderStep3,
   renderStepIndicator,
 } from './RosterUploadComponents';
+import * as XLSX from 'xlsx';
 
 function validateRow(mapped) {
   const problems = [];
@@ -43,7 +34,7 @@ export default function RosterUploadModal({
   onAction = null,
   onClose,
 }) {
-  const [currentStep, setCurrentStep] = useState(1); // 1: Upload, 2: Map, 3: Review
+  const [currentStep, setCurrentStep] = useState(1);
   const [file, setFile] = useState(null);
   const [rawRows, setRawRows] = useState([]);
   const [headers, setHeaders] = useState([]);
@@ -113,28 +104,59 @@ export default function RosterUploadModal({
     setParsing(true);
     setServerError(null);
 
-    Papa.parse(pickedFile, {
-      header: true,
-      skipEmptyLines: true,
-      dynamicTyping: false,
-      worker: true,
-      complete: (results) => {
-        const rows = results.data || [];
-        setRawRows(rows);
-        if (rows.length > 0) {
-          inferHeaders(rows[0]);
-          setCurrentStep(2); // Auto advance to mapping step
+    const fileExtension = pickedFile.name.split('.').pop().toLowerCase();
+
+    if (fileExtension === 'csv') {
+      // ✅ CSV parsing
+      Papa.parse(pickedFile, {
+        header: true,
+        skipEmptyLines: true,
+        dynamicTyping: false,
+        worker: true,
+        complete: (results) => {
+          const rows = results.data || [];
+          setRawRows(rows);
+          if (rows.length > 0) {
+            inferHeaders(rows[0]);
+            setCurrentStep(2);
+          }
+          setParsing(false);
+        },
+        error: (err) => {
+          console.error('Parse error', err);
+          setServerError(
+            'Failed to parse CSV file. Please check the file format.'
+          );
+          setParsing(false);
+        },
+      });
+    } else if (['xlsx', 'xls'].includes(fileExtension)) {
+      // ✅ Excel parsing
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0]; // first sheet
+          const sheet = workbook.Sheets[sheetName];
+          const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' }); // keep empty cells
+          setRawRows(rows);
+          if (rows.length > 0) {
+            inferHeaders(rows[0]);
+            setCurrentStep(2);
+          }
+          setParsing(false);
+        } catch (err) {
+          console.error('Excel parse error', err);
+          setServerError('Failed to parse Excel file. Please check the file.');
+          setParsing(false);
         }
-        setParsing(false);
-      },
-      error: (err) => {
-        console.error('Parse error', err);
-        setServerError(
-          'Failed to parse CSV file. Please check the file format.'
-        );
-        setParsing(false);
-      },
-    });
+      };
+      reader.readAsArrayBuffer(pickedFile);
+    } else {
+      setServerError('Unsupported file type. Please upload CSV or Excel.');
+      setParsing(false);
+    }
   };
 
   useEffect(() => {

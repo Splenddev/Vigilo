@@ -22,6 +22,7 @@ import {
 import Button from '../atoms/Button';
 import EmptyState from './EmptyState';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const NotificationPanel = () => {
   const [notifications, setNotifications] = useState(initialNotifications);
@@ -29,6 +30,7 @@ const NotificationPanel = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   const panelRef = useRef(null);
+  const { user } = useAuth();
 
   const unreadCount = notifications.filter(
     (n) => !n.recipients[0].isRead
@@ -69,7 +71,7 @@ const NotificationPanel = () => {
     switch (actionType) {
       case 'navigate':
         console.log('Navigate to:', actionData.route);
-        navigate(`/lecturer/${actionData.route}`);
+        navigate(`/${user.role}/${actionData.route}`);
         // router.push(actionData.route);
         break;
       case 'download':
@@ -150,7 +152,7 @@ const NotificationPanel = () => {
         variant="transparent"
         size="sm"
         onClick={() => setShowPanel(!showPanel)}
-        className="relative text-gray-700 hover:text-gray-600 rounded-full hover:bg-gray-100 p-2"
+        className="relative"
         icon={LuBell}>
         <AnimatePresence>
           {unreadCount > 0 && (
@@ -158,7 +160,7 @@ const NotificationPanel = () => {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center px-1">
+              className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center px-1 z-4">
               {unreadCount > 99 ? '99+' : unreadCount}
             </motion.span>
           )}

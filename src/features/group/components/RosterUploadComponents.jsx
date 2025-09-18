@@ -77,9 +77,9 @@ export const renderStep1 = ({ fileInputRef, file, handleFile, parsing }) => (
       <LuFileText className="w-16 h-16 text-blue-400 mx-auto mb-4" />
       <h3 className="text-xl font-semibold mb-2">Upload Your CSV File</h3>
       <p className="text-gray-400 max-w-md mx-auto">
-        Please upload a <strong>CSV file</strong>. Think of it like a simplified
-        spreadsheet—each row represents one student, and each column represents
-        a piece of information about them.
+        Please upload a <strong>CSV/EXCEL file</strong>. Think of it like a
+        simplified spreadsheet—each row represents one student, and each column
+        represents a piece of information about them.
       </p>
     </div>
 
@@ -88,7 +88,7 @@ export const renderStep1 = ({ fileInputRef, file, handleFile, parsing }) => (
       className="mx-auto max-w-md cursor-pointer rounded-xl border-2 border-dashed border-gray-600 p-8 hover:border-blue-400 hover:bg-blue-400/5 transition-all duration-200">
       <LuUpload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
       <p className="text-lg font-medium mb-2">
-        {file ? file.name : 'Drop your CSV file here'}
+        {file ? file.name : 'Drop your CSV/EXCEL file here'}
       </p>
       <p className="text-sm text-gray-500 mb-4">or click to browse files</p>
       <button
@@ -99,7 +99,7 @@ export const renderStep1 = ({ fileInputRef, file, handleFile, parsing }) => (
       <input
         ref={fileInputRef}
         type="file"
-        accept=".csv,text/csv"
+        accept=".csv,.xlsx,.xls,text/csv"
         className="hidden"
         onChange={(e) => handleFile(e.target.files?.[0])}
       />
