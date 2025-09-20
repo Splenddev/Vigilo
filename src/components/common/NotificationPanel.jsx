@@ -13,8 +13,8 @@ import {
   LuExternalLink,
   LuFilter,
   LuPin,
+  LuRefreshCcw,
 } from 'react-icons/lu';
-import { initialNotifications } from '../../utils/data';
 import {
   notificationCategories,
   typeConfig,
@@ -23,27 +23,40 @@ import Button from '../atoms/Button';
 import EmptyState from './EmptyState';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useNotifications } from '../../hooks/useNotification';
 
 const NotificationPanel = () => {
-  const [notifications, setNotifications] = useState(initialNotifications);
   const [showPanel, setShowPanel] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   const panelRef = useRef(null);
+
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const unreadCount = notifications.filter(
-    (n) => !n.recipients[0].isRead
-  ).length;
+  // --- Store integration ---
+  const {
+    notifications = [],
+    loading = {}, // ✅ avoid undefined
+    fetchNotifications,
+    deleteNotification,
+    deleteAllNotifications,
+    markAsRead,
+    markAllAsRead,
+  } = useNotifications();
 
-  const categories = notificationCategories(notifications).filter(
-    (cat) => cat.count > 0 || cat.value === 'all'
-  );
+  const {
+    fetching = false,
+    deleting = false,
+    deletingAll = false,
+    markingRead = false,
+    markingAllRead = false,
+  } = loading;
 
-  const filteredNotifications =
-    selectedCategory === 'all'
-      ? notifications
-      : notifications.filter((n) => n.category === selectedCategory);
+  // Fetch once on mount
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
 
   // Close panel on outside click
   useEffect(() => {
@@ -59,24 +72,30 @@ const NotificationPanel = () => {
     };
   }, []);
 
-  const navigate = useNavigate();
+  const unreadCount = notifications?.filter((n) => !n.read).length || 0;
 
+  const categories = notificationCategories(notifications)?.filter(
+    (cat) => cat.count > 0 || cat.value === 'all'
+  );
+
+  const filteredNotifications =
+    selectedCategory === 'all'
+      ? notifications
+      : notifications.filter((n) => n.category === selectedCategory);
+
+  // --- Handlers ---
   const handleNotificationClick = (notification) => {
-    // Mark as read
-    handleMarkAsRead(notification.id);
+    if (!notification) return;
 
-    // Handle different action types
-    const { actionType, actionData } = notification.metadata;
+    markAsRead(notification._id);
 
+    const { actionType, actionData } = notification.metadata || {};
     switch (actionType) {
       case 'navigate':
-        console.log('Navigate to:', actionData.route);
-        navigate(`/${user.role}/${actionData.route}`);
-        // router.push(actionData.route);
+        navigate(`/${user.role}${actionData.route}`);
         break;
       case 'download':
-        console.log('Download file:', actionData.fileUrl);
-        // window.open(actionData.fileUrl);
+        window.open(actionData.fileUrl, '_blank');
         break;
       case 'approve':
         console.log('Show approval modal for:', actionData.entityId);
@@ -85,39 +104,11 @@ const NotificationPanel = () => {
         console.log('Open attendance marking for:', actionData.route);
         break;
       case 'join_meeting':
-        console.log('Join meeting:', actionData.meetingLink);
-        // window.open(actionData.meetingLink);
+        window.open(actionData.meetingLink, '_blank');
         break;
       default:
         console.log('No action defined for this notification');
     }
-  };
-
-  const handleMarkAsRead = (id) => {
-    setNotifications(
-      notifications.map((n) =>
-        n.id === id
-          ? { ...n, recipients: [{ ...n.recipients[0], isRead: true }] }
-          : n
-      )
-    );
-  };
-
-  const handleDismiss = (id) => {
-    setNotifications(notifications.filter((n) => n.id !== id));
-  };
-
-  const handleMarkAllAsRead = () => {
-    setNotifications(
-      notifications.map((n) => ({
-        ...n,
-        recipients: [{ ...n.recipients[0], isRead: true }],
-      }))
-    );
-  };
-
-  const handleClearAll = () => {
-    setNotifications([]);
   };
 
   const getPriorityBadge = (priority) => {
@@ -190,6 +181,15 @@ const NotificationPanel = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Button
+                  onClick={fetchNotifications}
+                  variant="ghost"
+                  size="sm"
+                  className="!p-2"
+                  title="Refresh notifications">
+                  <LuRefreshCcw />
+                </Button>
+
+                <Button
                   onClick={() => setShowFilters(!showFilters)}
                   variant="ghost"
                   size="sm"
@@ -207,9 +207,16 @@ const NotificationPanel = () => {
               </div>
             </header>
 
+            {/* Loading state */}
+            {fetching && (
+              <div className="p-4 text-center text-sm text-gray-500">
+                Loading notifications...
+              </div>
+            )}
+
             {/* Category Filter */}
             <AnimatePresence>
-              {showFilters && (
+              {showFilters && !fetching && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
@@ -235,7 +242,7 @@ const NotificationPanel = () => {
             </AnimatePresence>
 
             {/* Notification List */}
-            {filteredNotifications.length === 0 && (
+            {!fetching && filteredNotifications.length === 0 && (
               <EmptyState
                 icon={LuCircleCheck}
                 title="All caught up!"
@@ -248,19 +255,19 @@ const NotificationPanel = () => {
             )}
 
             <div className="max-h-96 overflow-y-auto overflow-x-hidden">
-              {filteredNotifications.length > 0 && (
+              {!fetching && filteredNotifications.length > 0 && (
                 <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredNotifications.map((notification) => {
                     const config =
                       typeConfig[notification.type] || typeConfig.default;
-                    const isUnread = !notification.recipients[0].isRead;
+                    const isUnread = !notification.read;
                     const ActionIcon = getActionIcon(
-                      notification.metadata.actionType
+                      notification.metadata?.actionType
                     );
 
                     return (
                       <motion.li
-                        key={notification.id}
+                        key={notification._id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{
@@ -271,7 +278,7 @@ const NotificationPanel = () => {
                         className={`group relative transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
                           isUnread ? 'bg-blue-50 dark:bg-blue-900/20' : ''
                         }`}>
-                        {/* Clickable notification area */}
+                        {/* Clickable area */}
                         <div
                           className="p-4 cursor-pointer"
                           onClick={() => handleNotificationClick(notification)}>
@@ -281,11 +288,11 @@ const NotificationPanel = () => {
                               className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white text-sm relative ${config.color}`}>
                               <config.icon />
                               {getPriorityBadge(
-                                notification.metadata.priority
+                                notification.metadata?.priority
                               ) && (
                                 <div className="absolute -top-1 -right-1 bg-white rounded-full p-0.5">
                                   {getPriorityBadge(
-                                    notification.metadata.priority
+                                    notification.metadata?.priority
                                   )}
                                 </div>
                               )}
@@ -309,40 +316,19 @@ const NotificationPanel = () => {
                               <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
                                 {notification.message}
                               </p>
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                  <span>{notification.time}</span>
-                                  {notification.sender?.name && (
-                                    <>
-                                      <span>•</span>
-                                      <span>{notification.sender.name}</span>
-                                    </>
-                                  )}
-                                  {notification.groupId?.code && (
-                                    <>
-                                      <span>•</span>
-                                      <span className="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
-                                        {notification.groupId.code}
-                                      </span>
-                                    </>
-                                  )}
-                                </div>
-                                {isUnread && (
-                                  <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                                )}
-                              </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Action buttons - show on hover */}
+                        {/* Action buttons */}
                         <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           {isUnread && (
                             <Button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleMarkAsRead(notification.id);
+                                markAsRead(notification._id);
                               }}
+                              disabled={markingRead}
                               variant="custom"
                               className="text-blue-600 border border-blue-200 hover:bg-blue-50 bg-white shadow-sm"
                               size="sm"
@@ -353,8 +339,9 @@ const NotificationPanel = () => {
                           <Button
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleDismiss(notification.id);
+                              deleteNotification(notification._id);
                             }}
+                            disabled={deleting}
                             variant="dangerLight"
                             className="bg-white shadow-sm"
                             size="sm"
@@ -370,23 +357,25 @@ const NotificationPanel = () => {
             </div>
 
             {/* Footer */}
-            {filteredNotifications.length > 0 && (
+            {!fetching && filteredNotifications.length > 0 && (
               <footer className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 flex justify-between items-center">
                 <Button
-                  onClick={handleMarkAllAsRead}
+                  onClick={markAllAsRead}
+                  disabled={markingAllRead}
                   variant="secondary"
                   size="sm"
                   className="flex items-center gap-1">
                   <LuMailOpen className="w-4 h-4" />
-                  Mark all read
+                  {markingAllRead ? 'Marking...' : 'Mark all read'}
                 </Button>
                 <Button
-                  onClick={handleClearAll}
+                  onClick={deleteAllNotifications}
+                  disabled={deletingAll}
                   variant="dangerLight"
                   size="sm"
                   className="flex items-center gap-1">
                   <LuTrash className="w-4 h-4" />
-                  Clear all
+                  {deletingAll ? 'Clearing...' : 'Clear all'}
                 </Button>
               </footer>
             )}

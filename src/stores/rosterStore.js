@@ -65,7 +65,7 @@ const rosterStore = create(
     },
 
     // 🔹 Create roster (with CSV upload)
-    createRoster: async ({ groupId, students, file }) => {
+    createRoster: async ({ groupId, students, file, session }) => {
       set(
         produce((state) => {
           state.loading = true;
@@ -76,8 +76,9 @@ const rosterStore = create(
         // Build form data
         const formData = new FormData();
         formData.append('groupId', groupId);
-        formData.append('students', JSON.stringify(students)); // stringify student objects
-        formData.append('roster', file); // roster CSV file
+        formData.append('session', session);
+        formData.append('students', JSON.stringify(students));
+        formData.append('roster', file);
 
         const { data } = await api.post(API_URL, formData, {
           headers: {

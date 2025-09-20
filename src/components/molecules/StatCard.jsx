@@ -6,93 +6,97 @@ const COLOR_MAP = {
   blue: {
     text: 'text-blue-500',
     bgLight: 'bg-blue-400/10',
-    bgDark: 'bg-blue-900/30',
+    bgDark: 'bg-blue-600/20',
     borderLight: 'border-blue-400/20',
-    borderDark: 'border-blue-700',
+    borderDark: 'border-blue-400',
   },
   emerald: {
     text: 'text-emerald-600',
     bgLight: 'bg-emerald-400/10',
-    bgDark: 'bg-emerald-900/30',
+    bgDark: 'bg-emerald-600/20',
     borderLight: 'border-emerald-400/20',
-    borderDark: 'border-emerald-700',
+    borderDark: 'border-emerald-400',
   },
   purple: {
     text: 'text-purple-600',
     bgLight: 'bg-purple-400/10',
-    bgDark: 'bg-purple-900/30',
+    bgDark: 'bg-purple-600/20',
     borderLight: 'border-purple-400/20',
-    borderDark: 'border-purple-700',
+    borderDark: 'border-purple-400',
   },
   orange: {
     text: 'text-orange-500',
     bgLight: 'bg-orange-400/10',
-    bgDark: 'bg-orange-900/30',
+    bgDark: 'bg-orange-600/20',
     borderLight: 'border-orange-400/20',
-    borderDark: 'border-orange-700',
+    borderDark: 'border-orange-400',
   },
   red: {
     text: 'text-red-500',
     bgLight: 'bg-red-400/10',
-    bgDark: 'bg-red-900/30',
+    bgDark: 'bg-red-600/20',
     borderLight: 'border-red-400/20',
-    borderDark: 'border-red-700',
+    borderDark: 'border-red-400',
   },
   yellow: {
     text: 'text-yellow-500',
     bgLight: 'bg-yellow-400/10',
-    bgDark: 'bg-yellow-900/30',
+    bgDark: 'bg-yellow-600/20',
     borderLight: 'border-yellow-400/20',
-    borderDark: 'border-yellow-700',
+    borderDark: 'border-yellow-400',
+  },
+  green: {
+    text: 'text-green-500',
+    bgLight: 'bg-green-400/10',
+    bgDark: 'bg-green-600/20',
+    borderLight: 'border-green-400/20',
+    borderDark: 'border-green-400',
   },
   indigo: {
     text: 'text-indigo-500',
     bgLight: 'bg-indigo-400/10',
-    bgDark: 'bg-indigo-900/30',
+    bgDark: 'bg-indigo-600/20',
     borderLight: 'border-indigo-400/20',
-    borderDark: 'border-indigo-700',
+    borderDark: 'border-indigo-400',
   },
   pink: {
     text: 'text-pink-500',
     bgLight: 'bg-pink-400/10',
-    bgDark: 'bg-pink-900/30',
+    bgDark: 'bg-pink-600/20',
     borderLight: 'border-pink-400/20',
-    borderDark: 'border-pink-700',
+    borderDark: 'border-pink-400',
   },
   teal: {
     text: 'text-teal-500',
     bgLight: 'bg-teal-400/10',
-    bgDark: 'bg-teal-900/30',
+    bgDark: 'bg-teal-600/20',
     borderLight: 'border-teal-400/20',
-    borderDark: 'border-teal-700',
+    borderDark: 'border-teal-400',
   },
   gray: {
     text: 'text-gray-600',
     bgLight: 'bg-gray-400/10',
-    bgDark: 'bg-gray-900/30',
+    bgDark: 'bg-gray-600/20',
     borderLight: 'border-gray-400/20',
-    borderDark: 'border-gray-700',
+    borderDark: 'border-gray-400',
   },
 };
 
 const VARIANTS = {
   light: {
-    wrapper: 'bg-white border border-slate-200 shadow-sm hover:shadow-md',
+    wrapper: 'bg-white shadow-sm hover:shadow-md',
     value: 'text-t-primary',
     label: 'text-t-tertiary',
-    icon: 'text-slate-600',
   },
   dark: {
-    wrapper: 'bg-slate-800 border border-slate-700 shadow-sm hover:shadow-md',
+    wrapper: 'bg-slate-800 shadow-sm hover:shadow-md',
     value: 'text-t-primary',
     label: 'text-slate-300',
-    icon: 'text-slate-300',
   },
   glass: {
     wrapper: 'glass',
     value: 'text-t-primary',
     label: 'text-slate-400 font-semibold',
-    icon: 'text-t-tertiary',
   },
 };
 
@@ -112,6 +116,7 @@ const DIRECTION_PRESETS = {
 };
 
 const StatCard = ({
+  align = 'start',
   icon,
   value,
   label,
@@ -136,10 +141,8 @@ const StatCard = ({
 
   const styles = VARIANTS[variant] || VARIANTS.glass;
 
-  const color =
-    typeof iconColor === 'string' && COLOR_MAP[iconColor]
-      ? COLOR_MAP[iconColor]
-      : null;
+  const color = COLOR_MAP[iconColor] || COLOR_MAP.gray;
+
   const colorClasses = {
     text: color ? color.text : styles.icon,
     bg:
@@ -184,7 +187,7 @@ const StatCard = ({
   const parts = {
     icon: renderIcon(),
     value: <div className={`font-bold ${styles.value}`}>{value}</div>,
-    label: <div className={`text-sm ${styles.label}`}>{label}</div>,
+    label: <div className={`text-sm ${colorClasses.text}`}>{label}</div>,
     subtitle: subtitle && (
       <div className="text-xs text-t-secondary">{subtitle}</div>
     ),
@@ -220,7 +223,7 @@ const StatCard = ({
   if (layout === 'inline') {
     return (
       <div
-        className={`flex relative items-center gap-2 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
+        className={`flex relative items-center border gap-2 ${className} ${colorClasses.bg} p-4 rounded-xl ${colorClasses.border}`}>
         {renderContent()}
         {trendPosition === 'absolute' && (
           <div className="absolute top-3 right-4">{renderTrend()}</div>
@@ -231,7 +234,9 @@ const StatCard = ({
 
   return (
     <div
-      className={`rounded-2xl p-4 transition-all flex h-full gap-2 relative flex-col duration-300 ${styles.wrapper} ${colorClasses.bg} ${colorClasses.border} ${className}`}>
+      className={`rounded-2xl p-4 transition-all flex h-full border gap-2 relative flex-col items-${align} duration-300 ${
+        variant === 'glass' ? styles.wrapper : colorClasses.bg
+      } ${colorClasses.border} ${className}`}>
       {renderContent()}
       {trendPosition === 'absolute' && (
         <div className="absolute top-3 right-4">{renderTrend()}</div>

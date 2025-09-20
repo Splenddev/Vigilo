@@ -201,6 +201,30 @@ const Auth = () => {
           <div className="space-y-6">
             {!isLogin && (
               <>
+                {/* User Type */}
+                <div>
+                  <label className="block text-sm font-medium text-t-secondary mb-2">
+                    I am a
+                  </label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <RadioCard
+                      icon={LuGraduationCap}
+                      label="Student"
+                      value="student"
+                      selectedValue={formData.role}
+                      onChange={handleInputChange}
+                      name="role"
+                    />
+                    <RadioCard
+                      icon={FiUserCheck}
+                      label="Lecturer"
+                      value="lecturer"
+                      selectedValue={formData.role}
+                      onChange={handleInputChange}
+                      name="role"
+                    />
+                  </div>
+                </div>
                 {/* Name Fields */}
                 <div className="grid grid-cols-2 gap-4">
                   <FormInput
@@ -212,12 +236,14 @@ const Auth = () => {
                     error={errors.firstName}
                     icon={FiUser}
                     required
-                    helperText="Your legal first name as it appears on school records."
+                    helpText={
+                      formData.role === 'student'
+                        ? 'Enter your first name exactly as it appears in your official school records.'
+                        : 'Enter the first name you want students to recognize you by.'
+                    }
                   />
 
                   <FormInput
-                    helperText="Your legal last name as it appears on school records."
-                    required
                     label="Last Name"
                     name="lastName"
                     value={formData.lastName}
@@ -225,21 +251,29 @@ const Auth = () => {
                     onChange={handleInputChange}
                     error={errors.lastName}
                     icon={FiUser}
+                    required
+                    helpText={
+                      formData.role === 'student'
+                        ? 'Enter your surname exactly as it appears in your official school records.'
+                        : 'Enter the last name you want students to recognize you by.'
+                    }
                   />
 
                   {formData.role !== 'admin' && (
                     <>
-                      <FormInput
-                        helperText="Your matric number as it appears on school records."
-                        required
-                        label="Matric number"
-                        name="matricNumber"
-                        value={formData.matricNumber}
-                        placeholder="25/57BC/1234"
-                        onChange={handleInputChange}
-                        error={errors.matricNumber}
-                        icon={FiUser}
-                      />
+                      {formData.role === 'student' && (
+                        <FormInput
+                          helpText="Your matric number as it appears on school records."
+                          required
+                          label="Matric number"
+                          name="matricNumber"
+                          value={formData.matricNumber}
+                          placeholder="25/57BC/1234"
+                          onChange={handleInputChange}
+                          error={errors.matricNumber}
+                          icon={FiUser}
+                        />
+                      )}
                       <Select
                         name="faculty"
                         label="Faculty"
@@ -309,31 +343,6 @@ const Auth = () => {
                       {errors.schoolId}
                     </p>
                   )}
-                </div>
-
-                {/* User Type */}
-                <div>
-                  <label className="block text-sm font-medium text-t-secondary mb-2">
-                    I am a
-                  </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <RadioCard
-                      icon={LuGraduationCap}
-                      label="Student"
-                      value="student"
-                      selectedValue={formData.role}
-                      onChange={handleInputChange}
-                      name="role"
-                    />
-                    <RadioCard
-                      icon={FiUserCheck}
-                      label="Lecturer"
-                      value="lecturer"
-                      selectedValue={formData.role}
-                      onChange={handleInputChange}
-                      name="role"
-                    />
-                  </div>
                 </div>
               </>
             )}

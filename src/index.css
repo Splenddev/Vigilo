@@ -59,7 +59,7 @@
   --color-danger-dark: #dc2626;
 
   --color-success: #10b981;
-  --color-success-light: #34d399;
+  --color-success-light: #00c951;
   --color-success-dark: #059669;
 
   --color-warning: #f59e0b;
@@ -71,18 +71,18 @@
   --color-neutral-dark: #374151;
 
   /* Legacy Brand Colors (kept for compatibility) */
-  --color-brand-green: #58cc02;
-  --color-brand-green-light: #7ee000;
-  --color-brand-green-dark: #4ba802;
-  --color-brand-green-soft: #e9f9e5;
+  --color-green: #58cc02;
+  --color-green-light: #7ee000;
+  --color-green-dark: #0d542b;
+  --color-green-soft: #e9f9e5;
 
-  --color-brand-blue: #1cb0f6;
-  --color-brand-blue-light: #4cd6fd;
-  --color-brand-blue-dark: #1895cc;
+  --color-blue: #1cb0f6;
+  --color-blue-light: #4cd6fd;
+  --color-blue-dark: #1895cc;
 
-  --color-brand-yellow: #ffd43b;
-  --color-brand-yellow-light: #ffe873;
-  --color-brand-yellow-dark: #e6b800;
+  --color-yellow: #ffd43b;
+  --color-yellow-light: #ffe873;
+  --color-yellow-dark: #e6b800;
 
   /* Aliases */
   --color-primary: var(--color-primary-purple);
@@ -237,6 +237,21 @@
   --color-border-secondary: rgba(255, 255, 255, 0.2);
   --color-border-accent: rgba(124, 58, 237, 0.5);
 
+  --color-green: #58cc02;
+  --color-green-light: #00c951;
+  --color-green-dark: #0d542b;
+  --color-green-soft: #e9f9e5;
+
+  --color-blue: #1cb0f6;
+  --color-blue-light: #4cd6fd;
+  --color-blue-dark: #1895cc;
+  --color-blue-soft: #e6f7fd;
+
+  --color-yellow: #ffd43b;
+  --color-yellow-light: #ffe873;
+  --color-yellow-dark: #e6b800;
+  --color-yellow-soft: #fff9e5;
+
   --gradient-primary: linear-gradient(to right, #7c3aed, #ec4899);
   --gradient-secondary: linear-gradient(to right, #7c3aed, #06b6d4);
   --gradient-accent: linear-gradient(to right, #ec4899, #06b6d4);
@@ -271,6 +286,21 @@
   --color-primary-cyan-light: #67e8f9;
   --color-primary-cyan-dark: #0891b2;
   --color-primary-cyan-soft: #e0f7fa;
+
+    --color-green: #7ee000;  
+  --color-green-light: #b9f8cf;
+  --color-green-dark: #58cc02;
+  --color-green-soft: #203515;
+
+  --color-blue: #4cd6fd;
+  --color-blue-light: #6ee7ff;
+  --color-blue-dark: #1cb0f6;
+  --color-blue-soft: #0a2a3a;
+
+  --color-yellow: #ffe873;
+  --color-yellow-light: #fff199;
+  --color-yellow-dark: #ffd43b;
+  --color-yellow-soft: #332b00;
 
   --color-bg-primary: #f8fafc; /* Light gray */
   --color-bg-secondary: #f1f5f9; /* Soft slate */

@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Papa from 'papaparse';
 import { LuX, LuUpload, LuCircleAlert } from 'react-icons/lu';
-import { emailRegex, matricNoRegex } from '../../../utils/regex';
+import {
+  academicSessionRegex,
+  emailRegex,
+  matricNoRegex,
+} from '../../../utils/regex';
 import { inferHeadersQuick } from '../../../utils/inferHeadersQuick';
 import useRoster from '../../../hooks/useRoster';
 import { useBodyScrollLock } from '../../../hooks/useBodyScrollLock';
@@ -46,6 +50,7 @@ export default function RosterUploadModal({
     department: '',
     level: '',
   });
+  const [session, setSession] = useState('');
   const [parsedPreview, setParsedPreview] = useState([]);
   const [invalidRows, setInvalidRows] = useState([]);
   const [duplicateMatrics, setDuplicateMatrics] = useState([]);
@@ -269,8 +274,18 @@ export default function RosterUploadModal({
       return;
     }
 
+    if (!academicSessionRegex.test(session)) {
+      toast.error('Invalid session format. Use YYYY/YYYY.');
+      return;
+    }
+
     try {
-      const res = await createRoster({ groupId, students: payload, file });
+      const res = await createRoster({
+        groupId,
+        students: payload,
+        file,
+        session,
+      });
       if (res.success) {
         onAction && onAction();
         reset();
@@ -327,7 +342,7 @@ export default function RosterUploadModal({
 
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
-          {renderStepIndicator()}
+          {renderStepIndicator({ currentStep })}
 
           {currentStep === 1 &&
             renderStep1({ fileInputRef, file, handleFile, parsing })}
@@ -353,6 +368,8 @@ export default function RosterUploadModal({
               setCurrentStep,
               handleUpload,
               uploading,
+              session,
+              setSession,
             })}
 
           {/* Error Display */}

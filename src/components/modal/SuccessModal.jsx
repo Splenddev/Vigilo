@@ -11,6 +11,10 @@ import {
   FiTrendingUp,
 } from 'react-icons/fi';
 import Button from '../atoms/Button';
+import StatCard from '../molecules/StatCard';
+import IconText from '../atoms/IconText';
+import InfoRow from '../molecules/InfoRow';
+import { LuGraduationCap, LuUserCheck, LuUserX } from 'react-icons/lu';
 
 const SuccessModal = ({ isOpen, responseData, onClose }) => {
   if (!isOpen || !responseData) return null;
@@ -47,42 +51,42 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
           label: 'Total Students',
           value: s.totalStudents,
           icon: FiUsers,
-          color: 'text-blue-500',
+          color: 'blue',
         });
       if (s.studentsAddedToGroup)
         stats.push({
           label: 'Added to Group',
           value: s.studentsAddedToGroup,
           icon: FiUserPlus,
-          color: 'text-green-500',
+          color: 'green',
         });
       if (s.studentsWithAccounts)
         stats.push({
           label: 'With Accounts',
           value: s.studentsWithAccounts,
           icon: FiCheck,
-          color: 'text-green-500',
+          color: 'green',
         });
       if (s.studentsWithoutAccounts)
         stats.push({
           label: 'Without Accounts',
           value: s.studentsWithoutAccounts,
           icon: FiUserX,
-          color: 'text-orange-500',
+          color: 'orange',
         });
       if (s.registeredStudents !== undefined)
         stats.push({
           label: 'Registered',
           value: s.registeredStudents,
           icon: FiCheck,
-          color: 'text-green-500',
+          color: 'green',
         });
       if (s.unregisteredStudents !== undefined)
         stats.push({
           label: 'Unregistered',
           value: s.unregisteredStudents,
           icon: FiUserX,
-          color: 'text-orange-500',
+          color: 'orange',
         });
     }
 
@@ -129,7 +133,7 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
         title: 'Students Added to Group',
         items: data.matchedStudents,
         type: 'students',
-        color: 'green',
+        color: 'bg-green-300/20',
       });
     }
 
@@ -138,7 +142,7 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
         title: 'Students Without Accounts',
         items: data.unmatchedStudents,
         type: 'students',
-        color: 'orange',
+        color: 'bg-orange-300/20',
       });
     }
 
@@ -146,45 +150,36 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
   };
 
   const renderStudentItem = (student, color) => (
-    <div
+    <InfoRow
+      label={student.name}
+      icon={student.name ? LuUserCheck : LuUserX}
+      align="center"
+      subLabel={student.email}
       key={student.studentId || student.email}
-      className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
-      <div>
-        <p className="font-medium text-sm">{student.name}</p>
-        <p className="text-xs text-gray-500">{student.email}</p>
-      </div>
-      {student.studentId && (
-        <span
-          className={`text-xs px-2 py-1 rounded-full bg-${color}-100 text-${color}-700`}>
-          {student.studentId}
-        </span>
-      )}
-    </div>
+    />
   );
 
   const parsed = parseResponseData(responseData);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-bg-primary rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 bg-green-50 dark:bg-green-900/20">
+        <div className="flex items-center justify-between p-6 border-b border-bg-glass-lg bg-green-light/20">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-green-200 rounded-full flex items-center justify-center">
               <FiCheck className="text-green-600 dark:text-green-400 w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h2 className="text-xl font-semibold text-t-primary">
                 {parsed.title}
               </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {parsed.message}
-              </p>
+              <p className="text-sm text-t-secondary">{parsed.message}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+            className="text-gray-400 hover:text-gray-600 transition-colors">
             <FiX className="w-6 h-6" />
           </button>
         </div>
@@ -193,24 +188,20 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
           {/* Statistics Grid */}
           {parsed.stats.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
+              <h3 className="text-lg font-medium text-t-primary mb-3">
                 Summary Statistics
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                 {parsed.stats.map((stat, index) => (
-                  <div
+                  <StatCard
                     key={index}
-                    className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
-                    <stat.icon
-                      className={`w-8 h-8 mx-auto mb-2 ${stat.color}`}
-                    />
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
-                      {stat.label}
-                    </div>
-                  </div>
+                    icon={stat.icon}
+                    value={stat.value}
+                    label={stat.label}
+                    variant="light"
+                    iconColor={stat.color}
+                    align="center"
+                  />
                 ))}
               </div>
             </div>
@@ -219,22 +210,26 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
           {/* Details */}
           {parsed.details.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
+              <h3 className="text-lg font-medium text-t-primary mb-3">
                 Details
               </h3>
               <div className="space-y-2">
                 {parsed.details.map((detail, index) => (
-                  <div
+                  <IconText
                     key={index}
-                    className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded">
-                    <detail.icon className="w-5 h-5 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {detail.label}:
-                    </span>
-                    <span className="text-sm text-gray-900 dark:text-white">
-                      {detail.value}
-                    </span>
-                  </div>
+                    className="p-3 bg-bg-tertiary rounded-lg"
+                    icon={detail.icon}
+                    text={
+                      <span className="text-sm font-medium">
+                        {detail.label}:
+                      </span>
+                    }
+                    subText={
+                      <span className="text-sm text-t-primary">
+                        {detail.value}
+                      </span>
+                    }
+                  />
                 ))}
               </div>
             </div>
@@ -246,23 +241,23 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
               key={listIndex}
               className="mb-6">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                <h3 className="text-lg font-medium text-t-primary">
                   {list.title}
                 </h3>
                 <span
-                  className={`text-sm px-2 py-1 rounded-full bg-${list.color}-100 text-${list.color}-700`}>
+                  className={`text-sm px-2 py-1 rounded-full ${list.color} text-t-primary`}>
                   {list.items.length}{' '}
                   {list.items.length === 1 ? 'student' : 'students'}
                 </span>
               </div>
-              <div className="max-h-60 overflow-y-auto space-y-2">
+              <div className="min-h-10 max-h-60 overflow-y-auto space-y-2">
                 {list.items.map((item) => renderStudentItem(item, list.color))}
               </div>
             </div>
           ))}
 
           {/* Action Message */}
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <div className="mt-6 p-4 bg-blue-100 rounded-lg">
             <div className="flex items-start gap-3">
               <FiInfo className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" />
               <div className="text-sm">
@@ -280,7 +275,7 @@ const SuccessModal = ({ isOpen, responseData, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-end gap-3 p-6 border-t border-bg-glass-lg dark:border-gray-700">
           <Button
             onClick={onClose}
             className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
