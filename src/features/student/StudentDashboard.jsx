@@ -190,7 +190,7 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
   return (
     <div className="lg:space-x-6 flex flex-col lg:flex-row ">
       <div className="flex-1 space-y-6 p-4 md:p-6">
-        {/* Header */}
+
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-heading-xl gradient-text mb-1">
@@ -220,7 +220,6 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
           </div>
         </div>
 
-        {/* Active Sessions - Priority Placement */}
         {hasActiveSessions && (
           <div className="card bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/30">
             <div className="flex items-center gap-3 mb-4">
@@ -275,7 +274,6 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
           </div>
         )}
 
-        {/* No Active Sessions */}
         {!hasActiveSessions && (
           <div className="card text-center py-8">
             <FiCheckCircle className="text-4xl text-green-400 mx-auto mb-3" />
@@ -300,9 +298,8 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
               {joinedGroups.map((group) => (
                 <div
                   key={group._id}
-                  className="card-hover cursor-pointer p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-md"
+                  className="card-hover flex flex-col group"
                   onClick={() => handleViewGroup(group._id)}>
-                  {/* Header with status and course icon */}
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
                       {getStatusIcon(group.status)}
@@ -313,7 +310,6 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                     <FiBook className="text-purple-400" />
                   </div>
 
-                  {/* Course information */}
                   <div className="mb-3">
                     <h3 className="text-heading-md text-t-secondary mb-1">
                       {group.name}
@@ -329,16 +325,15 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                         L{group.level}
                       </span>
                     </div>
-                    <p className="text-body-sm text-slate-300">
+                    <p className="text-body-sm text-accent/70 transition-all transition-200 group-hover:text-accent">
                       {group.department} • {group.faculty}
                     </p>
                   </div>
 
-                  {/* Lecturer information */}
                   {group.createdBy && (
-                    <div className="flex items-center gap-2 mb-3">
-                      <FiUsers className="text-gray-400 w-4 h-4" />
-                      <span className="text-body-sm text-t-tertiary">
+                    <div className="flex items-center gap-2 mb-3 text-t-tertiary">
+                      <FiUsers className="w-4 h-4" />
+                      <span className="text-body-sm ">
                         Lecturer:{' '}
                         {group.createdBy.name ||
                           group.createdBy.firstName +
@@ -366,10 +361,8 @@ const StudentDashboard = ({ attendanceData = { attendanceRate: 85 } }) => {
                     </p>
                   )}
 
-                  {/* Footer with attendance rate and last updated */}
-                  <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+                  <div className="pt-3 border-t border-bg-glass-md mt-auto">
                     <div className="flex items-center justify-between">
-                      {/* Attendance rate */}
                       {attendanceRate !== null && (
                         <div className="flex items-center justify-between">
                           <span className="text-body-xs text-t-tertiary">

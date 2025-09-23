@@ -5,6 +5,7 @@ import ScrollToTop from './components/common/ScrollToTop';
 import ThemeToggler from './components/common/ThemeToggler';
 import ConfirmationModal from './components/modal/ConfirmationModal';
 import { SuccessModalProvider } from './context/SuccessModalProvider';
+import { ErrorModalProvider  } from './context/ErrorModalProvider';
 
 const App = () => {
   return (
@@ -17,9 +18,11 @@ const App = () => {
       <NetworkBanner />
       <StatusModal />
       <ConfirmationModal />
+        <ErrorModalProvider>
       <SuccessModalProvider>
         <Outlet />
       </SuccessModalProvider>
+        </ErrorModalProvider>
     </div>
   );
 };

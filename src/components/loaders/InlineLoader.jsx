@@ -2,7 +2,7 @@ import React from 'react';
 
 const InlineLoader = ({
   size = 20,
-  color = '#6B46C1',
+  color = '#7c3aed',
   title = 'Loading',
   className = '',
   speed = 1.5 // Animation speed in seconds

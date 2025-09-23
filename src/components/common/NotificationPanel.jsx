@@ -20,7 +20,9 @@ import {
   typeConfig,
 } from '../../utils/notificationsPanelUtils';
 import Button from '../atoms/Button';
+import InlineLoader from '../loaders/InlineLoader';
 import EmptyState from './EmptyState';
+import ErrorState from './ErrorState';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useNotifications } from '../../hooks/useNotification';
@@ -42,7 +44,7 @@ const NotificationPanel = () => {
     deleteNotification,
     deleteAllNotifications,
     markAsRead,
-    markAllAsRead,
+    markAllAsRead,error
   } = useNotifications();
 
   const {
@@ -166,11 +168,11 @@ const NotificationPanel = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute -right-13 top-full mt-2 w-[95vw] max-w-[420px] rounded-2xl z-50 bg-white dark:bg-gray-800 shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+            className="absolute -right-13 top-full mt-2 w-[95vw] max-w-[420px] rounded-2xl z-50 bg-bg-primary shadow-2xl overflow-hidden border border-bg-glass-md">
             {/* Header */}
-            <header className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <header className="flex items-center justify-between p-4 border-b border-bg-glass-md bg-bg-secondary">
               <div className="flex items-center gap-3">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+                <h3 className="text-lg font-bold text-t-primary">
                   Notifications
                 </h3>
                 {unreadCount > 0 && (
@@ -209,8 +211,9 @@ const NotificationPanel = () => {
 
             {/* Loading state */}
             {fetching && (
-              <div className="p-4 text-center text-sm text-gray-500">
-                Loading notifications...
+              <div className='width-full flex items-center justify-center min-h-40 gap-4'>
+              <InlineLoader title='Loading notifications...' size={30}/>
+              Loading notifications...
               </div>
             )}
 
@@ -242,17 +245,36 @@ const NotificationPanel = () => {
             </AnimatePresence>
 
             {/* Notification List */}
-            {!fetching && filteredNotifications.length === 0 && (
-              <EmptyState
-                icon={LuCircleCheck}
-                title="All caught up!"
-                message={
-                  selectedCategory === 'all'
-                    ? 'You have no new notifications'
-                    : `No ${selectedCategory} notifications`
-                }
-              />
-            )}
+            {!fetching && filteredNotifications.length === 0 && (() => {
+  let title, message, icon, variant;
+
+  if (error) {
+    icon = LuX;
+    title = 'Something went wrong';
+    message = error;
+    variant = 'error';
+  } else if (selectedCategory === 'all') {
+    icon = LuCircleCheck;
+    title = 'All caught up!';
+    message = 'You have no new notifications';
+    variant = 'info';
+  } else {
+    icon = LuTriangleAlert;
+    title = 'Wrong filters';
+    message = `No ${selectedCategory} notifications`;
+    variant = 'warning';
+  }
+
+  return (
+    <EmptyState
+      icon={icon}
+      title={title}
+      message={message}
+      variant={variant}
+    />
+  );
+})()}
+
 
             <div className="max-h-96 overflow-y-auto overflow-x-hidden">
               {!fetching && filteredNotifications.length > 0 && (
@@ -275,8 +297,8 @@ const NotificationPanel = () => {
                           x: 20,
                           transition: { duration: 0.2 },
                         }}
-                        className={`group relative transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50 ${
-                          isUnread ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                        className={`group relative transition-colors hover:bg-gray-50 ${
+                          isUnread ? 'bg-blue-100' : 'bg-bg-glass-sm'
                         }`}>
                         {/* Clickable area */}
                         <div
@@ -302,15 +324,11 @@ const NotificationPanel = () => {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-2 mb-1">
                                 <h4
-                                  className={`text-sm font-medium ${
-                                    isUnread
-                                      ? 'text-gray-900 dark:text-gray-100'
-                                      : 'text-gray-700 dark:text-gray-300'
-                                  }`}>
+                                  className={`text-sm font-medium ${!isUnread?'text-t-primary':'text-blue-500'}`}>
                                   {notification.title}
                                 </h4>
                                 {ActionIcon && (
-                                  <ActionIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                  <ActionIcon className="w-4 h-4 text-t-secondary flex-shrink-0" />
                                 )}
                               </div>
                               <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">

@@ -90,18 +90,8 @@ const GroupOverview = () => {
       exit="exit">
       {/* Header Section */}
       <motion.div
-        className="card"
+        className="grid grid-cols-2 md:grid-cols-4 gap-4"
         variants={fadeIn}>
-        <div className="flex flex-col mb-4">
-          <div>
-            <h1 className="text-2xl font-bold gradient-text mb-2">
-              {group.courseName}
-            </h1>
-            <p className="text-gray-400">Course Code: {group.courseCode}</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard
             iconColor="purple"
             icon={LuGraduationCap}
@@ -134,7 +124,6 @@ const GroupOverview = () => {
             value={group.totalStudents}
             subtitle={`${group.activeStudents} active`}
           />
-        </div>
       </motion.div>
 
       {/* Statistics Grid */}

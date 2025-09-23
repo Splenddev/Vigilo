@@ -14,7 +14,7 @@ const useGroupStore = create((set, get) => ({
       set((state) => ({ groups: [...state.groups, res.data.group] }));
       return res.data;
     } catch (err) {
-      set({ error: err.response?.data?.message || err.message });
+      set({ error: err });
       throw err;
     } finally {
       set({ loading: false });
@@ -28,7 +28,7 @@ const useGroupStore = create((set, get) => ({
       const { data } = await api.get('/groups');
       set({ groups: data.groups });
     } catch (err) {
-      set({ error: err.response?.data?.message || err.message });
+      set({ error: err });
     } finally {
       set({ loading: false });
     }

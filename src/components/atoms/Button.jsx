@@ -28,7 +28,7 @@ const Button = ({
     primary: 'btn-primary font-semibold',
     secondary: 'btn-secondary font-semibold',
     ghost:
-      'bg-white/5 border border-white/10 hover:bg-gray-500/10 hover:border-secondary/10',
+      'bg-bg-glass-sm border border-bg-glass-md hover:bg-bg-glass-lg text-t-secondary',
     custom: '',
     danger:
       'btn-danger bg-red-500 text-t-primary hover:bg-red-600 active:bg-red-700 font-semibold border border-red-600',

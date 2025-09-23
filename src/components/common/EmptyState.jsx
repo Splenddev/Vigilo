@@ -24,10 +24,10 @@ export default function EmptyState({
   };
 
   const outlineStyles = {
-    danger: 'border-red-500/40',
-    warning: 'border-yellow-500/40',
-    info: 'border-cyan-500/40',
-    neutral: 'border-gray-400/40',
+    danger: 'border-red-500/30',
+    warning: 'border-yellow-500/30',
+    info: 'border-cyan-500/30',
+    neutral: 'border-gray-400/30',
   };
 
   const bgStyles = {

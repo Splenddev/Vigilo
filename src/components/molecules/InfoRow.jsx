@@ -8,8 +8,8 @@ const InfoRow = ({
   children,
   className = '',
   iconClassName = '',
-  align = 'start', // start | center | end
-  labelClassName = '',
+  align = 'start',
+  labelClassName = 'text-gray-400',
   iconSize = 'text-xl',
   textColor = 'text-t-secondary',
   direction = 'col',

@@ -59,37 +59,6 @@ const StudentCard = ({ student }) => {
           {hasJoined ? 'Joined' : 'Not Joined'}
         </span>
       </div>
-
-      {hasJoined && <>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-2">
-            <LuCircleCheck
-              className="text-green-500"
-              size={18}
-            />
-            <span className="text-sm">{present} Present</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <LuCircleX
-              className="text-red-500"
-              size={18}
-            />
-            <span className="text-sm">{absent} Absent</span>
-          </div>
-        </div>
-
-        <div className="mt-4 h-2 w-full rounded-full bg-bg-tertiary overflow-hidden">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all"
-            style={{ width: `${attendanceRate}%` }}
-          />
-        </div>
-
-        <div className="flex justify-between mt-3 text-xs text-t-muted">
-          <span>Attendance: {attendanceRate}%</span>
-          {level && <span>Level {level}</span>}
-        </div>
-      </>}
     </div>
   );
 };

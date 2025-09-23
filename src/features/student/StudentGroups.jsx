@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo,useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch } from 'react-icons/fi';
 import { FiUsers, FiCheckCircle, FiBookOpen, FiClock } from 'react-icons/fi';
@@ -9,6 +9,8 @@ import { containerVariants, fadeIn } from '../../utils/animationVariants';
 import EmptyState from '../../components/common/EmptyState';
 import Select from '../../components/molecules/Select';
 import GroupCard from '../group/components/GroupCard';
+import { useGroups } from '../../hooks/useGroups'
+import { PageLoader } from '../../components/loaders/PageLoader'
 
 // Mock student groups data
 const mockStudentGroups = [
@@ -107,15 +109,22 @@ const mockStudentGroups = [
 const StudentGroupsDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-  const groups = mockStudentGroups;
+
   const navigate = useNavigate();
+  const { groups = [], fetchGroups, loading } = useGroups();
+
+  useEffect(()=>{
+    fetchGroups()
+  },[])
+
+  // const groups = mockStudentGroups;
 
   // Filter and search groups
   const filteredGroups = useMemo(() => {
     return groups.filter((group) => {
       const matchesSearch =
-        group.groupName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        group.courseId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        group.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        group.courseCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
         group.department.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesFilter =
@@ -127,7 +136,7 @@ const StudentGroupsDashboard = () => {
 
   const handleGroupClick = (group) => {
     console.log('Navigate to group:', group.id);
-    navigate(`${group.id}/info`);
+    navigate(`${group._id}/info`);
   };
 
   const stats = useMemo(() => {
@@ -135,10 +144,10 @@ const StudentGroupsDashboard = () => {
 
     const activeGroups = groups.filter((g) => g.status === 'active');
     const avgAttendance =
-      groups.reduce((acc, g) => acc + g.attendanceRate, 0) / groups.length;
+      groups.reduce((acc, g) => acc + g?.attendanceRate || 0, 0) / groups.length;
     const upcomingSessions = activeGroups.filter(
-      (g) => g.upcomingSession
-    ).length;
+      (g) => g?.upcomingSession
+    )?.length || 0;
 
     return [
       {
@@ -178,9 +187,20 @@ const StudentGroupsDashboard = () => {
     ];
   }, [groups]);
 
+  if (loading) {
+    return (
+      <PageLoader
+        loading={loading} 
+        fullscreen
+        variant='dots'
+        text="Loading data..."
+      />
+    );
+  }
+
   return (
     <motion.div
-      className="min-h-screen  text-white px-4 sm:px-6 py-6 sm:py-8"
+      className="min-h-screen  text-white px-4 py-6"
       variants={fadeIn}
       initial="hidden"
       animate="visible">
@@ -200,7 +220,7 @@ const StudentGroupsDashboard = () => {
         </div>
 
         {/* Overview Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {stats.map((stat) => (
             <StatCard
               key={stat.key}
@@ -210,7 +230,7 @@ const StudentGroupsDashboard = () => {
               subtitle={stat.subtitle}
               trend={stat.trend}
               iconColor={stat.iconColor}
-              trendPosition="absolute"
+              align='center'
             />
           ))}
         </div>
@@ -229,7 +249,7 @@ const StudentGroupsDashboard = () => {
               placeholder="Search courses..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 glass border border-slate-400/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 glass border border-bg-glass-md rounded-xl text-t-primary placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
             />
           </div>
 
@@ -260,6 +280,7 @@ const StudentGroupsDashboard = () => {
               key={group.id}
               group={group}
               onClick={handleGroupClick}
+              query={searchTerm}
             />
           ))}
         </motion.div>

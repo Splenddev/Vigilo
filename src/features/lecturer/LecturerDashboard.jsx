@@ -20,6 +20,7 @@ import {
 } from '../../utils/animationVariants';
 import { createMockSessions } from '../../utils/data';
 import StatList from '../../components/molecules/StatList';
+import StatCard from '../../components/molecules/StatCard';
 import { ROLES } from '../../utils/roles';
 
 const LecturerDashboard = () => {
@@ -143,12 +144,19 @@ const LecturerDashboard = () => {
 
       {/* Quick Stats */}
       <motion.div
-        className="gap-4 sm:gap-6 mb-8 sm:mb-12"
+        className="grid sm:grid-cols-2  md:grid-cols-3 gap-3 my-5"
         variants={containerVariants}>
-        <StatList
-          stats={stats}
-          variant="light"
-        />
+          {stats.map((stat) => (
+            <StatCard
+              key={stat.label}
+              icon={stat.icon}
+              value={stat.value}
+              label={stat.label}
+              iconColor={stat.iconColor}
+              align='center'
+              variant='light'
+            />
+          ))}
       </motion.div>
 
       {/* Recent Sessions */}

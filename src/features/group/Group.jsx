@@ -142,14 +142,15 @@ export default function Groups() {
         loading={grpLoading}
         fullscreen
         text="Loading data..."
+        variant='bar'
       />
     );
   }
+  
   if (error) {
     return (
       <ErrorState
-        title="Failed to load groups"
-        message={error}
+        variant={error.status === 500 ? 'network' : 'error'}
         onRetry={fetchGroups}
         retryLabel="Try again"
       />

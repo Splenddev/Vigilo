@@ -14,7 +14,7 @@ const VARIANTS = {
     tab: 'px-3 py-1.5 rounded-full text-sm font-medium transition-all',
     active: 'bg-primary text-gray-50 shadow',
     inactive:
-      'bg-bg-tertiary text-t-secondary hover:bg-bg-secondary hover:text-t-primary',
+      'bg-bg-glass-md text-t-secondary hover:bg-bg-glass-lg hover:text-t-primary',
   },
   solid: {
     wrapper: 'flex gap-1 bg-bg-secondary rounded-lg p-1',

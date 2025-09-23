@@ -115,6 +115,17 @@ const DIRECTION_PRESETS = {
   valueOnly: 'value',
 };
 
+const TREND_POSITION_MAP = {
+  'absolute-top': 'absolute top-3 inset-x-0 flex justify-center',
+  'absolute-bottom': 'absolute bottom-3 inset-x-0 flex justify-center',
+  'absolute-left': 'absolute inset-y-0 left-3 flex items-center',
+  'absolute-right': 'absolute inset-y-0 right-3 flex items-center',
+  'absolute-top-left': 'absolute top-3 left-3',
+  'absolute-top-right': 'absolute top-3 right-3',
+  'absolute-bottom-left': 'absolute bottom-3 left-3',
+  'absolute-bottom-right': 'absolute bottom-3 right-3',
+};
+
 const StatCard = ({
   align = 'start',
   icon,
@@ -135,7 +146,7 @@ const StatCard = ({
   positiveIcon: PositiveIcon = FiTrendingUp,
   negativeIcon: NegativeIcon = FiTrendingDown,
   formatTrend = (t) => `${Math.abs(t)}%`,
-}) => {
+  }) => {
   const baseDirection =
     direction || DIRECTION_PRESETS[preset] || DIRECTION_PRESETS.default;
 
@@ -184,6 +195,13 @@ const StatCard = ({
     );
   };
 
+  const renderTrendAbsolute = () => {
+    if (!trendPosition?.startsWith('absolute')) return null;
+    const posClass =
+      TREND_POSITION_MAP[trendPosition] || TREND_POSITION_MAP['absolute-top-right'];
+    return <div className={posClass}>{renderTrend()}</div>;
+  };
+
   const parts = {
     icon: renderIcon(),
     value: <div className={`font-bold ${styles.value}`}>{value}</div>,
@@ -213,9 +231,8 @@ const StatCard = ({
           {parts.subtitle}
         </div>
         {trendPosition === 'inline' ? parts.trend : null}
-        {trendPosition === 'absolute' && (
-          <div className="absolute top-3 right-4">{renderTrend()}</div>
-        )}
+        {renderTrendAbsolute()}
+
       </div>
     );
   }
@@ -225,9 +242,7 @@ const StatCard = ({
       <div
         className={`flex relative items-center border gap-2 ${className} ${colorClasses.bg} p-4 rounded-xl ${colorClasses.border}`}>
         {renderContent()}
-        {trendPosition === 'absolute' && (
-          <div className="absolute top-3 right-4">{renderTrend()}</div>
-        )}
+        {renderTrendAbsolute()}
       </div>
     );
   }
@@ -238,9 +253,7 @@ const StatCard = ({
         variant === 'glass' ? styles.wrapper : colorClasses.bg
       } ${colorClasses.border} ${className}`}>
       {renderContent()}
-      {trendPosition === 'absolute' && (
-        <div className="absolute top-3 right-4">{renderTrend()}</div>
-      )}
+      {renderTrendAbsolute()}
     </div>
   );
 };
