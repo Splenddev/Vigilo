@@ -31,31 +31,31 @@ export default function Tabs({
   onChange,
   className = '',
   contentClass = '',
-  renderContent, // optional render prop for custom rendering
+  renderContent,
 }) {
-  const [activeKey, setActiveKey] = useState(defaultActive || tabs[0]?.key);
-
   const styles = VARIANTS[variant] || VARIANTS.underline;
 
   const handleSelect = (key) => {
-    setActiveKey(key);
     onChange?.(key);
   };
+
+  const activeTab =
+    typeof defaultActive === 'string' ? defaultActive : defaultActive();
 
   return (
     <div className={clsx('w-full sticky top-17 z-1', className)}>
       <div
-        role="tablist"
+        role='tablist'
         className={clsx(
           'flex items-center overflow-x-auto no-scrollbar p-2',
           styles.wrapper
         )}>
         {tabs.map(({ key, label, icon: Icon }) => {
-          const isActive = key === activeKey;
+          const isActive = key === activeTab;
           return (
             <button
               key={key}
-              role="tab"
+              role='tab'
               aria-selected={isActive}
               onClick={() => handleSelect(key)}
               className={clsx(
@@ -63,7 +63,7 @@ export default function Tabs({
                 isActive ? styles.active : styles.inactive,
                 'flex items-center gap-2 whitespace-nowrap focus:outline-none'
               )}>
-              {Icon && <Icon className="w-4 h-4" />}
+              {Icon && <Icon className='w-4 h-4' />}
               <span>{label}</span>
             </button>
           );
@@ -73,10 +73,10 @@ export default function Tabs({
       {/* Tab Panels */}
       <div className={clsx('mt-4', contentClass)}>
         {tabs.map(({ key, content }) =>
-          activeKey === key ? (
+          activeTab === key ? (
             <div
               key={key}
-              role="tabpanel">
+              role='tabpanel'>
               {renderContent ? renderContent(key) : content}
             </div>
           ) : null

@@ -294,9 +294,7 @@ export default function RosterUploadModal({
       }
     } catch (err) {
       console.error(err);
-      setServerError(
-        err.response?.data?.error || err.message || 'Upload failed'
-      );
+      setServerError(err.response?.data?.error || 'Upload failed');
     } finally {
       setUploading(false);
     }
@@ -313,35 +311,35 @@ export default function RosterUploadModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className='absolute inset-0 bg-black/60 backdrop-blur-sm'
         onClick={onClose}
       />
 
-      <div className="relative z-10 w-full max-w-4xl max-h-[90vh] bg-bg-primary rounded-2xl border border-bg-glass-lg shadow-2xl overflow-hidden">
+      <div className='relative z-10 w-full max-w-4xl max-h-[90vh] bg-bg-primary rounded-2xl border border-bg-glass-lg shadow-2xl overflow-hidden'>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-bg-glass-lg">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-600 rounded-lg">
-              <LuUpload className="w-5 h-5 text-white" />
+        <div className='flex items-center justify-between px-6 py-4 border-b border-bg-glass-lg'>
+          <div className='flex items-center gap-3'>
+            <div className='p-2 bg-blue-600 rounded-lg'>
+              <LuUpload className='w-5 h-5 text-white' />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Upload Student Roster</h2>
-              <p className="text-sm text-gray-400">
+              <h2 className='text-lg font-semibold'>Upload Student Roster</h2>
+              <p className='text-sm text-gray-400'>
                 Add students to your group via CSV
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
-            <LuX className="w-5 h-5" />
+            className='p-2 hover:bg-gray-700 rounded-lg transition-colors'>
+            <LuX className='w-5 h-5' />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-100px)]">
+        <div className='p-6 overflow-y-auto max-h-[calc(90vh-100px)]'>
           {renderStepIndicator({ currentStep })}
 
           {currentStep === 1 &&
@@ -374,10 +372,10 @@ export default function RosterUploadModal({
 
           {/* Error Display */}
           {serverError && (
-            <div className="mt-6 p-4 bg-red-300/20 border border-red-400/30 rounded-lg">
-              <div className="flex items-center gap-2">
-                <LuCircleAlert className="w-5 h-5 text-red-400 shrink-0" />
-                <p className="text-red-400">{serverError}</p>
+            <div className='mt-6 p-4 bg-red-300/20 border border-red-400/30 rounded-lg'>
+              <div className='flex items-center gap-2'>
+                <LuCircleAlert className='w-5 h-5 text-red-400 shrink-0' />
+                <p className='text-red-400'>{serverError}</p>
               </div>
             </div>
           )}

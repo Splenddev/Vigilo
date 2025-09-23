@@ -5,8 +5,10 @@ export const getGroupHealth = (group) => {
   if (!group?.studentsRosterId?.students?.length) {
     issues.push({
       type: 'warning',
-      message:
-        'No student roster has been uploaded yet. Head over to the "Students" tab and click **Upload New Roster** to auto-enroll students.',
+      message: `No student roster has been uploaded yet. Head over to the "Students" tab and click **Upload New Roster** to auto-enroll students.`,
+      // actionText: 'Go to Upload Roster',
+      // actionTargetId: 'uploadRosterBtn',
+      // tabKey: 'students',
     });
   }
 
@@ -34,6 +36,5 @@ export const getGroupHealth = (group) => {
     });
   }
 
-  // Add more rules as needed (assignments, media, etc.)
   return issues;
 };
