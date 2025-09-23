@@ -12,13 +12,6 @@ const LOADER_SIZES = {
   xl: { loader: 'w-16 h-16', dot: 'w-5 h-5' }
 };
 
-const BLUR_CLASSES = {
-  none: '',
-  sm: 'backdrop-blur-sm',
-  md: 'backdrop-blur-md',
-  lg: 'backdrop-blur-lg'
-};
-
 const ANIMATION_VARIANTS = {
   overlay: {
     initial: { opacity: 0 },
@@ -48,8 +41,7 @@ export const PageLoader = ({
   color = 'text-purple-500',
   variant = 'spinner',
   overlayOpacity = 25,
-  overlayBlur = 'sm',
-  overlayColor = 'bg-black',
+  overlayColor = 'bg-bg-primary/20',
   textPosition = 'bottom',
   closeable = false,
   onClose,
@@ -62,7 +54,6 @@ export const PageLoader = ({
   const validSizes = Object.keys(LOADER_SIZES);
   const validVariants = ['spinner', 'dots', 'bar', 'pulse'];
   const validTextPositions = ['bottom', 'right'];
-  const validBlur = Object.keys(BLUR_CLASSES);
 
   if (!validSizes.includes(size)) {
     console.warn(`Invalid size "${size}". Using "lg" instead.`);
@@ -73,15 +64,11 @@ export const PageLoader = ({
   if (!validTextPositions.includes(textPosition)) {
     console.warn(`Invalid textPosition "${textPosition}". Using "bottom" instead.`);
   }
-  if (!validBlur.includes(overlayBlur)) {
-    console.warn(`Invalid overlayBlur "${overlayBlur}". Using "sm" instead.`);
-  }
 
   // Sanitize props
   const safeSize = validSizes.includes(size) ? size : 'lg';
   const safeVariant = validVariants.includes(variant) ? variant : 'spinner';
   const safeTextPosition = validTextPositions.includes(textPosition) ? textPosition : 'bottom';
-  const safeOverlayBlur = validBlur.includes(overlayBlur) ? overlayBlur : 'sm';
   const safeOverlayOpacity = Math.max(0, Math.min(100, overlayOpacity));
 
   // Handle escape key for closeable loaders
@@ -134,8 +121,6 @@ export const PageLoader = ({
     'flex items-center justify-center',
     fullscreen && [
       'fixed inset-0',
-      overlayColor,
-      BLUR_CLASSES[safeOverlayBlur],
     ],
     !fullscreen && 'w-full h-full',
     className
@@ -158,7 +143,6 @@ export const PageLoader = ({
         className={containerClasses}
         style={{
           ...(fullscreen && {
-            backgroundColor: `rgba(0, 0, 0, ${safeOverlayOpacity / 100})`,
             zIndex
           })
         }}

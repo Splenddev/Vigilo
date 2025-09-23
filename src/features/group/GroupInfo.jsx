@@ -35,6 +35,8 @@ import StudentCard from './components/StudentCard';
 import { useGroups } from '../../hooks/useGroups';
 import { PageLoader } from '../../components/loaders/PageLoader';
 import ErrorState from '../../components/common/ErrorState';
+import { HealthStatus } from '../../components/common/HealthStatus'
+import { getGroupHealth } from '../../utils/healthChecks'
 
 const GroupInfo = () => {
   const { groupId } = useParams();
@@ -152,7 +154,7 @@ const GroupInfo = () => {
     label: 'Pending Matches',
     iconColor: 'orange',
     value:
-      (group.studentsRosterId?.students?.length || 0) - (group.joinedCount || 0),
+      group.studentsRosterId?.students?.filter((s) => !s.hasJoined)?.length || 0,
   },
   {
     icon: LuUserPlus,
@@ -161,14 +163,15 @@ const GroupInfo = () => {
     value: group.invitedCount || 0,
   },
 ];
+    
+    const healthIssues = getGroupHealth(group);
 
   return (
     <motion.div
       className="px-4 sm:px-6 py-6 min-h-screen"
       variants={fadeIn}
       initial="hidden"
-      animate="visible"
-    >
+      animate="visible">
       {/* Responsive Layout */}
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6">
         {/* Left column (Group Header + Stats) */}
@@ -195,6 +198,8 @@ const GroupInfo = () => {
                 <p className="text-sm sm:text-base text-t-secondary">
                   {group.description}
                 </p>
+
+                <HealthStatus issues={healthIssues} />
               </motion.div>
             </div>
             <StatList variant="light" stats={stats} />

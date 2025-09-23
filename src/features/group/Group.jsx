@@ -22,7 +22,7 @@ import { PageLoader } from '../../components/loaders/PageLoader';
 import ErrorState from '../../components/common/ErrorState';
 
 const GroupCard = ({ group, index, user, fetchGroups }) => {
-  const totalStudents = group.studentsRosterId?.students?.length || 0;
+  const totalStudents = group.memberCount?.length || 0;
   const totalSessions = group.sessions?.length || 0;
   const completedSessions =
     group.sessions?.filter((s) => s.status === 'completed')?.length || 0;

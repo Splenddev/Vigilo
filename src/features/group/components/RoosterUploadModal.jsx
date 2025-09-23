@@ -295,7 +295,7 @@ export default function RosterUploadModal({
     } catch (err) {
       console.error(err);
       setServerError(
-        err.response?.data?.message || err.message || 'Upload failed'
+        err.response?.data?.error || err.message || 'Upload failed'
       );
     } finally {
       setUploading(false);
@@ -374,10 +374,10 @@ export default function RosterUploadModal({
 
           {/* Error Display */}
           {serverError && (
-            <div className="mt-6 p-4 bg-red-900/20 border border-red-700/30 rounded-lg">
+            <div className="mt-6 p-4 bg-red-300/20 border border-red-400/30 rounded-lg">
               <div className="flex items-center gap-2">
                 <LuCircleAlert className="w-5 h-5 text-red-400 shrink-0" />
-                <p className="text-red-300">{serverError}</p>
+                <p className="text-red-400">{serverError}</p>
               </div>
             </div>
           )}

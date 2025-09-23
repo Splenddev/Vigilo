@@ -16,11 +16,11 @@ const LabelCheckbox = ({ name = '', onChange, checked, children, ...rest }) => {
 
       {/* Custom checkbox */}
       <span
-        className={`w-5 h-5 border-2 border-primary-pink rounded-2xl flex items-center ${
+        className={`w-5 h-5 border-2 border-secondary rounded-2xl flex items-center ${
           checked && 'bg-primary-pink border-none'
         } justify-center
                  transition-colors`}>
-        {checked && <LuCheck className="w-3 h-3 text-t-primary" />}
+        {checked && <LuCheck className="w-3 h-3 text-white" />}
       </span>
 
       {/* Label text with links */}

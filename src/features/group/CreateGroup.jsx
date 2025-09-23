@@ -507,7 +507,7 @@ showError(
                 {formData.description && (
                   <div className="mt-6 pt-4 border-t border-bg-glass-md">
                     <p className="text-sm text-gray-400 mb-2">Description</p>
-                    <p className="text-gray-200">{formData.description}</p>
+                    <p className="text-t-tertiary">{formData.description}</p>
                   </div>
                 )}
               </div>
