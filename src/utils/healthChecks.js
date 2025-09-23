@@ -6,7 +6,7 @@ export const getGroupHealth = (group) => {
     issues.push({
       type: 'warning',
       message:
-        'No student roster has been uploaded yet — students will not be auto-enrolled until you provide one.',
+        'No student roster has been uploaded yet. Head over to the "Students" tab and click **Upload New Roster** to auto-enroll students.',
     });
   }
 
