@@ -93,7 +93,7 @@ const GroupCard = ({ group, index, user, fetchGroups }) => {
             />
             <StatCard
               icon={LuCalendar}
-              value={`${completedSessions}/${totalSessions}`}
+              value={`${completedSessions}`}
               label='Sessions'
               iconColor='purple'
               align='center'
