@@ -88,19 +88,19 @@ const GroupCard = ({ group, index, user, fetchGroups }) => {
               icon={LuUsers}
               value={totalStudents}
               label='Students'
-              iconColor='blue'
+              iconColor='purple'
             />
             <StatCard
               icon={LuCalendar}
               value={`${completedSessions}/${totalSessions}`}
               label='Sessions'
-              iconColor='blue'
+              iconColor='purple'
             />
             <StatCard
               icon={LuBookOpen}
               value={shortenDept(group.department)}
               label='Department'
-              iconColor='blue'
+              iconColor='purple'
             />
           </div>
 
