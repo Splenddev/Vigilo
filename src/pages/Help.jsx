@@ -30,9 +30,13 @@ import {
 } from 'react-icons/lu';
 import { FiHome, FiEdit3 } from 'react-icons/fi';
 import { containerVariants } from '../utils/animationVariants';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ROLES } from '../utils/roles';
 
 const HelpPage = () => {
-  const [activeSection, setActiveSection] = useState('overview');
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState(state?.tab || 'overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedFAQ, setExpandedFAQ] = useState(null);
   const [activeRole, setActiveRole] = useState('lecturer');
@@ -72,7 +76,7 @@ const HelpPage = () => {
   const sections = [
     { id: 'overview', title: 'Overview', icon: FiHome },
     { id: 'quick-start', title: 'Quick Start', icon: LuCircleCheck },
-    { id: 'courses', title: 'Courses & Groups', icon: LuBookOpen },
+    { id: 'courses', title: 'Courses, Groups & Rosters', icon: LuBookOpen },
     { id: 'sessions', title: 'Sessions', icon: LuCalendar },
     { id: 'students', title: 'Students', icon: LuUsers },
     { id: 'filters', title: 'Filters & Search', icon: LuFilter },
@@ -202,20 +206,20 @@ const HelpPage = () => {
 
   const renderOverview = () => (
     <motion.div
-      key="overview"
+      key='overview'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
-      <div className="text-center max-w-3xl mx-auto">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
+      <div className='text-center max-w-3xl mx-auto'>
         <motion.h1
-          className="text-4xl md:text-5xl font-bold gradient-text mb-6"
+          className='text-4xl md:text-5xl font-bold gradient-text mb-6'
           variants={itemVariants}>
           Welcome to Vigilo Attendance
         </motion.h1>
         <motion.p
-          className="text-xl text-gray-300 mb-8"
+          className='text-xl text-gray-300 mb-8'
           variants={itemVariants}>
           Your comprehensive guide to managing attendance efficiently for
           lecturers and students
@@ -223,20 +227,20 @@ const HelpPage = () => {
       </div>
 
       <motion.div
-        className="grid md:grid-cols-2 gap-6 mb-12"
+        className='grid md:grid-cols-2 gap-6 mb-12'
         variants={itemVariants}>
-        <div className="card-hover text-center">
-          <LuGraduationCap className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-3">For Lecturers</h3>
-          <p className="text-gray-300 text-sm">
+        <div className='card-hover text-center'>
+          <LuGraduationCap className='w-16 h-16 text-purple-400 mx-auto mb-4' />
+          <h3 className='text-xl font-semibold mb-3'>For Lecturers</h3>
+          <p className='text-gray-300 text-sm'>
             Create courses, schedule sessions, manage students, and track
             attendance with powerful tools and reports.
           </p>
         </div>
-        <div className="card-hover text-center">
-          <LuUser className="w-16 h-16 text-pink-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-3">For Students</h3>
-          <p className="text-gray-300 text-sm">
+        <div className='card-hover text-center'>
+          <LuUser className='w-16 h-16 text-pink-400 mx-auto mb-4' />
+          <h3 className='text-xl font-semibold mb-3'>For Students</h3>
+          <p className='text-gray-300 text-sm'>
             View schedules, track your attendance history, and manage your
             profile with an intuitive interface.
           </p>
@@ -244,24 +248,24 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div variants={itemVariants}>
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-          <LuInfo className="text-cyan-400" />
+        <h2 className='text-2xl font-bold mb-6 flex items-center gap-3'>
+          <LuInfo className='text-cyan-400' />
           Key Terms
         </h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className='grid md:grid-cols-2 gap-4'>
           {keyTerms.map((term) => (
             <motion.div
               key={term.term}
-              className="card border-l-4 border-purple-500"
+              className='card border-l-4 border-purple-500'
               variants={itemVariants}
               whileHover={{ scale: 1.02 }}>
-              <div className="flex items-start gap-3">
-                <term.icon className="w-6 h-6 text-purple-400 mt-1" />
+              <div className='flex items-start gap-3'>
+                <term.icon className='w-6 h-6 text-purple-400 mt-1' />
                 <div>
-                  <h4 className="font-semibold text-purple-400 mb-1">
+                  <h4 className='font-semibold text-purple-400 mb-1'>
                     {term.term}
                   </h4>
-                  <p className="text-gray-300 text-sm">{term.definition}</p>
+                  <p className='text-gray-300 text-sm'>{term.definition}</p>
                 </div>
               </div>
             </motion.div>
@@ -273,22 +277,22 @@ const HelpPage = () => {
 
   const renderQuickStart = () => (
     <motion.div
-      key="quick-start"
+      key='quick-start'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
           Quick Start Guide
         </h2>
-        <p className="text-gray-300 mb-8">
+        <p className='text-gray-300 mb-8'>
           Get started quickly based on your role in the system.
         </p>
       </div>
 
-      <div className="flex gap-4 mb-8">
+      <div className='flex gap-4 mb-8'>
         <motion.button
           onClick={() => setActiveRole('lecturer')}
           className={`px-6 py-3 rounded-xl font-medium transition-all ${
@@ -298,7 +302,7 @@ const HelpPage = () => {
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}>
-          <LuGraduationCap className="w-5 h-5 inline mr-2" />
+          <LuGraduationCap className='w-5 h-5 inline mr-2' />
           Lecturer
         </motion.button>
         <motion.button
@@ -310,32 +314,32 @@ const HelpPage = () => {
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}>
-          <LuUser className="w-5 h-5 inline mr-2" />
+          <LuUser className='w-5 h-5 inline mr-2' />
           Student
         </motion.button>
       </div>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode='wait'>
         <motion.div
           key={activeRole}
           variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          className="space-y-4">
+          initial='hidden'
+          animate='visible'
+          exit='hidden'
+          className='space-y-4'>
           {quickStartSteps[activeRole].map((step, index) => (
             <motion.div
               key={step.step}
-              className="card-hover flex items-center gap-4"
+              className='card-hover flex items-center gap-4'
               variants={itemVariants}
               custom={index}>
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+              <div className='flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold'>
                 {index + 1}
               </div>
-              <step.icon className="w-6 h-6 text-purple-400" />
+              <step.icon className='w-6 h-6 text-purple-400' />
               <div>
-                <h4 className="font-semibold text-white">{step.step}</h4>
-                <p className="text-gray-300 text-sm">{step.description}</p>
+                <h4 className='font-semibold text-white'>{step.step}</h4>
+                <p className='text-gray-300 text-sm'>{step.description}</p>
               </div>
             </motion.div>
           ))}
@@ -344,98 +348,135 @@ const HelpPage = () => {
     </motion.div>
   );
 
-  const renderCourses = () => (
+  const renderCoursesAndRoster = () => (
     <motion.div
-      key="courses"
+      key='courses'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
-          Courses & Groups
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
+          Courses, Groups & Rosters
         </h2>
-        <p className="text-gray-300 mb-8">
-          Learn how to create and manage courses and organize students into
-          groups for targeted sessions.
+        <p className='text-gray-300 mb-8'>
+          Learn how to create courses, organize students into groups, and manage
+          rosters for smooth enrollment and attendance tracking.
         </p>
       </div>
 
       <motion.div
-        className="space-y-6"
+        className='space-y-6'
         variants={itemVariants}>
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuPlus className="text-green-400" />
+        {/* Creating a Course */}
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuPlus className='text-green-400' />
             Creating a Course
           </h3>
-          <ol className="list-decimal list-inside space-y-2 text-gray-300">
+          <ol className='list-decimal list-inside space-y-2 text-gray-300'>
             <li>
               Navigate to{' '}
-              <span className="text-purple-400 font-medium">
+              <span className='text-purple-400 font-medium'>
                 Courses → New Course
               </span>
             </li>
             <li>
               Enter the{' '}
-              <span className="text-purple-400 font-medium">Course Name</span>{' '}
+              <span className='text-purple-400 font-medium'>Course Name</span>{' '}
               and optional code/description
             </li>
             <li>
-              Click <span className="text-purple-400 font-medium">Create</span>{' '}
+              Click <span className='text-purple-400 font-medium'>Create</span>{' '}
               to save your course
             </li>
           </ol>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUsers className="text-blue-400" />
+        {/* Managing Groups */}
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUsers className='text-blue-400' />
             Managing Groups
           </h3>
-          <div className="space-y-3 text-gray-300">
+          <div className='space-y-3 text-gray-300'>
             <p>
-              Groups help you organize students within a course for better
-              session management:
+              Groups help you organize students within a course for targeted
+              sessions:
             </p>
-            <ul className="list-disc list-inside space-y-1 ml-4">
+            <ul className='list-disc list-inside space-y-1 ml-4'>
               <li>
                 Create groups like <em>Level 300</em>, <em>Group A</em>, or{' '}
                 <em>Lab Section B</em>
               </li>
-              <li>Assign students to specific groups for targeted sessions</li>
+              <li>Assign students to specific groups for focused sessions</li>
               <li>Filter reports and attendance by group</li>
             </ul>
           </div>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUpload className="text-yellow-400" />
+        {/* Roster & Enrollment */}
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUpload className='text-yellow-400' />
+            Student Roster & Enrollment
+          </h3>
+          <div className='space-y-3 text-gray-300'>
+            <p>
+              A <span className='text-purple-400 font-medium'>Roster</span> is
+              the expected list of students for a course or group. It acts as a
+              blueprint for enrollment:
+            </p>
+            <ul className='list-disc list-inside space-y-2 ml-4'>
+              <li>
+                <strong>Auto-Matching:</strong> Roster entries are matched
+                against registered student accounts using email or ID.
+              </li>
+              <li>
+                <strong>Auto-Join:</strong> Matched students join automatically
+                after login/sign-up.
+              </li>
+              <li>
+                <strong>Pending:</strong> Students not yet registered remain in
+                the roster until they sign up.
+              </li>
+              <li>
+                <strong>Lecturer Options:</strong> Invite via email or allow
+                self-join (set in{' '}
+                <span className='text-purple-400'>Group Settings</span>).
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Adding Students */}
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUsers className='text-pink-400' />
             Adding Students
           </h3>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className='grid md:grid-cols-2 gap-6'>
             <div>
-              <h4 className="font-medium mb-2 text-purple-400">
+              <h4 className='font-medium mb-2 text-purple-400'>
                 Individual Addition
               </h4>
-              <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm">
-                <li>Search by name or email</li>
+              <ul className='list-disc list-inside space-y-1 text-gray-300 text-sm'>
+                <li>Search by name, email, or ID</li>
                 <li>
                   Click <em>Add</em> to enroll
                 </li>
-                <li>Assign to specific groups</li>
+                <li>Assign to groups immediately</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-medium mb-2 text-pink-400">
+              <h4 className='font-medium mb-2 text-pink-400'>
                 Bulk Import (CSV)
               </h4>
-              <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm">
+              <ul className='list-disc list-inside space-y-1 text-gray-300 text-sm'>
                 <li>Required: Name, Email, ID</li>
                 <li>Optional: Group assignments</li>
-                <li>UTF-8 encoding with commas</li>
+                <li>UTF-8 CSV format with commas</li>
               </ul>
             </div>
           </div>
@@ -446,83 +487,83 @@ const HelpPage = () => {
 
   const renderSessions = () => (
     <motion.div
-      key="sessions"
+      key='sessions'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
           Sessions Management
         </h2>
-        <p className="text-gray-300 mb-8">
+        <p className='text-gray-300 mb-8'>
           Create, schedule, and manage class sessions with comprehensive
           attendance tracking.
         </p>
       </div>
 
       <motion.div variants={itemVariants}>
-        <h3 className="text-xl font-semibold mb-4">Session Types</h3>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <h3 className='text-xl font-semibold mb-4'>Session Types</h3>
+        <div className='grid grid-cols-2 md:grid-cols-5 gap-4 mb-8'>
           {sessionTypes.map((type) => (
             <motion.div
               key={type.type}
-              className="card text-center"
+              className='card text-center'
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}>
               <type.icon className={`w-8 h-8 mx-auto mb-2 ${type.color}`} />
-              <span className="text-sm font-medium">{type.type}</span>
+              <span className='text-sm font-medium'>{type.type}</span>
             </motion.div>
           ))}
         </div>
       </motion.div>
 
       <motion.div
-        className="grid md:grid-cols-2 gap-6"
+        className='grid md:grid-cols-2 gap-6'
         variants={itemVariants}>
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuCalendar className="text-green-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuCalendar className='text-green-400' />
             Creating a Session
           </h3>
-          <ol className="list-decimal list-inside space-y-2 text-gray-300 text-sm">
+          <ol className='list-decimal list-inside space-y-2 text-gray-300 text-sm'>
             <li>
               Go to{' '}
-              <span className="text-purple-400">Sessions → New Session</span>
+              <span className='text-purple-400'>Sessions → New Session</span>
             </li>
             <li>
-              Select <span className="text-purple-400">Course</span> (optional
+              Select <span className='text-purple-400'>Course</span> (optional
               for guest sessions)
             </li>
             <li>
-              Choose <span className="text-purple-400">Session Type</span>
+              Choose <span className='text-purple-400'>Session Type</span>
             </li>
             <li>
-              Set <span className="text-purple-400">Date, Time & Duration</span>
+              Set <span className='text-purple-400'>Date, Time & Duration</span>
             </li>
             <li>
-              Add <span className="text-purple-400">Location</span> (Room +
+              Add <span className='text-purple-400'>Location</span> (Room +
               Building)
             </li>
             <li>
               Optionally limit to specific{' '}
-              <span className="text-purple-400">Groups</span>
+              <span className='text-purple-400'>Groups</span>
             </li>
             <li>
-              Click <span className="text-purple-400">Schedule</span>
+              Click <span className='text-purple-400'>Schedule</span>
             </li>
           </ol>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUserCheck className="text-blue-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUserCheck className='text-blue-400' />
             Running a Session
           </h3>
-          <div className="space-y-3 text-gray-300 text-sm">
+          <div className='space-y-3 text-gray-300 text-sm'>
             <p>Once your session starts:</p>
-            <ul className="list-disc list-inside space-y-1 ml-4">
+            <ul className='list-disc list-inside space-y-1 ml-4'>
               <li>
                 Click <em>Start</em> to begin attendance
               </li>
@@ -542,29 +583,29 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div
-        className="card bg-gradient-to-r from-purple-900/20 to-pink-900/20 border-purple-500/30"
+        className='card bg-gradient-to-r from-purple-900/20 to-pink-900/20 border-purple-500/30'
         variants={itemVariants}>
-        <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-          <LuChartBar className="text-yellow-400" />
+        <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+          <LuChartBar className='text-yellow-400' />
           Session Status & Attendance Rates
         </h3>
-        <div className="grid md:grid-cols-3 gap-4 text-sm">
+        <div className='grid md:grid-cols-3 gap-4 text-sm'>
           <div>
-            <h4 className="font-medium text-green-400 mb-2">Scheduled</h4>
-            <p className="text-gray-300">Future sessions or not yet started</p>
+            <h4 className='font-medium text-green-400 mb-2'>Scheduled</h4>
+            <p className='text-gray-300'>Future sessions or not yet started</p>
           </div>
           <div>
-            <h4 className="font-medium text-yellow-400 mb-2">Ongoing</h4>
-            <p className="text-gray-300">Currently in progress</p>
+            <h4 className='font-medium text-yellow-400 mb-2'>Ongoing</h4>
+            <p className='text-gray-300'>Currently in progress</p>
           </div>
           <div>
-            <h4 className="font-medium text-blue-400 mb-2">Completed</h4>
-            <p className="text-gray-300">Finished and locked</p>
+            <h4 className='font-medium text-blue-400 mb-2'>Completed</h4>
+            <p className='text-gray-300'>Finished and locked</p>
           </div>
         </div>
-        <div className="mt-4 p-4 bg-white/5 rounded-xl">
-          <p className="text-gray-300 text-sm">
-            <span className="text-purple-400 font-medium">
+        <div className='mt-4 p-4 bg-white/5 rounded-xl'>
+          <p className='text-gray-300 text-sm'>
+            <span className='text-purple-400 font-medium'>
               Attendance Rate:
             </span>
             Calculated as present ÷ total × 100. Displayed as both fraction
@@ -577,70 +618,70 @@ const HelpPage = () => {
 
   const renderStudents = () => (
     <motion.div
-      key="students"
+      key='students'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
           Student Management
         </h2>
-        <p className="text-gray-300 mb-8">
+        <p className='text-gray-300 mb-8'>
           Comprehensive tools for managing student profiles, enrollment, and
           attendance history.
         </p>
       </div>
 
       <motion.div
-        className="grid md:grid-cols-2 gap-6"
+        className='grid md:grid-cols-2 gap-6'
         variants={itemVariants}>
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUserCheck className="text-green-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUserCheck className='text-green-400' />
             For Lecturers
           </h3>
-          <ul className="space-y-3 text-gray-300 text-sm">
-            <li className="flex items-start gap-2">
-              <LuPlus className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+          <ul className='space-y-3 text-gray-300 text-sm'>
+            <li className='flex items-start gap-2'>
+              <LuPlus className='w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0' />
               <span>Add individual students via search</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuUpload className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuUpload className='w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0' />
               <span>Bulk import via CSV with required columns</span>
             </li>
-            <li className="flex items-start gap-2">
-              <FiEdit3 className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <FiEdit3 className='w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0' />
               <span>Manage student profiles and course memberships</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuChartBar className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuChartBar className='w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0' />
               <span>View detailed attendance history and analytics</span>
             </li>
           </ul>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUser className="text-blue-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUser className='text-blue-400' />
             For Students
           </h3>
-          <ul className="space-y-3 text-gray-300 text-sm">
-            <li className="flex items-start gap-2">
-              <LuCalendar className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+          <ul className='space-y-3 text-gray-300 text-sm'>
+            <li className='flex items-start gap-2'>
+              <LuCalendar className='w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0' />
               <span>View today's sessions and weekly schedule</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuChartBar className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuChartBar className='w-4 h-4 text-green-400 mt-0.5 flex-shrink-0' />
               <span>Track personal attendance history</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuSettings className="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuSettings className='w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0' />
               <span>Update profile information and preferences</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuMail className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuMail className='w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0' />
               <span>Manage notification settings</span>
             </li>
           </ul>
@@ -648,36 +689,36 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div
-        className="card"
+        className='card'
         variants={itemVariants}>
-        <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-          <LuFileText className="text-yellow-400" />
+        <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+          <LuFileText className='text-yellow-400' />
           CSV Import Guidelines
         </h3>
-        <div className="bg-white/5 rounded-xl p-4">
-          <h4 className="font-medium text-purple-400 mb-2">Required Format</h4>
-          <div className="space-y-2 text-sm text-gray-300">
+        <div className='bg-white/5 rounded-xl p-4'>
+          <h4 className='font-medium text-purple-400 mb-2'>Required Format</h4>
+          <div className='space-y-2 text-sm text-gray-300'>
             <p>
-              <span className="text-green-400 font-medium">✓</span> UTF-8
+              <span className='text-green-400 font-medium'>✓</span> UTF-8
               encoding
             </p>
             <p>
-              <span className="text-green-400 font-medium">✓</span> Comma
+              <span className='text-green-400 font-medium'>✓</span> Comma
               separators
             </p>
             <p>
-              <span className="text-green-400 font-medium">✓</span> Required
+              <span className='text-green-400 font-medium'>✓</span> Required
               columns: Name, Email, Student ID
             </p>
             <p>
-              <span className="text-blue-400 font-medium">○</span> Optional:
+              <span className='text-blue-400 font-medium'>○</span> Optional:
               Course, Group assignments
             </p>
           </div>
         </div>
-        <div className="mt-4 p-4 bg-red-900/20 border border-red-500/30 rounded-xl">
-          <p className="text-red-300 text-sm flex items-start gap-2">
-            <LuTriangleAlert className="w-4 h-4 mt-0.5 flex-shrink-0" />
+        <div className='mt-4 p-4 bg-red-900/20 border border-red-500/30 rounded-xl'>
+          <p className='text-red-300 text-sm flex items-start gap-2'>
+            <LuTriangleAlert className='w-4 h-4 mt-0.5 flex-shrink-0' />
             Common import issues: Missing required columns, incorrect encoding,
             or duplicate entries.
           </p>
@@ -688,74 +729,74 @@ const HelpPage = () => {
 
   const renderFilters = () => (
     <motion.div
-      key="filters"
+      key='filters'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
           Filters & Search
         </h2>
-        <p className="text-gray-300 mb-8">
+        <p className='text-gray-300 mb-8'>
           Master the filtering system to quickly find sessions, courses, and
           students.
         </p>
       </div>
 
       <motion.div
-        className="grid md:grid-cols-2 gap-6"
+        className='grid md:grid-cols-2 gap-6'
         variants={itemVariants}>
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuFilter className="text-purple-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuFilter className='text-purple-400' />
             Advanced Filters
           </h3>
-          <div className="space-y-3">
-            <div className="p-3 bg-white/5 rounded-lg">
-              <h4 className="font-medium text-purple-400 mb-1">
+          <div className='space-y-3'>
+            <div className='p-3 bg-white/5 rounded-lg'>
+              <h4 className='font-medium text-purple-400 mb-1'>
                 Status Filters
               </h4>
-              <p className="text-gray-300 text-sm">
+              <p className='text-gray-300 text-sm'>
                 Filter by scheduled, ongoing, or completed sessions
               </p>
             </div>
-            <div className="p-3 bg-white/5 rounded-lg">
-              <h4 className="font-medium text-blue-400 mb-1">Session Type</h4>
-              <p className="text-gray-300 text-sm">
+            <div className='p-3 bg-white/5 rounded-lg'>
+              <h4 className='font-medium text-blue-400 mb-1'>Session Type</h4>
+              <p className='text-gray-300 text-sm'>
                 Filter by lecture, lab, seminar, workshop, or ad-hoc
               </p>
             </div>
-            <div className="p-3 bg-white/5 rounded-lg">
-              <h4 className="font-medium text-green-400 mb-1">
+            <div className='p-3 bg-white/5 rounded-lg'>
+              <h4 className='font-medium text-green-400 mb-1'>
                 Attendance Range
               </h4>
-              <p className="text-gray-300 text-sm">
+              <p className='text-gray-300 text-sm'>
                 Filter sessions by attendance percentage (0-100%)
               </p>
             </div>
           </div>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuSearch className="text-pink-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuSearch className='text-pink-400' />
             Search & Sorting
           </h3>
-          <div className="space-y-4 text-gray-300 text-sm">
+          <div className='space-y-4 text-gray-300 text-sm'>
             <div>
-              <h4 className="font-medium text-pink-400 mb-2">Quick Search</h4>
+              <h4 className='font-medium text-pink-400 mb-2'>Quick Search</h4>
               <p>
                 Use the search bar to find sessions, courses, or students by
                 name instantly.
               </p>
             </div>
             <div>
-              <h4 className="font-medium text-cyan-400 mb-2">
+              <h4 className='font-medium text-cyan-400 mb-2'>
                 Sorting Options
               </h4>
-              <ul className="list-disc list-inside space-y-1 ml-4">
+              <ul className='list-disc list-inside space-y-1 ml-4'>
                 <li>Date & Time</li>
                 <li>Course Name</li>
                 <li>Location</li>
@@ -768,34 +809,34 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div
-        className="card bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-500/30"
+        className='card bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-500/30'
         variants={itemVariants}>
-        <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-          <LuCircleHelp className="text-cyan-400" />
+        <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+          <LuCircleHelp className='text-cyan-400' />
           Pro Tips
         </h3>
-        <div className="grid md:grid-cols-2 gap-4 text-sm">
-          <div className="space-y-2">
-            <p className="text-green-400 font-medium">✓ Filter Persistence</p>
-            <p className="text-gray-300">
+        <div className='grid md:grid-cols-2 gap-4 text-sm'>
+          <div className='space-y-2'>
+            <p className='text-green-400 font-medium'>✓ Filter Persistence</p>
+            <p className='text-gray-300'>
               Your filter selections persist while the page is open
             </p>
           </div>
-          <div className="space-y-2">
-            <p className="text-blue-400 font-medium">✓ Multi-Select</p>
-            <p className="text-gray-300">
+          <div className='space-y-2'>
+            <p className='text-blue-400 font-medium'>✓ Multi-Select</p>
+            <p className='text-gray-300'>
               Use checkboxes to select multiple filter options
             </p>
           </div>
-          <div className="space-y-2">
-            <p className="text-purple-400 font-medium">✓ Quick Clear</p>
-            <p className="text-gray-300">
+          <div className='space-y-2'>
+            <p className='text-purple-400 font-medium'>✓ Quick Clear</p>
+            <p className='text-gray-300'>
               Use the Clear button to reset all filters
             </p>
           </div>
-          <div className="space-y-2">
-            <p className="text-yellow-400 font-medium">✓ Combine Filters</p>
-            <p className="text-gray-300">
+          <div className='space-y-2'>
+            <p className='text-yellow-400 font-medium'>✓ Combine Filters</p>
+            <p className='text-gray-300'>
               Stack multiple filters for precise results
             </p>
           </div>
@@ -806,56 +847,56 @@ const HelpPage = () => {
 
   const renderWorkflows = () => (
     <motion.div
-      key="workflows"
+      key='workflows'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
           Common Workflows
         </h2>
-        <p className="text-gray-300 mb-8">
+        <p className='text-gray-300 mb-8'>
           Step-by-step guides for the most common tasks in Vigilo Attendance.
         </p>
       </div>
 
       <motion.div
-        className="space-y-6"
+        className='space-y-6'
         variants={itemVariants}>
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUserCheck className="text-green-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUserCheck className='text-green-400' />
             Quick Attendance Taking
           </h3>
-          <div className="space-y-2 text-gray-300 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold">
+          <div className='space-y-2 text-gray-300 text-sm'>
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold'>
                 1
               </span>
               <span>
                 Open <em>Sessions</em> and filter to <em>ongoing</em>
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold'>
                 2
               </span>
               <span>
                 Click <em>View Details</em> on your session
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold'>
                 3
               </span>
               <span>
                 Use <em>Mark all present</em> then uncheck absentees
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold'>
                 4
               </span>
               <span>
@@ -865,14 +906,14 @@ const HelpPage = () => {
           </div>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuDownload className="text-blue-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuDownload className='text-blue-400' />
             Export Weekly Report
           </h3>
-          <div className="space-y-2 text-gray-300 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold">
+          <div className='space-y-2 text-gray-300 text-sm'>
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold'>
                 1
               </span>
               <span>
@@ -880,16 +921,16 @@ const HelpPage = () => {
                 <em>Date range</em>
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold'>
                 2
               </span>
               <span>
                 Click <em>Export</em> from toolbar or individual sessions
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold'>
                 3
               </span>
               <span>Choose file format and download</span>
@@ -897,28 +938,28 @@ const HelpPage = () => {
           </div>
         </div>
 
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-            <LuUsers className="text-yellow-400" />
+        <div className='card'>
+          <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+            <LuUsers className='text-yellow-400' />
             Manage Lab Group Rotations
           </h3>
-          <div className="space-y-2 text-gray-300 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-yellow-500 text-white text-xs flex items-center justify-center font-bold">
+          <div className='space-y-2 text-gray-300 text-sm'>
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-yellow-500 text-white text-xs flex items-center justify-center font-bold'>
                 1
               </span>
               <span>
                 In <em>Courses → Groups</em>, create rotation groups
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-yellow-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-yellow-500 text-white text-xs flex items-center justify-center font-bold'>
                 2
               </span>
               <span>Assign students to appropriate groups</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-yellow-500 text-white text-xs flex items-center justify-center font-bold">
+            <div className='flex items-center gap-2'>
+              <span className='w-6 h-6 rounded-full bg-yellow-500 text-white text-xs flex items-center justify-center font-bold'>
                 3
               </span>
               <span>When creating sessions, limit to specific groups</span>
@@ -928,53 +969,53 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div
-        className="grid md:grid-cols-2 gap-6"
+        className='grid md:grid-cols-2 gap-6'
         variants={itemVariants}>
-        <div className="card bg-gradient-to-br from-green-900/20 to-blue-900/20 border-green-500/30">
-          <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <LuGraduationCap className="text-green-400" />
+        <div className='card bg-gradient-to-br from-green-900/20 to-blue-900/20 border-green-500/30'>
+          <h3 className='text-lg font-semibold mb-3 flex items-center gap-2'>
+            <LuGraduationCap className='text-green-400' />
             Lecturer Best Practices
           </h3>
-          <ul className="space-y-2 text-gray-300 text-sm">
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+          <ul className='space-y-2 text-gray-300 text-sm'>
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-green-400 mt-0.5 flex-shrink-0' />
               <span>Schedule sessions in advance for better planning</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-green-400 mt-0.5 flex-shrink-0' />
               <span>Use groups for efficient lab management</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-green-400 mt-0.5 flex-shrink-0' />
               <span>Export attendance regularly for records</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-green-400 mt-0.5 flex-shrink-0' />
               <span>Add session notes for context</span>
             </li>
           </ul>
         </div>
 
-        <div className="card bg-gradient-to-br from-pink-900/20 to-purple-900/20 border-pink-500/30">
-          <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <LuUser className="text-pink-400" />
+        <div className='card bg-gradient-to-br from-pink-900/20 to-purple-900/20 border-pink-500/30'>
+          <h3 className='text-lg font-semibold mb-3 flex items-center gap-2'>
+            <LuUser className='text-pink-400' />
             Student Tips
           </h3>
-          <ul className="space-y-2 text-gray-300 text-sm">
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+          <ul className='space-y-2 text-gray-300 text-sm'>
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0' />
               <span>Check dashboard daily for session updates</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0' />
               <span>Keep profile information up to date</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0' />
               <span>Monitor attendance percentages regularly</span>
             </li>
-            <li className="flex items-start gap-2">
-              <LuCircleCheck className="w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0" />
+            <li className='flex items-start gap-2'>
+              <LuCircleCheck className='w-4 h-4 text-pink-400 mt-0.5 flex-shrink-0' />
               <span>Enable notifications for reminders</span>
             </li>
           </ul>
@@ -985,58 +1026,58 @@ const HelpPage = () => {
 
   const renderTroubleshooting = () => (
     <motion.div
-      key="troubleshooting"
+      key='troubleshooting'
       variants={sectionVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="space-y-8">
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='space-y-8'>
       <div>
-        <h2 className="text-3xl font-bold mb-6 gradient-text">
+        <h2 className='text-3xl font-bold mb-6 gradient-text'>
           Troubleshooting
         </h2>
-        <p className="text-gray-300 mb-8">
+        <p className='text-gray-300 mb-8'>
           Common issues and solutions to help you resolve problems quickly.
         </p>
       </div>
 
       <motion.div
-        className="space-y-6"
+        className='space-y-6'
         variants={itemVariants}>
-        <div className="card border-l-4 border-red-500">
-          <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-red-400">
+        <div className='card border-l-4 border-red-500'>
+          <h3 className='text-lg font-semibold mb-3 flex items-center gap-2 text-red-400'>
             <LuTriangleAlert />
             Common Issues
           </h3>
-          <div className="space-y-4">
+          <div className='space-y-4'>
             <div>
-              <h4 className="font-medium text-white mb-1">
+              <h4 className='font-medium text-white mb-1'>
                 Can't see my course
               </h4>
-              <p className="text-gray-300 text-sm">
+              <p className='text-gray-300 text-sm'>
                 Confirm enrollment status or check if filters are hiding it
               </p>
             </div>
             <div>
-              <h4 className="font-medium text-white mb-1">
+              <h4 className='font-medium text-white mb-1'>
                 Dropdown menu gets cut off
               </h4>
-              <p className="text-gray-300 text-sm">
+              <p className='text-gray-300 text-sm'>
                 Menus auto-position. If still clipped, try scrolling or report
                 the issue
               </p>
             </div>
             <div>
-              <h4 className="font-medium text-white mb-1">CSV import fails</h4>
-              <p className="text-gray-300 text-sm">
+              <h4 className='font-medium text-white mb-1'>CSV import fails</h4>
+              <p className='text-gray-300 text-sm'>
                 Ensure UTF-8 encoding, comma separators, and required columns
               </p>
             </div>
             <div>
-              <h4 className="font-medium text-white mb-1">
+              <h4 className='font-medium text-white mb-1'>
                 Need to edit completed session
               </h4>
-              <p className="text-gray-300 text-sm">
+              <p className='text-gray-300 text-sm'>
                 May require admin permission depending on organization policy
               </p>
             </div>
@@ -1045,37 +1086,37 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div variants={itemVariants}>
-        <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3">
-          <LuCircleHelp className="text-purple-400" />
+        <h3 className='text-2xl font-semibold mb-6 flex items-center gap-3'>
+          <LuCircleHelp className='text-purple-400' />
           Frequently Asked Questions
         </h3>
-        <div className="space-y-4">
+        <div className='space-y-4'>
           {faqData.map((faq, index) => (
             <motion.div
               key={index}
-              className="card cursor-pointer"
+              className='card cursor-pointer'
               onClick={() =>
                 setExpandedFAQ(expandedFAQ === index ? null : index)
               }
               whileHover={{ scale: 1.01 }}>
-              <div className="flex items-center justify-between">
-                <h4 className="font-medium text-white">{faq.question}</h4>
+              <div className='flex items-center justify-between'>
+                <h4 className='font-medium text-white'>{faq.question}</h4>
                 <motion.div
                   animate={{ rotate: expandedFAQ === index ? 180 : 0 }}
                   transition={{ duration: 0.2 }}>
-                  <LuChevronDown className="w-5 h-5 text-gray-400" />
+                  <LuChevronDown className='w-5 h-5 text-gray-400' />
                 </motion.div>
               </div>
               <AnimatePresence>
                 {expandedFAQ === index && (
                   <motion.div
                     variants={faqVariants}
-                    initial="closed"
-                    animate="open"
-                    exit="closed"
-                    className="overflow-hidden">
-                    <div className="pt-3 border-t border-white/10 mt-3">
-                      <p className="text-gray-300 text-sm">{faq.answer}</p>
+                    initial='closed'
+                    animate='open'
+                    exit='closed'
+                    className='overflow-hidden'>
+                    <div className='pt-3 border-t border-white/10 mt-3'>
+                      <p className='text-gray-300 text-sm'>{faq.answer}</p>
                     </div>
                   </motion.div>
                 )}
@@ -1086,26 +1127,26 @@ const HelpPage = () => {
       </motion.div>
 
       <motion.div
-        className="card bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-blue-500/30"
+        className='card bg-gradient-to-r from-blue-900/20 to-cyan-900/20 border-blue-500/30'
         variants={itemVariants}>
-        <h3 className="text-xl font-semibold mb-4 flex items-center gap-3">
-          <LuPhone className="text-cyan-400" />
+        <h3 className='text-xl font-semibold mb-4 flex items-center gap-3'>
+          <LuPhone className='text-cyan-400' />
           Need More Help?
         </h3>
-        <div className="grid md:grid-cols-2 gap-4 text-sm">
+        <div className='grid md:grid-cols-2 gap-4 text-sm'>
           <div>
-            <h4 className="font-medium text-cyan-400 mb-2">Contact Support</h4>
-            <ul className="space-y-1 text-gray-300">
+            <h4 className='font-medium text-cyan-400 mb-2'>Contact Support</h4>
+            <ul className='space-y-1 text-gray-300'>
               <li>Include browser and device info</li>
               <li>Provide screenshots if applicable</li>
               <li>Describe steps to reproduce the issue</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium text-purple-400 mb-2">
+            <h4 className='font-medium text-purple-400 mb-2'>
               Organization Policies
             </h4>
-            <ul className="space-y-1 text-gray-300">
+            <ul className='space-y-1 text-gray-300'>
               <li>Check with your department admin</li>
               <li>Review institutional guidelines</li>
               <li>Understand feature availability</li>
@@ -1123,7 +1164,7 @@ const HelpPage = () => {
       case 'quick-start':
         return renderQuickStart();
       case 'courses':
-        return renderCourses();
+        return renderCoursesAndRoster();
       case 'sessions':
         return renderSessions();
       case 'students':
@@ -1141,51 +1182,51 @@ const HelpPage = () => {
 
   return (
     <motion.div
-      className="min-h-screen "
+      className='min-h-screen '
       variants={containerVariants}
-      initial="collapsed"
-      animate="expanded">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      initial='collapsed'
+      animate='expanded'>
+      <div className='max-w-7xl mx-auto px-4 py-8'>
         {/* Header */}
         <motion.header
-          className="text-center mb-12"
+          className='text-center mb-12'
           variants={itemVariants}>
           <motion.div
-            className="inline-flex items-center gap-3 mb-4"
+            className='inline-flex items-center gap-3 mb-4'
             whileHover={{ scale: 1.05 }}>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-              <LuGraduationCap className="w-7 h-7 text-white" />
+            <div className='w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center'>
+              <LuGraduationCap className='w-7 h-7 text-white' />
             </div>
-            <h1 className="text-3xl font-bold gradient-text">
+            <h1 className='text-3xl font-bold gradient-text'>
               Vigilo Help Center
             </h1>
           </motion.div>
 
           {/* Search Bar */}
           <motion.div
-            className="max-w-md mx-auto relative"
+            className='max-w-md mx-auto relative'
             variants={itemVariants}>
-            <LuSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <LuSearch className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
             <input
-              type="text"
-              placeholder="Search help topics..."
+              type='text'
+              placeholder='Search help topics...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:bg-white/15 transition-all"
+              className='w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:bg-white/15 transition-all'
             />
           </motion.div>
         </motion.header>
 
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className='grid lg:grid-cols-4 gap-8'>
           {/* Sidebar Navigation */}
           <motion.aside
-            className="lg:col-span-1"
+            className='lg:col-span-1'
             variants={itemVariants}>
-            <div className="card sticky top-8">
-              <h2 className="text-lg font-semibold mb-4 text-purple-400">
+            <div className='card sticky top-8'>
+              <h2 className='text-lg font-semibold mb-4 text-purple-400'>
                 Navigation
               </h2>
-              <nav className="space-y-2">
+              <nav className='space-y-2'>
                 {filteredSections.map((section) => (
                   <motion.button
                     key={section.id}
@@ -1197,8 +1238,8 @@ const HelpPage = () => {
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}>
-                    <section.icon className="w-5 h-5" />
-                    <span className="font-medium">{section.title}</span>
+                    <section.icon className='w-5 h-5' />
+                    <span className='font-medium'>{section.title}</span>
                   </motion.button>
                 ))}
               </nav>
@@ -1206,16 +1247,16 @@ const HelpPage = () => {
           </motion.aside>
 
           {/* Main Content */}
-          <main className="lg:col-span-3">
-            <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
+          <main className='lg:col-span-3'>
+            <AnimatePresence mode='wait'>{renderContent()}</AnimatePresence>
           </main>
         </div>
 
         {/* Footer */}
         <motion.footer
-          className="mt-16 text-center border-t border-white/10 pt-8"
+          className='mt-16 text-center border-t border-white/10 pt-8'
           variants={itemVariants}>
-          <p className="text-gray-400 text-sm">
+          <p className='text-gray-400 text-sm'>
             Last updated:{' '}
             {new Date().toLocaleDateString('en-US', {
               year: 'numeric',
@@ -1223,19 +1264,19 @@ const HelpPage = () => {
               day: 'numeric',
             })}
           </p>
-          <div className="mt-4 flex justify-center gap-6">
+          <div className='mt-4 flex justify-center gap-6'>
             <motion.a
-              href="#"
-              className="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2 transition-colors"
+              href='#'
+              className='text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2 transition-colors'
               whileHover={{ scale: 1.05 }}>
-              <LuMail className="w-4 h-4" />
+              <LuMail className='w-4 h-4' />
               Contact Support
             </motion.a>
             <motion.a
-              href="#"
-              className="text-pink-400 hover:text-pink-300 text-sm flex items-center gap-2 transition-colors"
+              href='#'
+              className='text-pink-400 hover:text-pink-300 text-sm flex items-center gap-2 transition-colors'
               whileHover={{ scale: 1.05 }}>
-              <LuFileText className="w-4 h-4" />
+              <LuFileText className='w-4 h-4' />
               Documentation
             </motion.a>
           </div>

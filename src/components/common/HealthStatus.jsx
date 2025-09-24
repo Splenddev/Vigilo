@@ -5,7 +5,6 @@ import {
   LuCircleCheck,
 } from 'react-icons/lu';
 import Button from '../atoms/Button';
-import { useScrollIntoView } from '../../hooks/useScrollIntoView';
 
 const iconMap = {
   error: <LuCircleX className='w-4 h-4 text-red-600' />,
@@ -32,8 +31,7 @@ const buttonColorMap = {
     'bg-green-600 text-white hover:bg-green-700 focus:ring-green-400 focus:ring-offset-1',
 };
 
-export const HealthStatus = ({ issues, title, setActiveTab }) => {
-  const { scrollTo } = useScrollIntoView({ offset: 80, setActiveTab });
+export const HealthStatus = ({ issues, title }) => {
   if (!issues?.length) return null;
 
   return (
@@ -55,7 +53,6 @@ export const HealthStatus = ({ issues, title, setActiveTab }) => {
                   <Button
                     size='sm'
                     text={actionText}
-                    onClick={() => scrollTo(actionTargetId, tabKey)}
                     className={`mt-1.5 ${buttonColorMap[type]}`}
                     variant=''
                   />

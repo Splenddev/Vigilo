@@ -146,13 +146,16 @@ const StatCard = ({
   positiveIcon: PositiveIcon = FiTrendingUp,
   negativeIcon: NegativeIcon = FiTrendingDown,
   formatTrend = (t) => `${Math.abs(t)}%`,
-  }) => {
+  onClick = () => {},
+}) => {
   const baseDirection =
     direction || DIRECTION_PRESETS[preset] || DIRECTION_PRESETS.default;
 
   const styles = VARIANTS[variant] || VARIANTS.glass;
 
   const color = COLOR_MAP[iconColor] || COLOR_MAP.gray;
+
+  const clickable = typeof onClick === 'function';
 
   const colorClasses = {
     text: color ? color.text : styles.icon,
@@ -189,7 +192,7 @@ const StatCard = ({
         className={`flex items-center text-sm font-medium ${
           positive ? positiveColor : negativeColor
         }`}>
-        <TrendIcon className="mr-1" />
+        <TrendIcon className='mr-1' />
         {formatTrend(trend)}
       </div>
     );
@@ -198,7 +201,8 @@ const StatCard = ({
   const renderTrendAbsolute = () => {
     if (!trendPosition?.startsWith('absolute')) return null;
     const posClass =
-      TREND_POSITION_MAP[trendPosition] || TREND_POSITION_MAP['absolute-top-right'];
+      TREND_POSITION_MAP[trendPosition] ||
+      TREND_POSITION_MAP['absolute-top-right'];
     return <div className={posClass}>{renderTrend()}</div>;
   };
 
@@ -207,7 +211,7 @@ const StatCard = ({
     value: <div className={`font-bold ${styles.value}`}>{value}</div>,
     label: <div className={`text-sm ${colorClasses.text}`}>{label}</div>,
     subtitle: subtitle && (
-      <div className="text-xs text-t-secondary">{subtitle}</div>
+      <div className='text-xs text-t-secondary'>{subtitle}</div>
     ),
     trend:
       trendPosition === 'inline' && baseDirection.includes('trend')
@@ -223,16 +227,20 @@ const StatCard = ({
   if (layout === 'list') {
     return (
       <div
-        className={`flex relative items-center gap-3 px-5 rounded-xl py-4 ${className} ${colorClasses.bg} ${colorClasses.border}`}>
-        {parts.icon && <div className="flex-shrink-0">{parts.icon}</div>}
-        <div className="flex-1">
+        onClick={onClick}
+        className={`flex relative items-center gap-3 px-5 rounded-xl py-4 ${className} ${
+          colorClasses.bg
+        } ${colorClasses.border} ${
+          clickable ? 'cursor-pointer hover:shadow-lg' : ''
+        }`}>
+        {parts.icon && <div className='flex-shrink-0'>{parts.icon}</div>}
+        <div className='flex-1'>
           {parts.value}
           {parts.label}
           {parts.subtitle}
         </div>
         {trendPosition === 'inline' ? parts.trend : null}
         {renderTrendAbsolute()}
-
       </div>
     );
   }
@@ -240,7 +248,12 @@ const StatCard = ({
   if (layout === 'inline') {
     return (
       <div
-        className={`flex relative items-center border gap-2 ${className} ${colorClasses.bg} p-4 rounded-xl ${colorClasses.border}`}>
+        onClick={onClick}
+        className={`flex relative items-center border gap-2 ${className} ${
+          colorClasses.bg
+        } p-4 rounded-xl ${colorClasses.border} ${
+          clickable ? 'cursor-pointer hover:shadow-lg' : ''
+        }`}>
         {renderContent()}
         {renderTrendAbsolute()}
       </div>
@@ -249,9 +262,12 @@ const StatCard = ({
 
   return (
     <div
+      onClick={onClick}
       className={`rounded-2xl p-4 transition-all flex h-full border gap-2 relative flex-col items-${align} duration-300 ${
         variant === 'glass' ? styles.wrapper : colorClasses.bg
-      } ${colorClasses.border} ${className}`}>
+      } ${colorClasses.border} ${className} ${
+        clickable ? 'cursor-pointer hover:shadow-lg' : ''
+      }`}>
       {renderContent()}
       {renderTrendAbsolute()}
     </div>

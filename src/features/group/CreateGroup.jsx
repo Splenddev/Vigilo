@@ -26,9 +26,12 @@ import InfoRow from '../../components/molecules/InfoRow';
 import Button from '../../components/atoms/Button';
 import TextAreaField from '../../components/atoms/TextArea';
 import { motion, AnimatePresence } from 'framer-motion';
+import Info, { InfoSuccess, InfoTip } from '../../components/common/Info';
+import EditableInfoRow from '../../components/molecules/EditableInfoRow';
 
 const CreateGroup = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -36,8 +39,8 @@ const CreateGroup = () => {
     courseCode: '',
     name: '',
     venue: '',
-    faculty: '',
-    department: '',
+    faculty: user?.faculty,
+    department: user?.department,
     level: '',
     description: '',
   });
@@ -46,7 +49,6 @@ const CreateGroup = () => {
 
   const { showError, hideError } = useErrorModal();
   const { createGroup, loading, error } = useCreateGroup();
-  const { user } = useAuth();
 
   const steps = [
     {
@@ -54,7 +56,7 @@ const CreateGroup = () => {
       title: 'Course Information',
       description: 'Basic course details and academic structure',
       icon: LuBookOpen,
-      fields: ['courseCode', 'faculty', 'department', 'level', 'venue'],
+      fields: ['courseCode', 'level', 'venue'],
     },
     {
       number: 2,
@@ -302,22 +304,11 @@ const CreateGroup = () => {
                 <h2 className='text-2xl font-semibold'>Course Information</h2>
               </div>
 
-              <div className='bg-blue-300/20 border border-blue-500/30 rounded-lg p-4 mb-6'>
-                <div className='flex items-start gap-3'>
-                  <LuInfo className='w-5 h-5 text-blue-500 mt-0.5 shrink-0' />
-                  <div>
-                    <h3 className='text-blue-500 font-medium mb-1'>
-                      What is this step about?
-                    </h3>
-                    <p className='text-blue-300 text-sm'>
-                      This information helps organize your group within your
-                      institution's academic structure. Students will see these
-                      details when they join your group.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
+              <Info
+                title='What is this step about?'
+                message="This information helps organize your group within your institution's academic structure. Students will see these details when they join your group."
+                animation='slideIn'
+              />
               <div className='grid md:grid-cols-2 gap-6'>
                 <InputField
                   label='Course Code'
@@ -339,45 +330,6 @@ const CreateGroup = () => {
                   required
                   error={validationErrors.venue}
                   helpText='Enter the main location where this class is held'
-                />
-
-                <SelectField
-                  label='Faculty'
-                  name='faculty'
-                  value={formData.faculty}
-                  onChange={handleChange}
-                  options={faculties.map((faculty) => ({
-                    value: faculty,
-                    label: faculty,
-                  }))}
-                  placeholder='Select your faculty'
-                  required
-                  error={validationErrors.faculty}
-                  helpText='The broad academic division this course belongs to'
-                />
-
-                <SelectField
-                  label='Department'
-                  name='department'
-                  value={formData.department}
-                  onChange={handleChange}
-                  options={
-                    formData.faculty
-                      ? departments[formData.faculty]?.map((dept) => ({
-                          value: dept,
-                          label: dept,
-                        })) || []
-                      : []
-                  }
-                  placeholder={
-                    formData.faculty
-                      ? 'Select department'
-                      : 'Choose faculty first'
-                  }
-                  disabled={!formData.faculty}
-                  required
-                  error={validationErrors.department}
-                  helpText='Specific academic department offering this course'
                 />
 
                 <SelectField
@@ -410,20 +362,11 @@ const CreateGroup = () => {
                 <h2 className='text-2xl font-semibold'>Group Details</h2>
               </div>
 
-              <div className='bg-purple-300/20 border border-purple-500/30 rounded-lg p-4 mb-6'>
-                <div className='flex items-start gap-3'>
-                  <LuLightbulb className='w-5 h-5 text-purple-500 mt-0.5' />
-                  <div>
-                    <h3 className='text-purple-500 font-medium mb-1'>
-                      Naming your group
-                    </h3>
-                    <p className='text-purple-300 text-sm'>
-                      A good group name should be clear and include the course
-                      code.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <InfoTip
+                title='Naming your group'
+                message='A good group name should be clear and include the course code'
+                animation='slideIn'
+              />
 
               <InputField
                 label='Group Name'
@@ -492,21 +435,22 @@ const CreateGroup = () => {
                 <h2 className='text-2xl font-semibold'>Review & Create</h2>
               </div>
 
-              <div className='bg-green-300/20 border border-green-500/30 rounded-lg p-4 mb-6'>
-                <div className='flex items-start gap-3'>
-                  <LuInfo className='w-7 h-7 text-green-500 mt-0.5 shrink-0' />
-                  <div>
-                    <h3 className='text-green-500 font-medium mb-1'>
-                      Almost done!
-                    </h3>
-                    <p className='text-green-300 text-sm'>
-                      Review all the information below. Once created, you can
-                      modify most details later, but the course code and
-                      academic structure will be permanent.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <InfoSuccess
+                title='Almost Done!'
+                message='Review all the information below. Once created, you can modify most details later, but the course code and academic structure will be permanent.'
+                animation='slideIn'
+                autoFocus
+              />
+              <Info
+                message={
+                  <>
+                    <b>Faculty</b> and <b>Department</b> are set based on your
+                    profile. If you teach across faculties, you can adjust them
+                    here before creating the group.
+                  </>
+                }
+                bordered={false}
+              />
 
               <div className='card space-y-4'>
                 <h3 className='text-lg font-medium mb-4'>Group Summary</h3>
@@ -519,18 +463,29 @@ const CreateGroup = () => {
                       textColor='text-blue-400'
                       subLabel={formData.courseCode}
                     />
-                    <InfoRow
+
+                    {/* Editable Faculty */}
+                    <EditableInfoRow
                       label='Faculty'
                       icon={LuBuilding}
                       textColor='text-blue-400'
-                      subLabel={formData.faculty}
+                      value={formData.faculty}
+                      onChange={(val) =>
+                        setFormData((prev) => ({ ...prev, faculty: val }))
+                      }
                     />
-                    <InfoRow
+
+                    {/* Editable Department */}
+                    <EditableInfoRow
                       label='Department'
                       icon={LuGraduationCap}
                       textColor='text-blue-400'
-                      subLabel={formData.department}
+                      value={formData.department}
+                      onChange={(val) =>
+                        setFormData((prev) => ({ ...prev, department: val }))
+                      }
                     />
+
                     <InfoRow
                       label='Venue'
                       icon={LuMapPin}
@@ -538,6 +493,7 @@ const CreateGroup = () => {
                       subLabel={formData.venue}
                     />
                   </div>
+
                   <div className='space-y-4'>
                     <InfoRow
                       label='Academic Level'
@@ -611,24 +567,31 @@ const CreateGroup = () => {
             <LuInfo className='w-5 h-5 text-blue-400' />
             What happens after creating a group?
           </h3>
-          <div className='space-y-2 text-sm text-t-secondary'>
-            <p>
-              • Students can search for and join your group using the course
-              code
-            </p>
-            <p>
-              • You'll get a unique group ID that you can share directly with
-              students
-            </p>
-            <p>
-              • You can start creating sessions, taking attendance, and sharing
-              resources
-            </p>
-            <p>
-              • Group settings can be modified anytime from the group management
-              page
-            </p>
-          </div>
+          <ul className='space-y-2 text-sm text-t-secondary'>
+            <li>
+              Students can quickly find and join your group using the course
+              code.
+            </li>
+            <li>
+              You’ll receive a unique group ID to share for instant access.
+            </li>
+            <li>
+              Start creating sessions, taking attendance, and sharing resources
+              within minutes.
+            </li>
+            <li>
+              Attendance is secure — every session is logged to prevent errors
+              or fraud.
+            </li>
+            <li>
+              Group settings remain flexible and can be updated anytime from the
+              management page.
+            </li>
+            <li>
+              You have privacy options: disable group searching, limit
+              visibility, or adjust access in settings at any time.
+            </li>
+          </ul>
         </div>
       </div>
     </div>
